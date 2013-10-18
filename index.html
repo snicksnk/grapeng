@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <title>(Это title) Пример страницы на HTML5</title>
+
+   	<script src="resources/qunit-1.12.0.js"></script>
+    <script src="grapheng/GameObj.js"></script>
+    <script src="grapheng/Event.js"></script>
+    <script src="grapheng/Dispathcer.js"></script>
+
+    <script src="grapheng/Modifier.js"></script>
+
+
+    <script type="text/javascript" src="resources/raphael-min.js"></script>
+
+
+    <script src="grapheng/dia.js"></script>
+
+   	<link rel="stylesheet" href="resources/qunit-1.12.0.css">
+
+   
+
+   	<script type="text/javascript">
+
+
+   		test( "Jump event get name", function() {
+
+			 player=new Player();
+   			disp=new Dispathcer();
+   			equal(disp.getEventUniqueId(JumpEvent),'jump','get jump unique id');
+   			
+   			equal(player.subscribeForEvents()[0], JumpEvent,'Player will subscrib for right events');
+
+
+
+   			disp.addObject(player);
+
+
+   			for (var i = 0; i < player.subscribeForEvents().length; i++) {
+   				player.subscribeForEvents()[i];
+   			}
+
+   			ok(disp._subscriptions['jump']!==undefined, 'Dispatcher has create jump subscribition list');
+
+   			disp.notify(new JumpEvent());
+
+   			equal(player.state, 'jump', 'Player changed state after notifing');
+
+        stateModel = new StateModel();
+
+        equal(stateModel.getNewState(), false, 'State is default');
+
+        stateModel.setState(stateModel.states.moving);
+
+        equal(stateModel.getNewState(), stateModel.states.moving, 'State is changed');
+
+        equal(stateModel.getState(), stateModel.states.moving, 'Current state is moving');
+
+        equal(stateModel.getNewState(), false, 'State didnot chaged last time');
+
+
+        var paper = Raphael(document.getElementById('canvas'), 400, 400);
+
+        node=new Node(paper);
+
+
+        disp.addObject(node);
+
+        setInterval(function() { disp.notify(new FrameEvent()) }, 1000);
+
+
+
+		});
+ 
+   	</script>
+
+    <style type="text/css">  
+      #canvas {  
+          width: 400px;  
+          height: 400px;
+          border: 1px solid #aaa;  
+      }  
+    </style> 
+
+
+  </head>
+  <body>
+    <header>
+    </header>
+    <nav>
+      <menu>
+        <li><a href=link1.html>Первая ссылка из блока "nav"</a></li>
+      </menu>
+    </nav>
+    <section>
+      <article>
+        <h1>Заголовок статьи из блока "article"</h1>
+          <details>
+          <div id="canvas"></div>
+            <div id="qunit"></div>
+			<div id="qunit-fixture"></div>
+          </details>
+      </article>
+    </section>
+    <footer>
+      <time>Содержимое тега "time" блока "footer"</time>
+      <p>Содержимое абзаца из блока "footer"</p>
+    </footer>
+  </body>
+</html>
