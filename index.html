@@ -36,10 +36,13 @@
 
    			disp.addObject(player);
 
-
+/*
    			for (var i = 0; i < player.subscribeForEvents().length; i++) {
    				player.subscribeForEvents()[i];
    			}
+*/
+        
+        deepEqual(player.getDispatcher(),disp,'Dispatcher is setted');
 
    			ok(disp._subscriptions['jump']!==undefined, 'Dispatcher has create jump subscribition list');
 
@@ -60,14 +63,66 @@
         equal(stateModel.getNewState(), false, 'State didnot chaged last time');
 
 
+        position=new Position();
+        position.setPos({'x':10,'y':30});
+
+        deepEqual(position.getNewPos(),{'x':10,'y':30},'new pos is setted');
+
+        equal(position.getNewPos(),false,'Pos is not been setted');
+
+        deepEqual(position.getPos(),{'x':10,'y':30},'Get setted postion');
+
+
+
         var paper = Raphael(document.getElementById('canvas'), 400, 400);
 
         node=new Node(paper);
 
 
+
         disp.addObject(node);
 
-        setInterval(function() { disp.notify(new FrameEvent()) }, 1000);
+        nodeDepends=new Node(paper);
+
+        //nodeDepends.setDependsOf(node);
+
+        disp.addObject(nodeDepends);
+
+        equal(nodeDepends._moveEvent.getUniqueName(),'move_object_3','Event name of depended object is correct');
+
+        equal(node._moveEvent.getUniqueName(),'move_object_2','Event name of master object is correct');
+
+
+        disp.notify(node._moveEvent);
+
+
+        
+
+        deepEqual(disp._lastEvent, node._moveEvent, 'Last event of dispatcher is correct for master object');
+
+
+
+        line=new Line(paper);
+
+        line.setLineStartNode(node);
+
+        line.setLineEndNode(nodeDepends);
+
+        console.log('////////////////////////');
+        console.dir(line.subscribeForEvents());
+
+
+        disp.addObject(line);
+
+        console.log('////////////////////////');
+        console.dir(line.subscribeForEvents());
+
+   
+
+        //setInterval(function() { disp.notify(new FrameEvent()) }, 1000);
+
+
+
 
 
 

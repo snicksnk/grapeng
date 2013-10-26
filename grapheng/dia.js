@@ -10,6 +10,34 @@ window.onload = function() {
 };
 
 
+
+function Position(cords={'x':0,'y':0}){
+    this._cords=cords;
+};
+
+Position.prototype._lastCords={};
+
+Position.prototype._cords={};
+
+Position.prototype.getNewPos=function(){
+    if (this._cords!=this._lastCords){
+        this._lastCords=this._cords; 
+        return this._cords;
+    } else {
+        return false;
+    }
+}
+
+Position.prototype.getPos=function(){
+    return this._cords;
+}
+
+Position.prototype.setPos=function(cords){
+    this._cords=cords;
+};
+
+
+
 StateModel=function(){
    
 }
@@ -23,9 +51,8 @@ StateModel.prototype.states.moved='moved';
 //default state
 StateModel.prototype._state=StateModel.prototype.states.stay;
 
-StateModel.prototype.position={};
-StateModel.prototype.position.x=0;
-StateModel.prototype.position.y=0;
+StateModel.prototype.position=new Position();
+
 
 //default state
 StateModel.prototype._lastState=StateModel.prototype.states.stay;
@@ -49,39 +76,101 @@ StateModel.prototype.getNewState=function(){
 
 };
 
-Element=function(paper,stateModel){
 
-    this.stateModel=stateModel;
-    // Creates circle at x = 50, y = 40, with radius 10
-    var circle = paper.circle(50, 40, 10);
-    // Sets the fill attribute of the circle to red (#f00)
-    circle.attr("fill", "#f00");
 
-    circle.drag(function(x,y){
 
-            stateModel.setState(stateModel.states.moved);
-
-            newX=this.startpos.x+x
-            newY=this.startpos.y+y
-
-            this.attr({'cx':newX});
-            this.attr({'cy':newY}); 
-
-            stateModel.position.x=newX;
-            stateModel.position.y=newY;
-
-        },
-        function(x,y){
-            stateModel.setState(stateModel.states.moving);
-            this.startpos={}
-            this.startpos.x=this.attrs.cx;
-            this.startpos.y=this.attrs.cy;
-        },
-        function(x,y){
-            stateModel.setState(stateModel.states.stay);
-        });
-    // Sets the stroke attribute of the circle to white
-    circle.attr("stroke", "#fff");    
+DragableElement=function(){
 
 }
 
+DragableElement.prototype.drag=function(onStartMove, onMoving, onStopMove){
+};
+
+Element=function(paper){
+
+    this.position=new Position();
+
+    // Creates circle at x = 50, y = 40, with radius 10
+    this.circle = paper.circle(50, 40, 10);
+    // Sets the fill attribute of the circle to red (#f00)
+    this.circle.attr("fill", "#f00");
+
+    // Sets the stroke attribute of the circle to white
+    this.circle.attr("stroke", "#fff");    
+
+}
+
+Element.prototype=new DragableElement;
+
+Element.prototype.moveTo=function(position){
+    pos=position.getPos();
+    this.position.setPos(pos);
+    this.circle.attr('cx',pos['x']);
+    this.circle.attr('cy',pos['y']);
+}
+
+Element.prototype.drag=function(onStartMove, onMoving, onStopMove){
+    var position;
+
+    position=this.position;
+    this.circle.customOnMoving=onMoving;
+    this.circle.drag(function(x,y){
+        newX=this.startpos.x+x
+        newY=this.startpos.y+y
+
+        this.attr({'cx':newX});
+        this.attr({'cy':newY}); 
+        position.setPos({'x':newX,'y':newY});
+        this.customOnMoving();
+
+    },
+    function(x,y){
+        //stateModel.setState(stateModel.states.moving);
+        this.startpos={}
+        this.startpos.x=this.attrs.cx;
+        this.startpos.y=this.attrs.cy;
+        onStartMove();
+    },
+    function(x,y){
+        //stateModel.setState(stateModel.states.stay);
+        onStopMove();
+    });
+
+};
+
+
+JoinLine=function(paper){
+    
+    this.startPos=new Position();
+    this.endPos=new Position();
+
+
+
+    this.path=paper.path("M287 99 L 0 0");
+
+    this.moveStartPoint(new Position({'x':230,'y':'150'}))
+    //this.path.attr("path",["M150 12", "L15 200","L12 200 Z"]);
+}
+
+
+
+
+JoinLine.prototype=new DragableElement;
+
+
+JoinLine.prototype.moveStartPoint=function(position){
+   this.startPos.setPos(position.getPos());
+   this._redrawLine();
+}
+
+JoinLine.prototype.moveEndPoint=function(position){
+   this.endPos.setPos(position.getPos());
+   this._redrawLine();
+}
+
+JoinLine.prototype._redrawLine=function(){
+    start=this.startPos.getPos();
+    end=this.endPos.getPos();
+    console.log("M"+start['x']+' '+start['y']+' L '+end['x']+' '+end['y']);
+    this.path.attr('path',"M"+start['x']+' '+start['y']+' L '+end['x']+' '+end['y']);
+}
