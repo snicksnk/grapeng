@@ -3,6 +3,7 @@ Dispathcer=function(){
 	this._subscriptions={};
 	this._uniqueIdCounter=1; 
 	this._lastEvent=null;
+	this._onEventEvents={};
 } 
 
 
@@ -16,7 +17,7 @@ Dispathcer.prototype.addObject=function(obj){
 
 	for (i=0; i<subscribition.length; i++){
 
-		evntName=this.getEventUniqueId(subscribition[i]);
+		evntName=Dispathcer.getEventUniqueId(subscribition[i]);
 
 		if (this._subscriptions[evntName]==undefined){
 			this._subscriptions[evntName]=[];
@@ -26,7 +27,7 @@ Dispathcer.prototype.addObject=function(obj){
 	}			
 }
 
-Dispathcer.prototype.getEventUniqueId=function(Evnt){
+Dispathcer.getEventUniqueId=function(Evnt){
 	
 	if (Evnt.getUniqueName !== undefined){
 
@@ -40,13 +41,37 @@ Dispathcer.prototype.getEventUniqueId=function(Evnt){
 }
 
 Dispathcer.prototype.notify=function(Evnt){
-
-	evntName=this.getEventUniqueId(Evnt);
+	var evntName, subsList, onEvents;
+	evntName=Dispathcer.getEventUniqueId(Evnt);
 	subsList = this._subscriptions[evntName] || [];
 
 	this._lastEvent=Evnt;
-	console.dir(this._subscriptions);
+		
+	if (typeof this._onEventEvents['evntName']!==undefined){
+		onEvents=this._onEventEvents;
+
+	}
+
+
 	for (key in subsList){
 		subsList[key]['handle'+evntName](Evnt);
 	}			
+
+
+
+}
+
+
+
+Dispathcer.prototype.notifyOn=function(Evnt, onEvent){
+	var evntName;
+	evntName=Dispathcer.getEventUniqueId(onEvent);
+	onEventName=Dispathcer.getEventUniqueId(onEvent);
+	
+	if (this._onEventEvents[onEventName]===undefined){
+		this._onEventEvents[onEventName]=[];
+	}		
+
+	this._onEventEvents[onEventName].push(Evnt);
+
 }

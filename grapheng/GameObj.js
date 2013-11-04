@@ -11,7 +11,7 @@ ObjController.prototype.getObjType=function(){
 }
 
 ObjController.prototype.subscribeForEvents=function(){
-	return {};
+	return this._subscribeForEvents;
 }
 
 ObjController.prototype.setUniqueId=function(id){
@@ -33,6 +33,8 @@ ObjController.prototype.getDispatcher=function(){
 }
 
 
+ObjController.prototype._subscribeForEvents=[];
+
 ObjController.prototype.setUpBehavior=function(){
 
 }
@@ -40,7 +42,8 @@ ObjController.prototype.setUpBehavior=function(){
 ObjController.prototype.addSubscribition=function(Evnt, Handler){
 	var handlerName;
 	this._subscribeForEvents.push(Evnt);
-	handlerName='handle'+ Evnt.getUniqueName();
+	//Сделать возможность
+	handlerName='handle'+ Dispathcer.getEventUniqueId(Evnt);
 	this[handlerName]=Handler;
 }
 
@@ -48,6 +51,9 @@ ObjController.prototype.addSubscribition=function(Evnt, Handler){
 function Player(){
 	this.x=0;
 	this.y=0;
+	this.addSubscribition(new JumpEvent, function(){
+		this.state='jump';
+	});
 }
 
 
@@ -55,17 +61,13 @@ Player.prototype=new ObjController()
 
 
 Player.prototype.subscribeForEvents=function(){
-	return [JumpEvent]
+	//return [JumpEvent]
+	return this._subscribeForEvents;
 }
 
 Player.prototype.x=0;
 Player.prototype.y=0;
 Player.prototype.state='stay';
-Player.prototype.handlejump=function(){
-	this.state='jump';
-
-
-}
 
 
 
@@ -118,14 +120,18 @@ Node.prototype.setUpBehavior=function(){
 		function(){
 			stateModel.setState(stateModel.states.moved);
 	    	stateModel.position.setPos(element.position.getPos());
-			console.log(moveEvent.getUniqueName(), ' ----');;
-	    	dispatcher.notify(moveEvent);
 		},
 		function(){
 			stateModel.setState(stateModel.states.moving);
+			stateModel.position.setPos(element.position.getPos());
+			
 		},
 		function(){
 			stateModel.setState(stateModel.states.stay);
+			console.dir(stateModel.position.getPos());
+			moveEvent.position.setPos(stateModel.position.getPos());
+	    	dispatcher.notify(moveEvent);
+			
 		}
 	);
 };

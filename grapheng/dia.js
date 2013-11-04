@@ -146,9 +146,9 @@ JoinLine=function(paper){
 
 
 
-    this.path=paper.path("M287 99 L 0 0");
+    this.path=paper.path("0");
 
-    this.moveStartPoint(new Position({'x':230,'y':'150'}))
+    //this.moveStartPoint(new Position({'x':230,'y':'150'}))
     //this.path.attr("path",["M150 12", "L15 200","L12 200 Z"]);
 }
 

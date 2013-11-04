@@ -28,9 +28,12 @@
 
 			 player=new Player();
    			disp=new Dispathcer();
-   			equal(disp.getEventUniqueId(JumpEvent),'jump','get jump unique id');
-   			
-   			equal(player.subscribeForEvents()[0], JumpEvent,'Player will subscrib for right events');
+   			equal(Dispathcer.getEventUniqueId(JumpEvent),'jump','get jump u)nique id');
+   		  console.log('sss'); 
+        console.dir(player.subscribeForEvents()[0]);
+   			deepEqual(
+        Dispathcer.getEventUniqueId(player.subscribeForEvents()[0]), 
+        Dispathcer.getEventUniqueId(JumpEvent),'Player will subscrib for right events');
 
 
 
@@ -108,16 +111,26 @@
 
         line.setLineEndNode(nodeDepends);
 
-        console.log('////////////////////////');
         console.dir(line.subscribeForEvents());
 
 
         disp.addObject(line);
 
-        console.log('////////////////////////');
-        console.dir(line.subscribeForEvents());
 
-   
+
+
+
+
+
+        /*
+        last_time=0;
+        setInterval(function() {
+        if((new Date) - last_time > 1000/1) {
+                last_time = new Date;
+                console.log('daa');
+            }
+        }, 10);
+        */
 
         //setInterval(function() { disp.notify(new FrameEvent()) }, 1000);
 
@@ -127,6 +140,37 @@
 
 
 		});
+
+    test( "Check onEventEvents", function() {
+
+        disp=new Dispathcer();
+        
+        CustomEvent=function(){
+
+        }
+
+        CustomEvent.prototype=new Event;
+
+        CustomEvent.prototype.getUniqueName=function(){
+            return 'customEvent'
+        }
+
+        player=new Player();
+        player.eventCompleate=false;
+        player.addSubscribition(CustomEvent,function(){
+            this.eventCompleate=true;
+        });
+
+        disp.notifyOn(FrameEvent, new CustomEvent);
+
+
+
+
+
+
+
+        ok(true, true, 'ok');
+    });
  
    	</script>
 
@@ -137,6 +181,7 @@
           border: 1px solid #aaa;  
       }  
     </style> 
+}
 
 
   </head>
