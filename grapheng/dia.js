@@ -96,16 +96,16 @@ Element=function(paper, position){
     // Creates circle at x = 50, y = 40, with radius 10
     this.text = paper.text(50, 50, "Raphaël");
 
-    this.circle = paper.circle(0, 0, 10);
+    this.framer = paper.circle(0, 0, 10);
 
     this.moveTo(this.position);
 
     // Sets the fill attribute of the circle to red (#f00)
-    this.circle.attr("fill", "#000");
+    this.framer.attr("fill", "#000");
 
 
     // Sets the stroke attribute of the circle to white
-    this.circle.attr("stroke", "#fff");    
+    this.framer.attr("stroke", "#fff");    
 
 }
 
@@ -114,8 +114,8 @@ Element.prototype=new DragableElement;
 Element.prototype.moveTo=function(position){
     pos=position.getPos();
     this.position.setPos(pos);
-    this.circle.attr('cx',pos['x']);
-    this.circle.attr('cy',pos['y']);
+    this.framer.attr('cx',pos['x']);
+    this.framer.attr('cy',pos['y']);
 
     this.text.attr('cx',pos['x']);
     this.text.attr('cy',pos['y']);
@@ -130,8 +130,8 @@ Element.prototype.drag=function(onStartMove, onMoving, onStopMove){
     text=this.text;
     console.dir(text);
 
-    this.circle.customOnMoving=onMoving;
-    this.circle.drag(function(x,y){
+    this.framer.customOnMoving=onMoving;
+    this.framer.drag(function(x,y){
         newX=this.startpos.x+x
         newY=this.startpos.y+y
 
