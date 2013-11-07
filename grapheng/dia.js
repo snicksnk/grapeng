@@ -11,7 +11,10 @@ window.onload = function() {
 
 
 
-function Position(cords={'x':0,'y':0}){
+function Position(cords){
+    if(!cords){
+        cords={'x':0,'y':0}
+    }
     this._cords=cords;
 };
 
@@ -86,14 +89,20 @@ DragableElement=function(){
 DragableElement.prototype.drag=function(onStartMove, onMoving, onStopMove){
 };
 
-Element=function(paper){
+Element=function(paper, position){
 
-    this.position=new Position();
+    this.position=position;
 
     // Creates circle at x = 50, y = 40, with radius 10
-    this.circle = paper.circle(50, 40, 10);
+    this.text = paper.text(50, 50, "Raphaël");
+
+    this.circle = paper.circle(0, 0, 10);
+
+    this.moveTo(this.position);
+
     // Sets the fill attribute of the circle to red (#f00)
-    this.circle.attr("fill", "#f00");
+    this.circle.attr("fill", "#000");
+
 
     // Sets the stroke attribute of the circle to white
     this.circle.attr("stroke", "#fff");    
@@ -107,12 +116,20 @@ Element.prototype.moveTo=function(position){
     this.position.setPos(pos);
     this.circle.attr('cx',pos['x']);
     this.circle.attr('cy',pos['y']);
+
+    this.text.attr('cx',pos['x']);
+    this.text.attr('cy',pos['y']);
+
+
 }
 
 Element.prototype.drag=function(onStartMove, onMoving, onStopMove){
-    var position;
+    var position,text;
 
     position=this.position;
+    text=this.text;
+    console.dir(text);
+
     this.circle.customOnMoving=onMoving;
     this.circle.drag(function(x,y){
         newX=this.startpos.x+x
@@ -120,6 +137,10 @@ Element.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
         this.attr({'cx':newX});
         this.attr({'cy':newY}); 
+
+        text.attr('x',newX);
+        text.attr('y',newY);
+        console.dir(text.attrs);
         position.setPos({'x':newX,'y':newY});
         this.customOnMoving();
 

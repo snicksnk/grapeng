@@ -18,6 +18,10 @@ ObjController.prototype.setUniqueId=function(id){
 	this.uniqueId=id;
 }
 
+ObjController.prototype.getPos=function(){
+	return this._element.position;
+}
+
 ObjController.prototype.getUniqueId=function(){
 	return this.uniqueId;
 }
@@ -31,6 +35,7 @@ ObjController.prototype.setDispatcher=function(dispatcher){
 ObjController.prototype.getDispatcher=function(){
 	return this._dispatcher;
 }
+
 
 
 ObjController.prototype._subscribeForEvents=[];
@@ -83,7 +88,12 @@ Node.prototype.setUpModels=function(paper){
 	this._dispatcher=null;
 	//alert(moveEvent.getUniqueName());
 	this._stateModel=new StateModel();
-	this._element=new Element(paper);
+
+	position=new Position({'x':10,'y':20});
+
+	this._element=new Element(paper, position);
+
+
 	this._subscribeForEvents=[FrameEvent];
 }
 
@@ -163,12 +173,21 @@ Line.prototype.setUpBehavior=function(){
 }
 
 Line.prototype.setLineStartNode=function(Node){
+
+
+
+	console.dir(Node.getPos());
+	this._element.moveStartPoint(Node.getPos());
+
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineStartDepends);
 }
 
 
 Line.prototype.setLineEndNode=function(Node){
+
+	this._element.moveEndPoint(Node.getPos());
+
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineEndDepends)
 }
