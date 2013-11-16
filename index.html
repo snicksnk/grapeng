@@ -29,8 +29,7 @@
 			 player=new Player();
    			disp=new Dispathcer();
    			equal(Dispathcer.getEventUniqueId(JumpEvent),'jump','get jump u)nique id');
-   		  console.log('sss'); 
-        console.dir(player.subscribeForEvents()[0]);
+   		
    			deepEqual(
         Dispathcer.getEventUniqueId(player.subscribeForEvents()[0]), 
         Dispathcer.getEventUniqueId(JumpEvent),'Player will subscrib for right events');
@@ -79,7 +78,7 @@
 
         var paper = Raphael(document.getElementById('canvas'), 400, 400);
 
-        node=new Node(paper);
+        node=new Node(paper, new Position({'x':10,'y':220}));
 
 
 
@@ -110,11 +109,19 @@
         line.setLineStartNode(node);
 
         line.setLineEndNode(nodeDepends);
-
-        console.dir(line.subscribeForEvents());
-
-
+        
         disp.addObject(line);
+
+        node3=new Node(paper, new Position({'x':50,'y':120}));
+        disp.addObject(node3);
+
+        line2=new Line(paper);
+        line2.setLineStartNode(nodeDepends);
+        line2.setLineEndNode(node3);
+
+
+        disp.addObject(line2);
+
 
 
 

@@ -77,19 +77,23 @@ Player.prototype.state='stay';
 
 
 
-function Node(paper){
-	this.setUpModels(paper);
+function Node(paper, position){
+	this.setUpModels(paper, position);
 }
 
 Node.prototype=new ObjController();
 
 
-Node.prototype.setUpModels=function(paper){
+Node.prototype.setUpModels=function(paper,position){
+	var paper, position;
+	if (position===undefined){
+		position=new Position({'x':10,'y':20});
+	} 
+
 	this._dispatcher=null;
 	//alert(moveEvent.getUniqueName());
 	this._stateModel=new StateModel();
 
-	position=new Position({'x':10,'y':20});
 
 	this._element=new Element(paper, position);
 
@@ -102,8 +106,7 @@ Node.prototype.setDependsOf=function(dependedOf){
 
 		this.addSubscribition(new MoveEvent(dependedOf),
 		function(Evnt){
-			this._element.moveTo(Evnt.position)
-			console.log('parent is moved');
+			this._element.moveTo(Evnt.position);
 		});
 }
 
@@ -130,6 +133,8 @@ Node.prototype.setUpBehavior=function(){
 		function(){
 			stateModel.setState(stateModel.states.moved);
 	    	stateModel.position.setPos(element.position.getPos());
+	    	stateModel.leftPosition.setPos();
+
 		},
 		function(){
 			stateModel.setState(stateModel.states.moving);
@@ -138,7 +143,6 @@ Node.prototype.setUpBehavior=function(){
 		},
 		function(){
 			stateModel.setState(stateModel.states.stay);
-			console.dir(stateModel.position.getPos());
 			moveEvent.position.setPos(stateModel.position.getPos());
 	    	dispatcher.notify(moveEvent);
 			
@@ -173,31 +177,24 @@ Line.prototype.setUpBehavior=function(){
 }
 
 Line.prototype.setLineStartNode=function(Node){
-
-
-
-	console.dir(Node.getPos());
-	this._element.moveStartPoint(Node.getPos());
-
+	this._element.moveStartPoint(Node.getPos().sub.rightPoint);	
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineStartDepends);
 }
 
 
 Line.prototype.setLineEndNode=function(Node){
-
-	this._element.moveEndPoint(Node.getPos());
-
+	this._element.moveEndPoint(Node.getPos().sub.leftPoint);
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineEndDepends)
 }
 
 Line.prototype._lineStartDepends=function(Evnt){
-	this._element.moveStartPoint(Evnt.position);
+	this._element.moveStartPoint(Evnt.position.sub.rightPoint);
 }
 
 Line.prototype._lineEndDepends=function(Evnt){
-	this._element.moveEndPoint(Evnt.position);
+	this._element.moveEndPoint(Evnt.position.sub.leftPoint);
 }
 
 
