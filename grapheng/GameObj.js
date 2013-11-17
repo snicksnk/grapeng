@@ -77,28 +77,43 @@ Player.prototype.state='stay';
 
 
 
-function Node(paper, position){
-	this.setUpModels(paper, position);
+function Node(text, paper,position){
+	this.setUpModels(text, paper, position);
 }
+
 
 Node.prototype=new ObjController();
 
 
-Node.prototype.setUpModels=function(paper,position){
+Node.prototype._element=null;
+
+Node.prototype.setUpModels=function(text, paper,position){
 	var paper, position;
+
 	if (position===undefined){
 		position=new Position({'x':10,'y':20});
-	} 
+	} else {
+
+	}
+
+
 
 	this._dispatcher=null;
 	//alert(moveEvent.getUniqueName());
-	this._stateModel=new StateModel();
+	//this._stateModel=new StateModel();
 
 
-	this._element=new Element(paper, position);
 
+
+	this._element=new Element(text, paper, position);
+
+	if (typeof node != 'undefined'){
+		console.log('???????????????'+this._element.text,node._element.position.sub.rightPoint.getPos());
+	}
 
 	this._subscribeForEvents=[FrameEvent];
+
+	
 }
 
 Node.prototype.setDependsOf=function(dependedOf){
@@ -113,14 +128,12 @@ Node.prototype.setDependsOf=function(dependedOf){
 
 Node.prototype.setUpBehavior=function(){
 
-	var element, moveEvent, stateModel;
+	var element, moveEvent;
 
 	element = this._element;
-	stateModel = this._stateModel;
 
 
-
-	this._moveEvent=new MoveEvent(this,stateModel.position);
+	this._moveEvent=new MoveEvent(this,element.position);
 	moveEvent = this._moveEvent;
 
 	dispatcher = this.getDispatcher();
@@ -130,22 +143,26 @@ Node.prototype.setUpBehavior=function(){
 
 
 	this._element.drag(
-		function(){
+		function(x,y){
+			/*
 			stateModel.setState(stateModel.states.moved);
-	    	stateModel.position.setPos(element.position.getPos());
-	    	stateModel.leftPosition.setPos();
+	    	stateModel.position=element.position;
+			*/
+		},
+		function(x,y){
+			//stateModel.setState(stateModel.states.moving);
+			element.moveTo(new Position({"x":x,"y":y}));
+
+			moveEvent.position=element.position;
+	    	dispatcher.notify(moveEvent);
 
 		},
-		function(){
-			stateModel.setState(stateModel.states.moving);
-			stateModel.position.setPos(element.position.getPos());
-			
-		},
-		function(){
-			stateModel.setState(stateModel.states.stay);
-			moveEvent.position.setPos(stateModel.position.getPos());
+		function(x,y){
+			/*
+			console.log('sasasa2222        ------',stateModel.position);
+			*/
+			moveEvent.position=element.position;
 	    	dispatcher.notify(moveEvent);
-			
 		}
 	);
 };
@@ -155,8 +172,10 @@ Node.prototype.subscribeForEvents=function(){
 };
 
 Node.prototype.handleframe=function(){
+	/*
 	if (newState=this._stateModel.getNewState()){
 	}
+	*/
 };
 
 
@@ -177,7 +196,9 @@ Line.prototype.setUpBehavior=function(){
 }
 
 Line.prototype.setLineStartNode=function(Node){
-	this._element.moveStartPoint(Node.getPos().sub.rightPoint);	
+	this._element.moveStartPoint(Node.getPos().sub.rightPoint);
+
+	console.log('setLineStartNode right point '+Node._element.text, Node.getPos().sub.rightPoint.getPos());	
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineStartDepends);
 }
@@ -194,6 +215,7 @@ Line.prototype._lineStartDepends=function(Evnt){
 }
 
 Line.prototype._lineEndDepends=function(Evnt){
+	console.log('*-*-*-*-*-*-*-*-*-*-', Evnt.position.sub);
 	this._element.moveEndPoint(Evnt.position.sub.leftPoint);
 }
 

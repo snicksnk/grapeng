@@ -16,14 +16,14 @@ function Position(cords){
         cords={'x':0,'y':0}
     }
     this._cords=cords;
+    this.sub={};
 };
 
 Position.prototype._lastCords={};
 
 Position.prototype._cords={};
 
-Position.prototype.sub={}
-
+Position.prototype.sub={};
 
 Position.prototype.getNewPos=function(){
     if (this._cords!=this._lastCords){
@@ -178,18 +178,25 @@ DragableElement.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
 
 
-Element=function(paper, position){
+Element=function(text, paper, position){
 
-    this.position=position;
+    this.position=new Position();
+
+    this.position.setPos(position.getPos());
 
 
-    this.position.sub.leftPoint=new Position;
-    this.position.sub.rightPoint=new Position;
-    this.position.sub.text=new Position;
+    this.position.sub['leftPoint']=new Position();
+    this.position.sub['rightPoint']=new Position();
+    this.position.sub['text']=new Position;
 
-    text='anysadasadsadadsadasdasdadaadada'
+
+    
+
+    this.text=text;
   
+    
 
+    //text='anysadasadsadadsadasdasdadaadada'
     this.nodeText=new NodeText(text, paper);
     
 
@@ -214,6 +221,11 @@ Element=function(paper, position){
 }
 
 Element.prototype=new DragableElement;
+
+Element.prototype.text='';
+
+Element.position=null;
+
     
 Element.prototype.resizeFramerToText=function(){
     width=this.nodeText.getWidth();
@@ -230,66 +242,37 @@ Element.prototype.moveTo=function(position){
     this.position.setPos(pos);
     this.framer.attr('x',pos['x']);
     this.framer.attr('y',pos['y']);
+
     
 
     nodeTextPos=this.nodeText.movePosition(this.position).position
     this.position.sub.text.setPos(nodeTextPos.getPos());
 
-
     leftJoinPointPosition=this.leftJoinPoint.movePosition(position).position;
-
     this.position.sub.leftPoint.setPos(leftJoinPointPosition.getPos());
-    
+
     this.rightJoinPoint.movePosition(position,this.framer.attr('width'));
     this.position.sub.rightPoint.setPos(this.rightJoinPoint.position.getPos());
 
+    console.log('moveto '+this.text,this.position.sub.rightPoint.getPos());
+   
 
+    //console.log(this.leftJoinPoint.position.getPos(), this.rightJoinPoint.position.getPos());
 }
 
 
 Element.prototype.drag=function(onStartMove, onMoving, onStopMove){
-    var position,
-    nodeText,
-    leftJoinPoint,
-    leftJoinPointPosition,
-    nodeTextPos,
-    rightJoinPoint,
-    rightJoinPointPosition;
     
-    position=this.position;
-    
-
-    leftJoinPoint=this.leftJoinPoint;
-    rightJoinPoint=this.rightJoinPoint;
-
-    nodeText=this.nodeText;
-
 
 
 
     this.framer.customOnMoving=onMoving;
+
     this.framer.drag(function(x,y){
         newX=this.startpos.x+x
         newY=this.startpos.y+y
 
-
-        this.attr('x',newX);
-        this.attr('y',newY);
-        
-
-        nodeTextPos=nodeText.movePosition(position).position
-        position.sub.text.setPos(nodeTextPos.getPos());
-
-
-        leftJoinPointPosition=leftJoinPoint.movePosition(position).position;
-        position.sub.leftPoint.setPos(leftJoinPointPosition.getPos());
-        
-        rightJoinPoint.movePosition(position,this.attr('width'));
-        position.sub.rightPoint.setPos(rightJoinPoint.position.getPos());
-    
-
-        position.setPos({'x':newX,'y':newY});
-        this.customOnMoving();
+        this.customOnMoving(newX, newY);
 
     },
     function(x,y){
@@ -300,7 +283,7 @@ Element.prototype.drag=function(onStartMove, onMoving, onStopMove){
         onStartMove();
     },
     function(x,y){
-        //stateModel.setState(stateModel.states.stay);
+        stateModel.setState(stateModel.states.stay);
         onStopMove();
     });
 
