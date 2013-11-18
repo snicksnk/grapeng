@@ -200,7 +200,7 @@ Element=function(text, paper, position){
     this.nodeText=new NodeText(text, paper);
     
 
-    this.framer = paper.rect(0, 0, 20, 20, 0);//circle(0, 0, 10);
+    this.framer = paper.rect(0, 0, 20, 20, 2);//circle(0, 0, 10);
     this.resizeFramerToText();
 
     this.leftJoinPoint=new LeftJoinPoint(paper);
@@ -294,13 +294,16 @@ JoinLine=function(paper){
     
     this.startPos=new Position();
     this.endPos=new Position();
-
+    this.paper=paper;
 
 
     this.path=paper.path("0");
 
     //this.moveStartPoint(new Position({'x':230,'y':'150'}))
-    //this.path.attr("path",["M150 12", "L15 200","L12 200 Z"]);
+    this.curve=paper.path("0");
+    //M181 31 L 79 59 Q 181 90 260 90
+    //this.curvea=paper.path("M181 31 L 221 61 L 260 90");
+
 }
 
 
@@ -322,5 +325,22 @@ JoinLine.prototype.moveEndPoint=function(position){
 JoinLine.prototype._redrawLine=function(){
     start=this.startPos.getPos();
     end=this.endPos.getPos();
-    this.path.attr('path',"M"+start['x']+' '+start['y']+' L '+end['x']+' '+end['y']);
+    //this.path.attr('path',"M"+start['x']+' '+start['y']+' L '+end['x']+' '+end['y']);
+
+    
+    centerX=(end['x']-start['x'])/2+start['x'];
+    
+    centerY=(end['y']-start['y'])/2+start['y'];
+    
+    //this.paper.circle(centerX, centerY, 10);
+
+    console.log(centerX,centerY);
+    this.curve.attr("path", [
+        "M",start['x'],start['y'],
+        'Q',centerX,start['y'],
+        ,centerX,centerY,
+        'Q',centerX,end['y'],
+        end['x'],end['y']
+    ]);
+
 }

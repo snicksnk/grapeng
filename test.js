@@ -130,30 +130,6 @@
         disp.addObject(line3);
 
 
-
-
-
-
-
-
-
-        /*
-        last_time=0;
-        setInterval(function() {
-        if((new Date) - last_time > 1000/1) {
-                last_time = new Date;
-                console.log('daa');
-            }
-        }, 10);
-        */
-
-        //setInterval(function() { disp.notify(new FrameEvent()) }, 1000);
-
-
-
-
-
-
 		});
 
     test( "Check onEventEvents", function() {
