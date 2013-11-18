@@ -121,7 +121,7 @@
 
         disp.addObject(line2);
         
-        node4=new Node('Четвертая нода', paper, new Position({'x':310,'y':250}));
+        node4=new Node('Четвертая нода', paper, new Position({'x':310,'y':350}));
         disp.addObject(node4);
 
         line3=new Line(paper);
