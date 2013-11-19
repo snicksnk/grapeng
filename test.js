@@ -76,10 +76,7 @@
         disp.addObject(node);
 
 
-        console.log('first  node right****',node._element.position.sub.rightPoint.getPos());
-        nodeDepends=new Node('Вторая нода', paper, new Position({'x':120,'y':21}));
-        console.log('first  node right****',node._element.position.sub.rightPoint.getPos());
-
+            nodeDepends=new Node('Вторая нода', paper, new Position({'x':120,'y':21}));
         //nodeDepends.setDependsOf(node);
 
         disp.addObject(nodeDepends);
@@ -122,6 +119,8 @@
         disp.addObject(line2);
         
         node4=new Node('Четвертая нода', paper, new Position({'x':310,'y':350}));
+        node4.setOrientation(Element.ORIENTED_LEFT);
+
         disp.addObject(node4);
 
         line3=new Line(paper);
@@ -129,8 +128,36 @@
         line3.setLineEndNode(node4);
         disp.addObject(line3);
 
+        node5=new Node('Пятая нода', paper, new Position({'x':210,'y':370}));
+        node5.setOrientation(Element.ORIENTED_RIGHT);
+        node5.setOrientation(Element.ORIENTED_LEFT);
+        disp.addObject(node5);
+
+        line4=new Line(paper);
+        line4.setLineStartNode(node4);
+        line4.setLineEndNode(node5);
+        disp.addObject(line4);
+
+
+
+
+
+
+
 
 		});
+
+    test ("set orientation", function(){
+        var paper = Raphael(document.getElementById('testCanvas'), 400, 400);
+    
+        testNode=new Node('wrong node', paper);
+        try{
+            testNode.setOrientation('wrong');
+            ok(false, 'Exception is not throwed');
+        } catch (e){
+            ok(true, 'Exception is throwed');
+        }
+    });
 
     test( "Check onEventEvents", function() {
 
@@ -159,6 +186,6 @@
 
 
 
-
+        //TODO пока не работает
         ok(true, true, 'ok');
     });

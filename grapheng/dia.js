@@ -25,6 +25,8 @@ Position.prototype._cords={};
 
 Position.prototype.sub={};
 
+Position.prototype.orientation=false;
+
 Position.prototype.getNewPos=function(){
     if (this._cords!=this._lastCords){
         this._lastCords=this._cords; 
@@ -184,19 +186,15 @@ Element=function(text, paper, position){
 
     this.position.setPos(position.getPos());
 
-
-    this.position.sub['leftPoint']=new Position();
-    this.position.sub['rightPoint']=new Position();
+    //TODO Другим способом хранить кординаты поинтов
+    this.position.sub['inPoint']=new Position();
+    this.position.sub['outPoint']=new Position();
     this.position.sub['text']=new Position;
-
-
-    
+    this.position.orientation=Element.ORIENTED_RIGHT;
 
     this.text=text;
   
     
-
-    //text='anysadasadsadadsadasdasdadaadada'
     this.nodeText=new NodeText(text, paper);
     
 
@@ -222,6 +220,27 @@ Element=function(text, paper, position){
 
 Element.prototype=new DragableElement;
 
+Element.ORIENTED_LEFT='left';
+
+Element.ORIENTED_RIGHT='right';
+
+Element.prototype.setOrientation=function(orientation){
+    if (orientation===Element.ORIENTED_RIGHT || orientation===Element.ORIENTED_LEFT){
+        this._orientation=orientation;   
+        this.position.orientation=orientation;
+        this.redraw();
+    } else {
+        throw "Wrong orientation '"+orientation+"'";
+    }
+}
+
+Element.prototype.getOrientation=function(){
+    return this._orientation;
+}
+
+
+Element.prototype._orientation=Element.ORIENTED_RIGHT;
+
 Element.prototype.text='';
 
 Element.position=null;
@@ -236,10 +255,17 @@ Element.prototype.getWidth=function(){
     return this.framer.attr('width');
 }
 
+Element.prototype.redraw=function(){
+    this.moveTo(this.position);
+}
+
 Element.prototype.moveTo=function(position){
-    var leftJoinPointPosition, pos, nodeTextPos, rightJoinPoint;
+    var leftJoinPointPosition, pos, nodeTextPos, 
+    rightJoinPoint, inPointPosition, outPointPosition;
     pos=position.getPos();
     this.position.setPos(pos);
+    
+ 
     this.framer.attr('x',pos['x']);
     this.framer.attr('y',pos['y']);
 
@@ -248,16 +274,25 @@ Element.prototype.moveTo=function(position){
     nodeTextPos=this.nodeText.movePosition(this.position).position
     this.position.sub.text.setPos(nodeTextPos.getPos());
 
-    leftJoinPointPosition=this.leftJoinPoint.movePosition(position).position;
-    this.position.sub.leftPoint.setPos(leftJoinPointPosition.getPos());
+    this.leftJoinPoint.movePosition(position);
+
+    if (this._orientation===Element.ORIENTED_RIGHT){
+        inPointPosition=this.leftJoinPoint.position;
+    } else if (this._orientation===Element.ORIENTED_LEFT){
+        inPointPosition=this.rightJoinPoint.position;    
+    }
+    this.position.sub.inPoint.setPos(inPointPosition.getPos());
+    
 
     this.rightJoinPoint.movePosition(position,this.framer.attr('width'));
-    this.position.sub.rightPoint.setPos(this.rightJoinPoint.position.getPos());
 
-    console.log('moveto '+this.text,this.position.sub.rightPoint.getPos());
-   
-
-    //console.log(this.leftJoinPoint.position.getPos(), this.rightJoinPoint.position.getPos());
+    if (this._orientation===Element.ORIENTED_RIGHT){
+        outPointPosition=this.rightJoinPoint.position;
+    } else if (this._orientation===Element.ORIENTED_LEFT){
+        outPointPosition=this.leftJoinPoint.position;
+    }
+    
+    this.position.sub.outPoint.setPos(outPointPosition.getPos());
 }
 
 

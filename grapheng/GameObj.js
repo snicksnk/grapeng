@@ -107,9 +107,6 @@ Node.prototype.setUpModels=function(text, paper,position){
 
 	this._element=new Element(text, paper, position);
 
-	if (typeof node != 'undefined'){
-		console.log('???????????????'+this._element.text,node._element.position.sub.rightPoint.getPos());
-	}
 
 	this._subscribeForEvents=[FrameEvent];
 
@@ -125,6 +122,14 @@ Node.prototype.setDependsOf=function(dependedOf){
 		});
 }
 
+Node.prototype.setOrientation=function(orientation){
+	this._element.setOrientation(orientation);
+	
+}
+
+Node.prototype.getOrientation=function(){
+	return this._element.getOrientation();
+}
 
 Node.prototype.setUpBehavior=function(){
 
@@ -196,27 +201,26 @@ Line.prototype.setUpBehavior=function(){
 }
 
 Line.prototype.setLineStartNode=function(Node){
-	this._element.moveStartPoint(Node.getPos().sub.rightPoint);
+	this._element.moveStartPoint(Node.getPos().sub.outPoint);
 
-	console.log('setLineStartNode right point '+Node._element.text, Node.getPos().sub.rightPoint.getPos());	
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineStartDepends);
 }
 
 
 Line.prototype.setLineEndNode=function(Node){
-	this._element.moveEndPoint(Node.getPos().sub.leftPoint);
+	this._element.moveEndPoint(Node.getPos().sub.inPoint);
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineEndDepends)
 }
 
 Line.prototype._lineStartDepends=function(Evnt){
-	this._element.moveStartPoint(Evnt.position.sub.rightPoint);
+	this._element.moveStartPoint(Evnt.position.sub.outPoint);
 }
 
 Line.prototype._lineEndDepends=function(Evnt){
 	console.log('*-*-*-*-*-*-*-*-*-*-', Evnt.position.sub);
-	this._element.moveEndPoint(Evnt.position.sub.leftPoint);
+	this._element.moveEndPoint(Evnt.position.sub.inPoint);
 }
 
 

@@ -30,9 +30,11 @@ FrameEvent.prototype.getUniqueName=function(){
 function MoveEvent(masterObject, position){
    this.position=position;
    this.masterObjectId=masterObject.getUniqueId();
+   this.oriented=false;
 }
 
 MoveEvent.prototype=new Event();
+
 
 MoveEvent.prototype.getUniqueName=function(){
    return 'move_object_'+this.masterObjectId;
