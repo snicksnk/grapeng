@@ -87,56 +87,42 @@ StateModel.prototype.getNewState=function(){
 };
 
 
-function JoinPoint(paper){
+function AbstractJoinPoint(paper){
 
 }
 
-JoinPoint.prototype.position=null;
-JoinPoint.prototype._point=null;
+AbstractJoinPoint.prototype.position=null;
+AbstractJoinPoint.prototype._point=null;
 
-JoinPoint.prototype.movePosition=function(){
-    alert('specify it!');
+AbstractJoinPoint.prototype.movePosition=function(){
+    throw 'specify it!';
 }
 
-JoinPoint.prototype._initElement=function(paper){
+AbstractJoinPoint.prototype._initElement=function(paper){
     this._point=paper.rect(0,0,2,2,0);
     this.position=new Position();
 }
 
 
-function LeftJoinPoint(paper){
+function JoinPoint(paper){
     this._initElement(paper);
 }
 
-LeftJoinPoint.prototype=new JoinPoint();
+JoinPoint.prototype=new AbstractJoinPoint();
 
-LeftJoinPoint.prototype.movePosition=function(parentNodePosition){
-    var pos=parentNodePosition.getPos();
-    var leftX=pos['x'];
-    var leftY=pos['y']+10;
+JoinPoint.prototype.movePosition=function(position){
 
-    this.position.setPos({'x':leftX,'y':leftY});     
-    this._point.attr('x',leftX);
-    this._point.attr('y',leftY);
+    var pos=position.getPos();
+    var newX=pos['x'];
+    var newY=pos['y'];
+    
+    this.position.setPos({'x':newX,'y':newY});     
+    this._point.attr('x',newX);
+    this._point.attr('y',newY);
     return this;
 }
 
-function RightJoinPoint(paper){
-    this._initElement(paper);
-}
 
-RightJoinPoint.prototype=new JoinPoint();
-
-
-RightJoinPoint.prototype.movePosition=function(parentNodePosition, nodeWidth){
-    var pos=parentNodePosition.getPos();
-    var rightX=pos['x']+nodeWidth-1;
-    var rightY=pos['y']+10;
-    this.position.setPos({'x':rightX,'y':rightY});
-    this._point.attr('x',rightX);
-    this._point.attr('y',rightY);
-    return this;
-}
 
 
 function NodeText(text, paper){
@@ -149,10 +135,10 @@ NodeText.prototype.position=null;
 NodeText.prototype._text=null;
 
 
-NodeText.prototype.movePosition=function(parentNodePosition){
-    pos=parentNodePosition.getPos();
+NodeText.prototype.movePosition=function(position){
+    pos=position.getPos();
     var textX=pos['x']+this._text.node.getBBox().width/2;
-    var textY=pos['y']+10;
+    var textY=pos['y'];
     this._text.attr('x',textX);
     this._text.attr('y',textY);
     this.position.setPos({'x':textX,'y':textY})
@@ -201,8 +187,8 @@ Element=function(text, paper, position){
     this.framer = paper.rect(0, 0, 20, 20, 2);//circle(0, 0, 10);
     this.resizeFramerToText();
 
-    this.leftJoinPoint=new LeftJoinPoint(paper);
-    this.rightJoinPoint=new RightJoinPoint(paper);
+    this.leftJoinPoint=new JoinPoint(paper);
+    this.rightJoinPoint=new JoinPoint(paper);
 
   
     this.moveTo(this.position);
@@ -260,8 +246,7 @@ Element.prototype.redraw=function(){
 }
 
 Element.prototype.moveTo=function(position){
-    var leftJoinPointPosition, pos, nodeTextPos, 
-    rightJoinPoint, inPointPosition, outPointPosition;
+    var pos;
     pos=position.getPos();
     this.position.setPos(pos);
     
@@ -270,30 +255,73 @@ Element.prototype.moveTo=function(position){
     this.framer.attr('y',pos['y']);
 
     
+    this._moveText(position)
 
-    nodeTextPos=this.nodeText.movePosition(this.position).position
-    this.position.sub.text.setPos(nodeTextPos.getPos());
+    this._moveLeftPoint(position);
+  
+    this._moveRightPoint(position);
 
-    this.leftJoinPoint.movePosition(position);
+    this._prepareSubElementsPositionData();
+}
 
+Element.prototype._prepareSubElementsPositionData=function(){
+    
+    var textPosition=this._prepareTextPositionData();
+    var inPointPosition=this._prepareInPointPositionData();
+    var outPointPosition=this._prepareOutPointPositionData();
+    
+    this.position.sub.inPoint.setPos(inPointPosition.getPos());
+    this.position.sub.text.setPos(textPosition);
+    this.position.sub.outPoint.setPos(outPointPosition.getPos());
+}
+
+Element.prototype._prepareTextPositionData=function(){
+    return this.nodeText.position.getPos();
+}
+
+Element.prototype._prepareInPointPositionData=function(){
+    var inPointPosition;
     if (this._orientation===Element.ORIENTED_RIGHT){
         inPointPosition=this.leftJoinPoint.position;
     } else if (this._orientation===Element.ORIENTED_LEFT){
         inPointPosition=this.rightJoinPoint.position;    
     }
-    this.position.sub.inPoint.setPos(inPointPosition.getPos());
-    
+    return inPointPosition;
+}
 
-    this.rightJoinPoint.movePosition(position,this.framer.attr('width'));
-
+Element.prototype._prepareOutPointPositionData=function(){
+    var outPointPosition;
     if (this._orientation===Element.ORIENTED_RIGHT){
         outPointPosition=this.rightJoinPoint.position;
     } else if (this._orientation===Element.ORIENTED_LEFT){
         outPointPosition=this.leftJoinPoint.position;
-    }
-    
-    this.position.sub.outPoint.setPos(outPointPosition.getPos());
+    }    
+    return outPointPosition;
 }
+
+Element.prototype._moveText=function(position){
+    var pos=position.getPos();
+    var textX=pos['x'];
+    var textY=pos['y']+10;
+    this.nodeText.movePosition(new Position({'x':textX,'y':textY}));
+}
+
+
+Element.prototype._moveLeftPoint=function(position){
+    var pos=position.getPos();
+    var leftX=pos['x'];
+    var leftY=pos['y']+10;
+    this.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
+}
+
+Element.prototype._moveRightPoint=function(position){
+    var nodeWidth=this.framer.attr('width');
+    var rightX=pos['x']+nodeWidth-1;
+    var rightY=pos['y'];
+    this.rightJoinPoint.movePosition(new Position({'x':rightX,'y':rightY}));
+}
+
+Element.prototype._moveLeftPosition
 
 
 Element.prototype.drag=function(onStartMove, onMoving, onStopMove){

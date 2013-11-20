@@ -155,7 +155,6 @@ Node.prototype.setUpBehavior=function(){
 			*/
 		},
 		function(x,y){
-			//stateModel.setState(stateModel.states.moving);
 			element.moveTo(new Position({"x":x,"y":y}));
 
 			moveEvent.position=element.position;
@@ -163,9 +162,7 @@ Node.prototype.setUpBehavior=function(){
 
 		},
 		function(x,y){
-			/*
-			console.log('sasasa2222        ------',stateModel.position);
-			*/
+		
 			moveEvent.position=element.position;
 	    	dispatcher.notify(moveEvent);
 		}
