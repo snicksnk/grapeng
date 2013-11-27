@@ -1,3 +1,5 @@
+var Position=SoCuteGraph.helpers.coordinates.Position;
+
 function ObjController(){
 	
 }
@@ -18,7 +20,11 @@ ObjController.prototype.setUniqueId=function(id){
 	this.uniqueId=id;
 }
 
-ObjController.prototype.getPos=function(){
+
+/**
+* TODO Rename to getPosition
+*/
+ObjController.prototype.getPosition=function(){
 	return this._element.position;
 }
 
@@ -198,7 +204,7 @@ Line.prototype.setUpBehavior=function(){
 }
 
 Line.prototype.setLineStartNode=function(Node){
-	this._element.moveStartPoint(Node.getPos().sub.outPoint);
+	this._element.moveStartPoint(Node.getPosition().sub.outPoint);
 
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineStartDepends);
@@ -206,7 +212,7 @@ Line.prototype.setLineStartNode=function(Node){
 
 
 Line.prototype.setLineEndNode=function(Node){
-	this._element.moveEndPoint(Node.getPos().sub.inPoint);
+	this._element.moveEndPoint(Node.getPosition().sub.inPoint);
 	this.addSubscribition(new MoveEvent(Node),
 	this._lineEndDepends)
 }

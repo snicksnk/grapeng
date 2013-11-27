@@ -1,5 +1,7 @@
+var Position=SoCuteGraph.helpers.coordinates.Position;
 
-    test("Player subscribition", function(){
+
+test("Player subscribition", function(){
 
        player=new Player();
          disp=new Dispathcer();
@@ -37,6 +39,24 @@
     });
 
 
+        test("MoveEvent sub positions",function(){
+            var paper = Raphael(document.getElementById('testCanvas'), 400, 400);
+            var node =new Node('test node', paper, new Position({'x':10,'y':220}));
+
+            moveEvent=new MoveEvent(node, node.getPosition());
+
+            testPostion=new Position({'x':12,'y':22});
+            moveEvent.setSubPosition('tested_position', testPostion);
+
+            deepEqual(moveEvent.getSubPosition('tested_position'),
+                testPostion, 'seted subpostion equals to getted'
+            );
+
+
+
+        });
+
+
         test("position sub independense", function(){
             position1=new Position();
             position1.sub.leftPoint=new Position;
@@ -64,7 +84,7 @@
 
         equal(position.getNewPos(),false,'Pos is not been setted');
 
-        deepEqual(position.getPos(),{'x':10,'y':30},'Get setted postion');
+        deepEqual(position.getPosition(),{'x':10,'y':30},'Get setted postion');
 
 
 
@@ -137,12 +157,6 @@
         line4.setLineStartNode(node4);
         line4.setLineEndNode(node5);
         disp.addObject(line4);
-
-
-
-
-
-
 
 
 		});

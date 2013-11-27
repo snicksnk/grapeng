@@ -1,49 +1,4 @@
-var redraw, g, renderer;
-
-/* only do all this when document has finished loading (needed for RaphaelJS) */
-window.onload = function() {
-    
-    // Creates canvas 320 × 200 at 10, 50
-    var paper = Raphael(document.getElementById('canvas'), 400, 400);
-
-
-};
-
-
-
-function Position(cords){
-    if(!cords){
-        cords={'x':0,'y':0}
-    }
-    this._cords=cords;
-    this.sub={};
-};
-
-Position.prototype._lastCords={};
-
-Position.prototype._cords={};
-
-Position.prototype.sub={};
-
-Position.prototype.orientation=false;
-
-Position.prototype.getNewPos=function(){
-    if (this._cords!=this._lastCords){
-        this._lastCords=this._cords; 
-        return this._cords;
-    } else {
-        return false;
-    }
-}
-
-Position.prototype.getPos=function(){
-    return this._cords;
-}
-
-Position.prototype.setPos=function(cords){
-    this._cords=cords;
-};
-
+var Position=SoCuteGraph.helpers.coordinates.Position;
 
 
 StateModel=function(){
@@ -112,7 +67,7 @@ JoinPoint.prototype=new AbstractJoinPoint();
 
 JoinPoint.prototype.movePosition=function(position){
 
-    var pos=position.getPos();
+    var pos=position.getPosition();
     var newX=pos['x'];
     var newY=pos['y'];
     
@@ -136,7 +91,7 @@ NodeText.prototype._text=null;
 
 
 NodeText.prototype.movePosition=function(position){
-    pos=position.getPos();
+    pos=position.getPosition();
     var textX=pos['x']+this._text.node.getBBox().width/2;
     var textY=pos['y'];
     this._text.attr('x',textX);
@@ -166,11 +121,19 @@ DragableElement.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
 
 
+ElementViewModel=function(paper){
+    this._paper=paper;
+}
+
+
+
+
+
 Element=function(text, paper, position){
 
     this.position=new Position();
 
-    this.position.setPos(position.getPos());
+    this.position.setPos(position.getPosition());
 
     //TODO Другим способом хранить кординаты поинтов
     this.position.sub['inPoint']=new Position();
@@ -247,7 +210,7 @@ Element.prototype.redraw=function(){
 
 Element.prototype.moveTo=function(position){
     var pos;
-    pos=position.getPos();
+    pos=position.getPosition();
     this.position.setPos(pos);
     
  
@@ -270,13 +233,13 @@ Element.prototype._prepareSubElementsPositionData=function(){
     var inPointPosition=this._prepareInPointPositionData();
     var outPointPosition=this._prepareOutPointPositionData();
     
-    this.position.sub.inPoint.setPos(inPointPosition.getPos());
+    this.position.sub.inPoint.setPos(inPointPosition.getPosition());
     this.position.sub.text.setPos(textPosition);
-    this.position.sub.outPoint.setPos(outPointPosition.getPos());
+    this.position.sub.outPoint.setPos(outPointPosition.getPosition());
 }
 
 Element.prototype._prepareTextPositionData=function(){
-    return this.nodeText.position.getPos();
+    return this.nodeText.position.getPosition();
 }
 
 Element.prototype._prepareInPointPositionData=function(){
@@ -300,7 +263,7 @@ Element.prototype._prepareOutPointPositionData=function(){
 }
 
 Element.prototype._moveText=function(position){
-    var pos=position.getPos();
+    var pos=position.getPosition();
     var textX=pos['x'];
     var textY=pos['y']+10;
     this.nodeText.movePosition(new Position({'x':textX,'y':textY}));
@@ -308,7 +271,7 @@ Element.prototype._moveText=function(position){
 
 
 Element.prototype._moveLeftPoint=function(position){
-    var pos=position.getPos();
+    var pos=position.getPosition();
     var leftX=pos['x'];
     var leftY=pos['y']+10;
     this.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
@@ -376,18 +339,18 @@ JoinLine.prototype=new DragableElement;
 
 
 JoinLine.prototype.moveStartPoint=function(position){
-    this.startPos.setPos(position.getPos());
+    this.startPos.setPos(position.getPosition());
     this._redrawLine();
 }
 
 JoinLine.prototype.moveEndPoint=function(position){
-   this.endPos.setPos(position.getPos());
+   this.endPos.setPos(position.getPosition());
    this._redrawLine();
 }
 
 JoinLine.prototype._redrawLine=function(){
-    start=this.startPos.getPos();
-    end=this.endPos.getPos();
+    start=this._resolveStartPostion();
+    end=this._resolveEndPosition();
     //this.path.attr('path',"M"+start['x']+' '+start['y']+' L '+end['x']+' '+end['y']);
 
     
@@ -406,4 +369,14 @@ JoinLine.prototype._redrawLine=function(){
         end['x'],end['y']
     ]);
 
+}
+
+JoinLine.prototype._resolveStartPostion=function(){
+    start=this.startPos.getPosition();
+    return start;
+}
+
+JoinLine.prototype._resolveEndPosition=function(){
+    end=this.endPos.getPosition();
+    return end;
 }
