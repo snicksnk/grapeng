@@ -1,6 +1,7 @@
 var Position=SoCuteGraph.helpers.coordinates.Position;
+var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
 
-
+/*
 test("Player subscribition", function(){
 
        player=new Player();
@@ -37,11 +38,11 @@ test("Player subscribition", function(){
         equal(stateModel.getNewState(), false, 'State didnot chaged last time');
 
     });
-
+*/
 
         test("MoveEvent sub positions",function(){
             var paper = Raphael(document.getElementById('testCanvas'), 400, 400);
-            var node =new Node('test node', paper, new Position({'x':10,'y':220}));
+            var node = new Node('test node', paper, new Position({'x':10,'y':220}));
 
             moveEvent=new MoveEvent(node, node.getPosition());
 
@@ -79,6 +80,8 @@ test("Player subscribition", function(){
 
         position=new Position();
         position.setPos({'x':10,'y':30});
+
+
 
         deepEqual(position.getNewPos(),{'x':10,'y':30},'new pos is setted');
 
