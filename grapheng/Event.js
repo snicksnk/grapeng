@@ -33,7 +33,8 @@ FrameEvent.prototype.getUniqueName=function(){
 function MoveEvent(masterObject, position){
    this._position=position;
    this.masterObjectId=masterObject.getUniqueId();
-   this.oriented=false;
+   this._orientation=false;
+
 }
 
 
@@ -49,6 +50,14 @@ MoveEvent.prototype._resolveStrategy=null;
  */
 MoveEvent.prototype.getPosition=function(){
       return this._position;
+}
+
+MoveEvent.prototype.setOrientation=function(orientation) {
+    this._orientation=orientation;
+}
+
+MoveEvent.prototype.getOrientation=function() {
+    return this._orientation;
 }
 
 MoveEvent.prototype.getSubPosition=function(subPosition){

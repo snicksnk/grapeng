@@ -9,7 +9,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         this.setUpModels(text, paper, position);
     }
 
-    Controller.prototype=new ObjController();
+    Controller.prototype = new ObjController();
 
 
     Controller.prototype._element=null;
@@ -85,6 +85,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
                 element.moveTo(new Position({"x":x,"y":y}));
 
                 moveEvent.position=element.position;
+                moveEvent.setOrientation(element.getOrientation());
                 dispatcher.notify(moveEvent);
 
             },
@@ -201,8 +202,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.position.setPos(position.getPosition());
 
         //TODO ƒругим способом хранить кординаты поинтов
-        this.position.sub['inPoint']=new Position();
-        this.position.sub['outPoint']=new Position();
+        this.position.sub['leftJoinPoint']=new Position();
+        this.position.sub['rightJoinPoint']=new Position();
         this.position.sub['text']=new Position;
         this.position.orientation=ViewModel.ORIENTED_RIGHT;
 
@@ -238,10 +239,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.ORIENTED_RIGHT='right';
 
+    ViewModel.ORIENTED_MULTI='multi';
+
     ViewModel.prototype.setOrientation=function(orientation){
-        if (orientation===ViewModel.ORIENTED_RIGHT || orientation===ViewModel.ORIENTED_LEFT){
+        if (orientation===ViewModel.ORIENTED_RIGHT || orientation===ViewModel.ORIENTED_LEFT || orientation===ViewModel.ORIENTED_MULTI) {
             this._orientation=orientation;
-            this.position.orientation=orientation;
             this.redraw();
         } else {
             throw "Wrong orientation '"+orientation+"'";
@@ -295,18 +297,38 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype._prepareSubElementsPositionData=function(){
 
         var textPosition=this._prepareTextPositionData();
-        var inPointPosition=this._prepareInPointPositionData();
-        var outPointPosition=this._prepareOutPointPositionData();
 
-        this.position.sub.inPoint.setPos(inPointPosition.getPosition());
+        this._preparePointsPositionData();
+
         this.position.sub.text.setPos(textPosition);
-        this.position.sub.outPoint.setPos(outPointPosition.getPosition());
+
+        this.position.orientation=this.getOrientation();
+
+
     }
 
     ViewModel.prototype._prepareTextPositionData=function(){
         return this.nodeText.position.getPosition();
     }
 
+
+
+
+    ViewModel.prototype._preparePointsPositionData=function() {
+
+        //TODO ”брать логику выбора позиции из ноды и перенести в линию
+        /*
+        var inPointPosition=this._prepareInPointPositionData();
+        var outPointPosition=this._prepareOutPointPositionData();
+
+        this.position.sub.inPoint.setPos(inPointPosition.getPosition());
+        this.position.sub.outPoint.setPos(outPointPosition.getPosition());
+        */
+        this.position.sub.leftJoinPoint.setPos(this.leftJoinPoint.position.getPosition());
+        this.position.sub.rightJoinPoint.setPos(this.rightJoinPoint.position.getPosition());
+
+    }
+    /*
     ViewModel.prototype._prepareInPointPositionData=function(){
         var inPointPosition;
         if (this._orientation===ViewModel.ORIENTED_RIGHT){
@@ -317,6 +339,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         return inPointPosition;
     }
 
+
     ViewModel.prototype._prepareOutPointPositionData=function(){
         var outPointPosition;
         if (this._orientation===ViewModel.ORIENTED_RIGHT){
@@ -326,7 +349,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         }
         return outPointPosition;
     }
-
+    */
     ViewModel.prototype._moveText=function(position){
         var pos=position.getPosition();
         var textX=pos['x'];

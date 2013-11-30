@@ -91,15 +91,15 @@ test("Player subscribition", function(){
 
 
 
-        var paper = Raphael(document.getElementById('canvas'), 400, 400);
+        var paper = Raphael(document.getElementById('canvas'), 800, 400);
 
-        node=new Node('Первая нода', paper, new Position({'x':10,'y':220}));
-
+        node=new Node('Первая нода', paper, new Position({'x':380,'y':180}));
+        node.setOrientation(Element.ORIENTED_MULTI);
 
         disp.addObject(node);
 
 
-            nodeDepends=new Node('Вторая нода', paper, new Position({'x':120,'y':21}));
+        nodeDepends=new Node('Вторая нода', paper, new Position({'x':570,'y':21}));
         //nodeDepends.setDependsOf(node);
 
         disp.addObject(nodeDepends);
@@ -131,17 +131,17 @@ test("Player subscribition", function(){
         
         disp.addObject(line);
         
-        node3=new Node('Третья нода', paper, new Position({'x':260,'y':80}));
+        node3=new Node('Третья нода', paper, new Position({'x':570,'y':310}));
         disp.addObject(node3);
 
         line2=new Line(paper);
-        line2.setLineStartNode(nodeDepends);
+        line2.setLineStartNode(node);
         line2.setLineEndNode(node3);
 
 
         disp.addObject(line2);
         
-        node4=new Node('Четвертая нода', paper, new Position({'x':310,'y':350}));
+        node4=new Node('Четвертая нода', paper, new Position({'x':230,'y':250}));
         node4.setOrientation(Element.ORIENTED_LEFT);
 
         disp.addObject(node4);
@@ -151,10 +151,11 @@ test("Player subscribition", function(){
         line3.setLineEndNode(node4);
         disp.addObject(line3);
 
-        node5=new Node('Пятая нода', paper, new Position({'x':210,'y':370}));
+        node5=new Node('Пятая нода', paper, new Position({'x':70,'y':370}));
         node5.setOrientation(Element.ORIENTED_RIGHT);
         node5.setOrientation(Element.ORIENTED_LEFT);
         disp.addObject(node5);
+
 
         line4=new Line(paper);
         line4.setLineStartNode(node4);
