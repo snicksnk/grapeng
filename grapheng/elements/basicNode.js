@@ -1,6 +1,132 @@
 SoCuteGraph.nsCrete("elements.basicNode.viewModel");
-
 SoCuteGraph.nsCrete("elements.basicNode.controllers");
+SoCuteGraph.nsCrete("elements.basicNode.view");
+
+
+SoCuteGraph.elements.basicNode.views=(function (){
+    "use strict";
+
+    function AbstractJoinPoint(paper){
+    }
+
+    AbstractJoinPoint.prototype.position=null;
+    AbstractJoinPoint.prototype._point=null;
+
+    AbstractJoinPoint.prototype.movePosition=function(){
+        throw 'specify it!';
+    }
+
+    AbstractJoinPoint.prototype._initElement=function(paper){
+        this._point=paper.rect(0,0,2,2,0);
+        this.position=new Position();
+    }
+
+
+    function JoinPoint(paper){
+        this._initElement(paper);
+    }
+
+    JoinPoint.prototype=new AbstractJoinPoint();
+
+    JoinPoint.prototype.movePosition=function(position){
+
+        var pos=position.getPosition();
+        var newX=pos['x'];
+        var newY=pos['y'];
+
+        this.position.setPos({'x':newX,'y':newY});
+        this._point.attr('x',newX);
+        this._point.attr('y',newY);
+        return this;
+    }
+
+
+    var NodeFrame= function(position, paper) {
+        if (position){
+            this.init(position, paper);
+        }
+    }
+
+    NodeFrame.prototype.init=function(position, paper){
+        this._position = new Position;
+        if (position){
+            this._position.setPos(position.getPosition());
+        }
+        this._nodeFrame = paper.rect(0, 0, 20, 20, 2);//circle(0, 0, 10);
+        this.moveTo(this._position);
+        // Sets the fill attribute of the circle to red (#f00)
+        this._nodeFrame.attr("fill", "#000");
+        this._nodeFrame.attr("fill-opacity",0);
+        // Sets the stroke attribute of the circle to white
+        this._nodeFrame.attr("stroke", "#000");
+    }
+
+
+
+    NodeFrame.prototype.moveTo=function(position){
+        var pos = position.getPosition();
+        this._position.setPos(pos);
+
+        this._nodeFrame.attr('x',pos['x']);
+        this._nodeFrame.attr('y',pos['y']);
+
+
+    }
+
+    NodeFrame.prototype.getWidth = function(){
+        return this._nodeFrame.attr('width');
+    }
+
+    NodeFrame.prototype.setWidth = function(width){
+        this._nodeFrame.attr('width', width);
+    }
+
+    NodeFrame.prototype.getRaphaelElement=function(){
+        return this._nodeFrame;
+    }
+
+    NodeFrame.prototype.setDrag=function(onStartMove, onMoving, onStopMove){
+        this._nodeFrame.drag(onStartMove, onMoving, onStopMove);
+    }
+
+
+
+    function NodeText(text, paper){
+        this.text=text;
+        this.position=new Position();
+        this._text = paper.text(50, 50, text);
+    }
+
+    NodeText.prototype.position=null;
+    NodeText.prototype._text=null;
+
+
+    NodeText.prototype.movePosition=function(position){
+        var pos=position.getPosition();
+        var textX=pos['x']+this._text.node.getBBox().width/2;
+        var textY=pos['y'];
+        this._text.attr('x',textX);
+        this._text.attr('y',textY);
+        this.position.setPos({'x':textX,'y':textY})
+        return this;
+    }
+
+    NodeText.prototype.getWidth=function(){
+        var width=this._text.node.getBBox().width;
+        return width;
+    }
+
+    NodeText.prototype.getHeight=function(){
+
+    }
+
+    return {
+        'NodeText':NodeText,
+        'NodeFrame':NodeFrame,
+        'JoinPoint':JoinPoint
+    };
+
+})();
 
 SoCuteGraph.elements.basicNode.controllers = (function () {
     "use strict";
@@ -12,7 +138,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     Controller.prototype = new ObjController();
 
 
-    Controller.prototype._element=null;
+    Controller.prototype._nodeFrame=null;
 
     Controller.prototype.setUpModels=function(text, paper,position){
         var paper, position;
@@ -32,7 +158,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
 
 
-        this._element=new Element(text, paper, position);
+        this._nodeFrame = new Element(text, paper, position);
 
 
         this._subscribeForEvents=[FrameEvent];
@@ -45,24 +171,28 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
         this.addSubscribition(new MoveEvent(dependedOf),
             function(Evnt){
-                this._element.moveTo(Evnt.position);
+                this._nodeFrame.moveTo(Evnt.position);
             });
     }
 
     Controller.prototype.setOrientation=function(orientation){
-        this._element.setOrientation(orientation);
+        this._nodeFrame.setOrientation(orientation);
 
     }
 
     Controller.prototype.getOrientation=function(){
-        return this._element.getOrientation();
+        return this._nodeFrame.getOrientation();
+    }
+
+    Controller.prototype.getViewObject=function(){
+        return this._nodeFrame.getViewObject();
     }
 
     Controller.prototype.setUpBehavior=function(){
 
         var element, moveEvent;
 
-        element = this._element;
+        element = this._nodeFrame;
 
 
         this._moveEvent=new MoveEvent(this,element.position);
@@ -74,7 +204,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
 
 
-        this._element.drag(
+        this._nodeFrame.drag(
             function(x,y){
                 /*
                  stateModel.setState(stateModel.states.moved);
@@ -118,74 +248,9 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 SoCuteGraph.elements.basicNode.viewModel = (function () {
     "use strict";
     var Position = SoCuteGraph.helpers.coordinates.Position;
-
-
-    function AbstractJoinPoint(paper){
-
-    }
-
-    AbstractJoinPoint.prototype.position=null;
-    AbstractJoinPoint.prototype._point=null;
-
-    AbstractJoinPoint.prototype.movePosition=function(){
-        throw 'specify it!';
-    }
-
-    AbstractJoinPoint.prototype._initElement=function(paper){
-        this._point=paper.rect(0,0,2,2,0);
-        this.position=new Position();
-    }
-
-
-    function JoinPoint(paper){
-        this._initElement(paper);
-    }
-
-    JoinPoint.prototype=new AbstractJoinPoint();
-
-    JoinPoint.prototype.movePosition=function(position){
-
-        var pos=position.getPosition();
-        var newX=pos['x'];
-        var newY=pos['y'];
-
-        this.position.setPos({'x':newX,'y':newY});
-        this._point.attr('x',newX);
-        this._point.attr('y',newY);
-        return this;
-    }
-
-
-
-
-    function NodeText(text, paper){
-        this.text=text;
-        this.position=new Position();
-        this._text = paper.text(50, 50, text);
-    }
-
-    NodeText.prototype.position=null;
-    NodeText.prototype._text=null;
-
-
-    NodeText.prototype.movePosition=function(position){
-        var pos=position.getPosition();
-        var textX=pos['x']+this._text.node.getBBox().width/2;
-        var textY=pos['y'];
-        this._text.attr('x',textX);
-        this._text.attr('y',textY);
-        this.position.setPos({'x':textX,'y':textY})
-        return this;
-    }
-
-    NodeText.prototype.getWidth=function(){
-        var width=this._text.node.getBBox().width;
-        return width;
-    }
-
-    NodeText.prototype.getHeight=function(){
-
-    }
+    var NodeText = SoCuteGraph.elements.basicNode.views.NodeText;
+    var NodeFrame = SoCuteGraph.elements.basicNode.views.NodeFrame;
+    var JoinPoint = SoCuteGraph.elements.basicNode.views.JoinPoint;
 
 
     var DragableElement = function(){
@@ -196,7 +261,21 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     };
 
     var ViewModel=function(text, paper, position){
+        if (text && paper && position){
+            this.init(text, paper, position);
+        }
+    }
 
+    ViewModel.prototype=new DragableElement;
+
+
+    ViewModel.prototype.getViewObject=function(){
+        return {
+            'frame':this._nodeFrame
+        };
+    }
+
+    ViewModel.prototype.init=function(text, paper, position) {
         this.position = new Position();
 
         this.position.setPos(position.getPosition());
@@ -209,11 +288,10 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         this.text=text;
 
-
         this.nodeText=new NodeText(text, paper);
 
 
-        this.framer = paper.rect(0, 0, 20, 20, 2);//circle(0, 0, 10);
+        this._nodeFrame = new NodeFrame(position, paper);
         this.resizeFramerToText();
 
         this.leftJoinPoint=new JoinPoint(paper);
@@ -223,17 +301,9 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.moveTo(this.position);
 
 
-        // Sets the fill attribute of the circle to red (#f00)
-        this.framer.attr("fill", "#000");
-        this.framer.attr("fill-opacity",0);
-
-
-        // Sets the stroke attribute of the circle to white
-        this.framer.attr("stroke", "#000");
 
     }
 
-    ViewModel.prototype=new DragableElement;
 
     ViewModel.ORIENTED_LEFT='left';
 
@@ -264,11 +334,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype.resizeFramerToText=function(){
         var width=this.nodeText.getWidth();
-        this.framer.attr('width',width);
+        this._nodeFrame.setWidth(width);
     }
 
     ViewModel.prototype.getWidth=function(){
-        return this.framer.attr('width');
+        return this._nodeFrame.getWidth();
     }
 
     ViewModel.prototype.redraw=function(){
@@ -281,9 +351,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.position.setPos(pos);
 
 
-        this.framer.attr('x',pos['x']);
-        this.framer.attr('y',pos['y']);
-
+        this._moveFrame(position);
 
         this._moveText(position)
 
@@ -328,28 +396,12 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.position.sub.rightJoinPoint.setPos(this.rightJoinPoint.position.getPosition());
 
     }
-    /*
-    ViewModel.prototype._prepareInPointPositionData=function(){
-        var inPointPosition;
-        if (this._orientation===ViewModel.ORIENTED_RIGHT){
-            inPointPosition=this.leftJoinPoint.position;
-        } else if (this._orientation===ViewModel.ORIENTED_LEFT){
-            inPointPosition=this.rightJoinPoint.position;
-        }
-        return inPointPosition;
-    }
 
 
-    ViewModel.prototype._prepareOutPointPositionData=function(){
-        var outPointPosition;
-        if (this._orientation===ViewModel.ORIENTED_RIGHT){
-            outPointPosition=this.rightJoinPoint.position;
-        } else if (this._orientation===ViewModel.ORIENTED_LEFT){
-            outPointPosition=this.leftJoinPoint.position;
-        }
-        return outPointPosition;
+    ViewModel.prototype._moveFrame=function(position){
+        this._nodeFrame.moveTo(position);
     }
-    */
+
     ViewModel.prototype._moveText=function(position){
         var pos=position.getPosition();
         var textX=pos['x'];
@@ -366,7 +418,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     }
 
     ViewModel.prototype._moveRightPoint=function(position){
-        var nodeWidth=this.framer.attr('width');
+        var nodeWidth=this._nodeFrame.getWidth();
         var pos=position.getPosition();
         var rightX=pos['x']+nodeWidth-1;
         var rightY=pos['y']+10;
@@ -379,15 +431,10 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
 
-
-
-        this.framer.customOnMoving=onMoving;
-
-        this.framer.drag(function(x,y){
+        this._nodeFrame.setDrag(function(x,y){
                 var newX=this.startpos.x+x
                 var newY=this.startpos.y+y
-
-                this.customOnMoving(newX, newY);
+                onMoving(newX, newY);
 
             },
             function(x,y){

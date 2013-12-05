@@ -1,5 +1,7 @@
 var Position=SoCuteGraph.helpers.coordinates.Position;
 var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
+var Line = SoCuteGraph.elements.joinLine.Controller;
+
 
 /*
 test("Player subscribition", function(){
@@ -83,11 +85,11 @@ test("Player subscribition", function(){
 
 
 
-        deepEqual(position.getNewPos(),{'x':10,'y':30},'new pos is setted');
+        deepEqual(position.getNewPos(),{'x':10,'y':30},'new position was set');
 
-        equal(position.getNewPos(),false,'Pos is not been setted');
+        equal(position.getNewPos(),false,'Position was not set');
 
-        deepEqual(position.getPosition(),{'x':10,'y':30},'Get setted postion');
+        deepEqual(position.getPosition(),{'x':10,'y':30},'Position was given by setter is valid');
 
 
 
@@ -95,6 +97,13 @@ test("Player subscribition", function(){
 
         node=new Node('Первая нода', paper, new Position({'x':380,'y':180}));
         node.setOrientation(Element.ORIENTED_MULTI);
+
+        //TODO delete it
+        var centerView=node.getViewObject().frame.getRaphaelElement();
+        centerView.attr("fill", "#FFEC73");
+        centerView.attr("fill-opacity",0.5);
+        centerView.attr("stroke", "#A68F00");
+
 
         disp.addObject(node);
 
@@ -144,6 +153,10 @@ test("Player subscribition", function(){
         node4=new Node('Четвертая нода', paper, new Position({'x':230,'y':250}));
         node4.setOrientation(Element.ORIENTED_LEFT);
 
+        node4.getViewObject().frame.getRaphaelElement()
+            .attr('fill','#34CFBE')
+            .attr('opacity',0.5);
+
         disp.addObject(node4);
 
         line3=new Line(paper);
@@ -171,9 +184,9 @@ test("Player subscribition", function(){
         testNode=new Node('wrong node', paper);
         try{
             testNode.setOrientation('wrong');
-            ok(false, 'Exception is not throwed');
+            ok(false, 'Exception was not thrown');
         } catch (e){
-            ok(true, 'Exception is throwed');
+            ok(true, 'Exception was thrown');
         }
     });
 
