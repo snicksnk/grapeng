@@ -5,7 +5,6 @@ SoCuteGraph.nsCrete("elements.basicNode.view");
 
 SoCuteGraph.elements.basicNode.views=(function (){
     "use strict";
-
     function AbstractJoinPoint(paper){
     }
 
@@ -128,121 +127,6 @@ SoCuteGraph.elements.basicNode.views=(function (){
 
 })();
 
-SoCuteGraph.elements.basicNode.controllers = (function () {
-    "use strict";
-    var ObjController=SoCuteGraph.elements.abstractController.Controller;
-    function Controller(text, paper,position){
-        this.setUpModels(text, paper, position);
-    }
-
-    Controller.prototype = new ObjController();
-
-
-    Controller.prototype._nodeFrame=null;
-
-    Controller.prototype.setUpModels=function(text, paper,position){
-        var paper, position;
-
-        if (position===undefined){
-            position=new Position({'x':10,'y':20});
-        } else {
-
-        }
-
-
-
-        this._dispatcher=null;
-        //alert(moveEvent.getUniqueName());
-        //this._stateModel=new StateModel();
-
-
-
-
-        this._nodeFrame = new Element(text, paper, position);
-
-
-        this._subscribeForEvents=[FrameEvent];
-
-
-    }
-
-    Controller.prototype.setDependsOf=function(dependedOf){
-        var handlerName;
-
-        this.addSubscribition(new MoveEvent(dependedOf),
-            function(Evnt){
-                this._nodeFrame.moveTo(Evnt.position);
-            });
-    }
-
-    Controller.prototype.setOrientation=function(orientation){
-        this._nodeFrame.setOrientation(orientation);
-
-    }
-
-    Controller.prototype.getOrientation=function(){
-        return this._nodeFrame.getOrientation();
-    }
-
-    Controller.prototype.getViewObject=function(){
-        return this._nodeFrame.getViewObject();
-    }
-
-    Controller.prototype.setUpBehavior=function(){
-
-        var element, moveEvent;
-
-        element = this._nodeFrame;
-
-
-        this._moveEvent=new MoveEvent(this,element.position);
-        moveEvent = this._moveEvent;
-
-        var dispatcher = this.getDispatcher();
-
-
-
-
-
-        this._nodeFrame.drag(
-            function(x,y){
-                /*
-                 stateModel.setState(stateModel.states.moved);
-                 stateModel.position=element.position;
-                 */
-            },
-            function(x,y){
-                element.moveTo(new Position({"x":x,"y":y}));
-
-                moveEvent.position=element.position;
-                moveEvent.setOrientation(element.getOrientation());
-                dispatcher.notify(moveEvent);
-
-            },
-            function(x,y){
-
-                moveEvent.position=element.position;
-                dispatcher.notify(moveEvent);
-            }
-        );
-    };
-
-    Controller.prototype.subscribeForEvents=function(){
-        return this._subscribeForEvents;
-    };
-
-    Controller.prototype.handleframe=function(){
-        /*
-         if (newState=this._stateModel.getNewState()){
-         }
-         */
-    };
-
-    return {
-        'Controller':Controller
-    }
-
-})();
 
 
 SoCuteGraph.elements.basicNode.viewModel = (function () {
@@ -386,12 +270,12 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         //TODO Убрать логику выбора позиции из ноды и перенести в линию
         /*
-        var inPointPosition=this._prepareInPointPositionData();
-        var outPointPosition=this._prepareOutPointPositionData();
+         var inPointPosition=this._prepareInPointPositionData();
+         var outPointPosition=this._prepareOutPointPositionData();
 
-        this.position.sub.inPoint.setPos(inPointPosition.getPosition());
-        this.position.sub.outPoint.setPos(outPointPosition.getPosition());
-        */
+         this.position.sub.inPoint.setPos(inPointPosition.getPosition());
+         this.position.sub.outPoint.setPos(outPointPosition.getPosition());
+         */
         this.position.sub.leftJoinPoint.setPos(this.leftJoinPoint.position.getPosition());
         this.position.sub.rightJoinPoint.setPos(this.rightJoinPoint.position.getPosition());
 
@@ -455,5 +339,127 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     };
 
 
+
+})();
+
+
+SoCuteGraph.elements.basicNode.controllers = (function () {
+    "use strict";
+
+    var ViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
+    var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+    var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+
+    var ObjController=SoCuteGraph.elements.abstractController.Controller;
+    function Controller(text, paper,position){
+        this.setUpModels(text, paper, position);
+    }
+
+    Controller.prototype = new ObjController();
+
+
+    Controller.prototype._nodeFrame=null;
+
+    Controller.prototype.setUpModels=function(text, paper,position){
+        var paper, position;
+
+        if (position===undefined){
+            position=new Position({'x':10,'y':20});
+        } else {
+
+        }
+
+
+
+        this._dispatcher=null;
+        //alert(moveEvent.getUniqueName());
+        //this._stateModel=new StateModel();
+
+
+
+
+        this._nodeFrame = new ViewModel(text, paper, position);
+
+
+        this._subscribeForEvents=[FrameEvent];
+
+
+    }
+
+    Controller.prototype.setDependsOf=function(dependedOf){
+        var handlerName;
+
+        this.addSubscribition(new MoveEvent(dependedOf),
+            function(Evnt){
+                this._nodeFrame.moveTo(Evnt.position);
+            });
+    }
+
+    Controller.prototype.setOrientation=function(orientation){
+        this._nodeFrame.setOrientation(orientation);
+
+    }
+
+    Controller.prototype.getOrientation=function(){
+        return this._nodeFrame.getOrientation();
+    }
+
+    Controller.prototype.getViewObject=function(){
+        return this._nodeFrame.getViewObject();
+    }
+
+    Controller.prototype.setUpBehavior=function(){
+
+        var element, moveEvent;
+
+        element = this._nodeFrame;
+
+
+        this._moveEvent=new MoveEvent(this,element.position);
+        moveEvent = this._moveEvent;
+
+        var dispatcher = this.getDispatcher();
+
+
+
+
+
+        this._nodeFrame.drag(
+            function(x,y){
+                /*
+                 stateModel.setState(stateModel.states.moved);
+                 stateModel.position=element.position;
+                 */
+            },
+            function(x,y){
+                element.moveTo(new Position({"x":x,"y":y}));
+
+                moveEvent.position=element.position;
+                moveEvent.setOrientation(element.getOrientation());
+                dispatcher.notify(moveEvent);
+
+            },
+            function(x,y){
+
+                moveEvent.position=element.position;
+                dispatcher.notify(moveEvent);
+            }
+        );
+    };
+
+    Controller.prototype.subscribeForEvents=function(){
+        return this._subscribeForEvents;
+    };
+
+    Controller.prototype.handleframe=function(){
+        /*
+         if (newState=this._stateModel.getNewState()){
+         }
+         */
+    };
+
+    return {
+        'Controller':Controller
+    }
 
 })();

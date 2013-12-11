@@ -45,8 +45,10 @@ test("Player subscribition", function(){
         test("MoveEvent sub positions",function(){
             var paper = Raphael(document.getElementById('testCanvas'), 400, 400);
             var node = new Node('test node', paper, new Position({'x':10,'y':220}));
+            var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+            var SCEvent = SoCuteGraph.events.std.SCEvent;
+            var moveEvent=new MoveEvent(node, node.getPosition());
 
-            moveEvent=new MoveEvent(node, node.getPosition());
 
             testPostion=new Position({'x':12,'y':22});
             moveEvent.setSubPosition('tested_position', testPostion);
@@ -75,9 +77,10 @@ test("Player subscribition", function(){
         });
 
 
-   		test( "Jump event get name", function() {
 
-			  
+    	test( "Jump event get name", function() {
+
+	    var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
         disp=new Dispathcer();
 
         position=new Position();
@@ -113,13 +116,12 @@ test("Player subscribition", function(){
 
         disp.addObject(nodeDepends);
 
-        equal(nodeDepends._moveEvent.getUniqueName(),'move_object_2','Event name of depended object is correct');
+        equal(nodeDepends._moveEvent.getUniqueName(),'move_object_2','SCEvent name of depended object is correct');
 
-        equal(node._moveEvent.getUniqueName(),'move_object_1','Event name of master object is correct');
+        equal(node._moveEvent.getUniqueName(),'move_object_1','SCEvent name of master object is correct');
 
 
         disp.notify(node._moveEvent);
-
 
         
 
@@ -191,14 +193,16 @@ test("Player subscribition", function(){
     });
 
     test( "Check onEventEvents", function() {
+        /*
+        var disp=new Dispathcer();
 
-        disp=new Dispathcer();
-        
+        var SCEvent = SoCuteGraph.events.std.SCEvent;
+
         CustomEvent=function(){
 
         }
 
-        CustomEvent.prototype=new Event;
+        CustomEvent.prototype=new SCEvent;
 
         CustomEvent.prototype.getUniqueName=function(){
             return 'customEvent'
@@ -216,7 +220,8 @@ test("Player subscribition", function(){
 
 
 
-
+        */
         //TODO пока не работает
         ok(true, true, 'ok');
+
     });

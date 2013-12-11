@@ -8,78 +8,8 @@ SoCuteGraph.elements.joinLine = (function () {
 
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
     var ObjController = SoCuteGraph.elements.abstractController.Controller;
-
-    function Controller(paper){
-        this._nodeFrame=new JoinLine(paper);
-        this._subscribeForEvents=[FrameEvent];
-
-        this._initStartNode=false;
-        this._initEndNode=false;
-    }
-
-
-    Controller.prototype=new ObjController();
-
-    Controller.prototype.setUpModels=function(paper){
-
-    }
-
-    Controller.prototype.setUpBehavior=function(){
-
-    }
-
-    Controller.prototype.setLineStartNode=function(Node){
-        this._initStartNode=Node;
-        //TODO ¬озможно стоит передавать ноду туда целиком?
-        this._nodeFrame.setStartNodeOrientation(Node.getOrientation())
-        this._tryToinitLine();
-    }
-
-
-    Controller.prototype.setLineEndNode=function(Node){
-        this._initEndNode=Node;
-        this._nodeFrame.setEndNodeOrientation(Node.getOrientation());
-        this._tryToinitLine();
-    }
-
-    Controller.prototype._tryToinitLine=function(){
-        var startNode = this._initStartNode;
-        var endNode=this._initEndNode;
-        if (startNode && endNode){
-            ;
-            this._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
-            this.addSubscribition(new MoveEvent(startNode),
-                this._lineStartDepends);
-            this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
-            this.addSubscribition(new MoveEvent(endNode),
-                this._lineEndDepends);
-
-        }
-    }
-
-
-
-
-    Controller.prototype._lineStartDepends=function(Evnt){
-        this._nodeFrame.moveStartPoint(Evnt.position, Evnt.getOrientation());
-    }
-
-    Controller.prototype._lineEndDepends=function(Evnt){
-        this._nodeFrame.moveEndPoint(Evnt.position, Evnt.getOrientation());
-    }
-
-
-
-
-    Controller.prototype.subscribeForEvents=function(){
-        return this._subscribeForEvents;
-    };
-
-
-
-
-
-
+    var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+    var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
 
     var ViewModel = function(paper){
@@ -213,6 +143,72 @@ SoCuteGraph.elements.joinLine = (function () {
         return end;
     }
 
+
+    function Controller(paper){
+        this._nodeFrame=new ViewModel(paper);
+        this._subscribeForEvents=[FrameEvent];
+
+        this._initStartNode=false;
+        this._initEndNode=false;
+    }
+
+
+    Controller.prototype=new ObjController();
+
+    Controller.prototype.setUpModels=function(paper){
+
+    }
+
+    Controller.prototype.setUpBehavior=function(){
+
+    }
+
+    Controller.prototype.setLineStartNode=function(Node){
+        this._initStartNode=Node;
+        //TODO ¬озможно стоит передавать ноду туда целиком?
+        this._nodeFrame.setStartNodeOrientation(Node.getOrientation())
+        this._tryToinitLine();
+    }
+
+
+    Controller.prototype.setLineEndNode=function(Node){
+        this._initEndNode=Node;
+        this._nodeFrame.setEndNodeOrientation(Node.getOrientation());
+        this._tryToinitLine();
+    }
+
+    Controller.prototype._tryToinitLine=function(){
+        var startNode = this._initStartNode;
+        var endNode=this._initEndNode;
+        if (startNode && endNode){
+            ;
+            this._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
+            this.addSubscribition(new MoveEvent(startNode),
+                this._lineStartDepends);
+            this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
+            this.addSubscribition(new MoveEvent(endNode),
+                this._lineEndDepends);
+
+        }
+    }
+
+
+
+
+    Controller.prototype._lineStartDepends=function(Evnt){
+        this._nodeFrame.moveStartPoint(Evnt.position, Evnt.getOrientation());
+    }
+
+    Controller.prototype._lineEndDepends=function(Evnt){
+        this._nodeFrame.moveEndPoint(Evnt.position, Evnt.getOrientation());
+    }
+
+
+
+
+    Controller.prototype.subscribeForEvents=function(){
+        return this._subscribeForEvents;
+    };
 
     return {
         'ViewModel':ViewModel,
