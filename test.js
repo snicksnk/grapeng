@@ -166,7 +166,7 @@ test("Player subscribition", function(){
         line3.setLineEndNode(node4);
         disp.addObject(line3);
 
-        node5=new Node('Пятая нода', paper, new Position({'x':70,'y':370}));
+        node5=new Node('Пятая нода', paper, new Position({'x':70,'y':130}));
         node5.setOrientation(Element.ORIENTED_RIGHT);
         node5.setOrientation(Element.ORIENTED_LEFT);
         disp.addObject(node5);
