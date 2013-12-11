@@ -51,6 +51,9 @@ SoCuteGraph.elements.basicNode.views=(function (){
         if (position){
             this._position.setPos(position.getPosition());
         }
+
+        this._offset=3;
+
         this._nodeFrame = paper.rect(0, 0, 20, 20, 2);//circle(0, 0, 10);
         this.moveTo(this._position);
         // Sets the fill attribute of the circle to red (#f00)
@@ -82,6 +85,14 @@ SoCuteGraph.elements.basicNode.views=(function (){
 
     NodeFrame.prototype.getRaphaelElement=function(){
         return this._nodeFrame;
+    }
+
+    NodeFrame.prototype.setHorizontalOffset=function(offset){
+        this._offset=offset;
+    }
+
+    NodeFrame.prototype.getHorizontalOffset=function(){
+        return this._offset;
     }
 
     NodeFrame.prototype.setDrag=function(onStartMove, onMoving, onStopMove){
@@ -174,17 +185,13 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         this.nodeText=new NodeText(text, paper);
 
-
         this._nodeFrame = new NodeFrame(position, paper);
         this.resizeFramerToText();
 
         this.leftJoinPoint=new JoinPoint(paper);
         this.rightJoinPoint=new JoinPoint(paper);
 
-
         this.moveTo(this.position);
-
-
 
     }
 
@@ -217,7 +224,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
 
     ViewModel.prototype.resizeFramerToText=function(){
-        var width=this.nodeText.getWidth();
+        var width=this.nodeText.getWidth()+(this._nodeFrame.getHorizontalOffset()*2);
         this._nodeFrame.setWidth(width);
     }
 
@@ -288,7 +295,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype._moveText=function(position){
         var pos=position.getPosition();
-        var textX=pos['x'];
+        var textX=pos['x']+this._nodeFrame.getHorizontalOffset();
         var textY=pos['y']+10;
         this.nodeText.movePosition(new Position({'x':textX,'y':textY}));
     }
@@ -296,7 +303,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype._moveLeftPoint=function(position){
         var pos=position.getPosition();
-        var leftX=pos['x'];
+        //TODO —делать что то с этим -1
+        var leftX=pos['x']-1;
         var leftY=pos['y']+10;
         this.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
     }
