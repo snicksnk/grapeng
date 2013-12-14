@@ -125,7 +125,7 @@ test("Player subscribition", function(){
             disp.addObject(node);
 
 
-        nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', paper, new Position({'x':570,'y':21}));
+        nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', paper, new Position({'x':610,'y':21}));
         nodeDepends.setDependsOf(node);
 
         disp.addObject(nodeDepends);
@@ -156,7 +156,7 @@ test("Player subscribition", function(){
         
         disp.addObject(line);
         
-        node3=new Node('Третья нода', paper, new Position({'x':570,'y':310}));
+        node3=new Node('Третья нода', paper, new Position({'x':610,'y':340}));
 
         node3.setDependsOf(node);
 
@@ -188,7 +188,7 @@ test("Player subscribition", function(){
         line3.setLineEndNode(node4);
         disp.addObject(line3);
 
-        node5=new Node('Пятая нода', paper, new Position({'x':70,'y':130}));
+        node5=new Node('Пятая нода', paper, new Position({'x':30,'y':90}));
         node5.setOrientation(Element.ORIENTED_RIGHT);
         node5.setOrientation(Element.ORIENTED_LEFT);
         node5.setDependsOf(node4);
