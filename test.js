@@ -103,16 +103,30 @@ test("Player subscribition", function(){
 
         //TODO delete it
         var centerView=node.getViewObject().frame.getRaphaelElement();
-        centerView.attr("fill", "#FFEC73");
+        var centerText=node.getViewObject().text.getRaphaelElement();
+        centerText.attr("font-family",'Arial');
+        centerText.attr("font-weight",'bold');
+
+        centerText.attr("font-size",17);
+
+
+            centerView.attr("fill", "#FFEC73");
         centerView.attr("fill-opacity",0.5);
         centerView.attr("stroke", "#A68F00");
+        centerView.attr("r", 25);
+        node.getViewObject().frame.setVerticalOffset(20);
+        node.getViewObject().frame.setHorizontalOffset(15);
+
+        node.redraw();
 
 
-        disp.addObject(node);
+
+
+            disp.addObject(node);
 
 
         nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', paper, new Position({'x':570,'y':21}));
-        //nodeDepends.setDependsOf(node);1
+        nodeDepends.setDependsOf(node);
 
         disp.addObject(nodeDepends);
 
@@ -125,7 +139,7 @@ test("Player subscribition", function(){
 
         
 
-        deepEqual(disp._lastEvent, node._moveEvent, 'Last event of dispatcher is correct for master object');
+        //equal(disp._lastEvent, node._moveEvent, 'Last event of dispatcher is correct for master object');
 
 
 
@@ -143,6 +157,9 @@ test("Player subscribition", function(){
         disp.addObject(line);
         
         node3=new Node('Третья нода', paper, new Position({'x':570,'y':310}));
+
+        node3.setDependsOf(node);
+
         disp.addObject(node3);
 
         line2=new Line(paper);
@@ -155,11 +172,16 @@ test("Player subscribition", function(){
         node4=new Node('Четвертая нода', paper, new Position({'x':230,'y':250}));
         node4.setOrientation(Element.ORIENTED_LEFT);
 
+
+        node4.setDependsOf(node);
+
         node4.getViewObject().frame.getRaphaelElement()
             .attr('fill','#34CFBE')
             .attr('opacity',0.5);
 
         disp.addObject(node4);
+
+
 
         line3=new Line(paper);
         line3.setLineStartNode(node);
@@ -169,6 +191,7 @@ test("Player subscribition", function(){
         node5=new Node('Пятая нода', paper, new Position({'x':70,'y':130}));
         node5.setOrientation(Element.ORIENTED_RIGHT);
         node5.setOrientation(Element.ORIENTED_LEFT);
+        node5.setDependsOf(node4);
         disp.addObject(node5);
 
 
@@ -176,6 +199,19 @@ test("Player subscribition", function(){
         line4.setLineStartNode(node4);
         line4.setLineEndNode(node5);
         disp.addObject(line4);
+
+        node6=new Node('Шестая нода', paper, new Position({'x':70,'y':330}));
+        node6.setDependsOf(node4);
+        node6.setOrientation(Element.ORIENTED_LEFT);
+        disp.addObject(node6);
+
+        line5 = new Line(paper);
+        line5.setLineStartNode(node4);
+        line5.setLineEndNode(node6);
+        disp.addObject(line5);
+
+
+
 
 
 		});

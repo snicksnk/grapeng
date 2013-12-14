@@ -173,6 +173,10 @@ SoCuteGraph.elements.basicNode.views=(function (){
         return this;
     }
 
+    NodeText.prototype.getRaphaelElement=function(){
+        return this._text;
+    }
+
     NodeText.prototype.getWidth=function(){
         var width=this._text.node.getBBox().width;
         return width;
@@ -219,7 +223,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype.getViewObject=function(){
         return {
-            'frame':this._nodeFrame
+            'frame':this._nodeFrame,
+            'text':this.nodeText
         };
     }
 
@@ -296,11 +301,17 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.moveTo(this.position);
     }
 
+    ViewModel.prototype.moveByDiff = function(diffPosition){
+        var newPosition = new Position(this.position.getPosition());
+        newPosition.setDiff(diffPosition.getPosition());
+        this.moveTo(newPosition);
+    }
+
     ViewModel.prototype.moveTo=function(position){
-        var pos;
-        pos=position.getPosition();
+        var pos=position.getPosition();
         this.position.setPos(pos);
 
+        this.resizeFramerToText();
 
         this._moveFrame(position);
 
@@ -420,6 +431,10 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype._nodeFrame=null;
 
+    Controller.prototype.redraw=function(){
+        this._nodeFrame.redraw();
+    }
+
     Controller.prototype.setUpModels=function(text, paper,position){
         var paper, position;
 
@@ -447,11 +462,29 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
 
     Controller.prototype.setDependsOf=function(dependedOf){
-        var handlerName;
+
+
 
         this.addSubscribition(new MoveEvent(dependedOf),
             function(Evnt){
-                this._nodeFrame.moveTo(Evnt.position);
+
+                var element = this._nodeFrame;
+                var dispatcher = this.getDispatcher();
+
+                var diff = Evnt.getPosition().getPositionDiff();
+                var newPosition = new Position(diff);
+                this._nodeFrame.moveByDiff(newPosition);
+
+
+
+                var moveEvent = new MoveEvent(this,element.position);
+
+                moveEvent.position=element.position;
+                moveEvent.setOrientation(element.getOrientation());
+
+
+                dispatcher.notify(moveEvent);
+
             });
     }
 
