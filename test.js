@@ -111,8 +111,8 @@ test("Player subscribition", function(){
         disp.addObject(node);
 
 
-        nodeDepends=new Node('Вторая нода', paper, new Position({'x':570,'y':21}));
-        //nodeDepends.setDependsOf(node);
+        nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', paper, new Position({'x':570,'y':21}));
+        //nodeDepends.setDependsOf(node);1
 
         disp.addObject(nodeDepends);
 
