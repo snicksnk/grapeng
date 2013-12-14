@@ -43,7 +43,7 @@ test("Player subscribition", function(){
 */
 
         test("MoveEvent sub positions",function(){
-            var paper = Raphael(document.getElementById('testCanvas'), 400, 400);
+            var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
             var node = new Node('test node', paper, new Position({'x':10,'y':220}));
             var MoveEvent = SoCuteGraph.events.std.MoveEvent;
             var SCEvent = SoCuteGraph.events.std.SCEvent;
@@ -96,7 +96,7 @@ test("Player subscribition", function(){
 
 
 
-        var paper = Raphael(document.getElementById('canvas'), 800, 400);
+        var paper = Raphael(document.getElementById('canvas'), 800, 600);
 
         node=new Node('Первая нода', paper, new Position({'x':380,'y':180}));
         node.setOrientation(Element.ORIENTED_MULTI);
@@ -217,7 +217,7 @@ test("Player subscribition", function(){
 		});
 
     test ("set orientation", function(){
-        var paper = Raphael(document.getElementById('testCanvas'), 400, 400);
+        var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
     
         testNode=new Node('wrong node', paper);
         try{
