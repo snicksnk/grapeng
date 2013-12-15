@@ -479,7 +479,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
                 var moveEvent = new MoveEvent(this,element.position);
 
-                moveEvent.position=element.position;
+                moveEvent.setPosition(element.position);
                 moveEvent.setOrientation(element.getOrientation());
 
 
@@ -527,14 +527,15 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
             function(x,y){
                 element.moveTo(new Position({"x":x,"y":y}));
 
-                moveEvent.position=element.position;
+                moveEvent.setPosition(element.position);
                 moveEvent.setOrientation(element.getOrientation());
                 dispatcher.notify(moveEvent);
 
             },
             function(x,y){
 
-                moveEvent.position=element.position;
+                moveEvent.setPosition(element.position);
+                moveEvent.setOrientation(element.getOrientation());
                 dispatcher.notify(moveEvent);
             }
         );

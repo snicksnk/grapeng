@@ -32,11 +32,20 @@ SoCuteGraph.helpers.coordinates = (function () {
 
     Position.prototype.getPositionDiff=function(){
         var diffCoordinates={};
+        /*
+        if (this._cords===this._lastCords){
+            return false;
+        }
+        */
+
+
+
         for (var dimension in this._cords){
             diffCoordinates[dimension]=this._cords[dimension]-this._lastCords[dimension];
         }
 
         this._lastGettedCords = this._cords;
+        //this._lastCords=this._cords;
         return diffCoordinates;
     }
 

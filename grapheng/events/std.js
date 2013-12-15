@@ -37,6 +37,10 @@ SoCuteGraph.events.std=function(){
 
     function MoveEvent(masterObject, position){
         this._position=position;
+
+        //TODO Temp hack
+        this.position=new Position();
+
         this.masterObjectId=masterObject.getUniqueId();
         this._orientation=false;
 
@@ -54,7 +58,12 @@ SoCuteGraph.events.std=function(){
      * @returns {*}
      */
     MoveEvent.prototype.getPosition=function(){
-        return this._position;
+        return this.position;
+    }
+
+    MoveEvent.prototype.setPosition=function(position){
+        //TODO Temp hack
+        this.position=position;
     }
 
     MoveEvent.prototype.setOrientation=function(orientation) {

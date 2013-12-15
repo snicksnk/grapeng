@@ -56,7 +56,6 @@ SoCuteGraph.elements.joinLine = (function () {
 
     ViewModel.prototype._resolveNodeOutPoint=function(position, orientation){
         var outPointPosition;
-
         if (orientation===NodeViewModel.ORIENTED_RIGHT){
             outPointPosition=position.sub.rightJoinPoint;
         } else if (orientation===NodeViewModel.ORIENTED_LEFT){
@@ -196,11 +195,11 @@ SoCuteGraph.elements.joinLine = (function () {
 
 
     Controller.prototype._lineStartDepends=function(Evnt){
-        this._nodeFrame.moveStartPoint(Evnt.position, Evnt.getOrientation());
+        this._nodeFrame.moveStartPoint(Evnt.getPosition(), Evnt.getOrientation());
     }
 
     Controller.prototype._lineEndDepends=function(Evnt){
-        this._nodeFrame.moveEndPoint(Evnt.position, Evnt.getOrientation());
+        this._nodeFrame.moveEndPoint(Evnt.getPosition(), Evnt.getOrientation());
     }
 
 
