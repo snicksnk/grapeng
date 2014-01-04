@@ -53,7 +53,6 @@ SoCuteGraph.elements.abstractController=(function () {
     ObjController.prototype.addSubscribition=function(Evnt, Handler){
         var handlerName;
         this._subscribeForEvents.push(Evnt);
-        //Сделать возможность
         handlerName='handle'+ Dispathcer.getEventUniqueId(Evnt);
         this[handlerName]=Handler;
     }

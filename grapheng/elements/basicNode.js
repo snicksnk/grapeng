@@ -16,6 +16,7 @@ SoCuteGraph.elements.basicNode.views=(function (){
     }
 
     AbstractJoinPoint.prototype._initElement=function(paper){
+        var Position = SoCuteGraph.helpers.coordinates.Position;
         this._point=paper.rect(0,0,2,2,0);
         this._point.attr("stroke-width", 1);
         this.position=new Position();
@@ -52,6 +53,7 @@ SoCuteGraph.elements.basicNode.views=(function (){
     }
 
     NodeFrame.prototype.init=function(position, paper){
+        var Position = SoCuteGraph.helpers.coordinates.Position;
         this._position = new Position;
         if (position){
             this._position.setPos(position.getPosition());
@@ -151,6 +153,7 @@ SoCuteGraph.elements.basicNode.views=(function (){
 
 
     function NodeText(text, paper){
+        var Position = SoCuteGraph.helpers.coordinates.Position;
         this.text=text;
         this.position=new Position();
         this._text = paper.text(50, 50, text);
@@ -228,12 +231,17 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         };
     }
 
+    ViewModel.prototype.getPosition=function(){
+        //TODO Add copy
+        return this.position;
+    }
+
     ViewModel.prototype.init=function(text, paper, position) {
         this.position = new Position();
 
         this.position.setPos(position.getPosition());
 
-        //TODO Другим способом хранить кординаты поинтов
+        //TODO пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         this.position.sub['leftJoinPoint']=new Position();
         this.position.sub['rightJoinPoint']=new Position();
         this.position.sub['text']=new Position;
@@ -366,7 +374,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype._moveLeftPoint=function(position){
         var pos=position.getPosition();
-        //TODO Сделать что то с этим -1
+        //TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ -1
         var leftX=pos['x']-1;
         var leftY=pos['y']+this._nodeFrame.getHeight()/2;
         this.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
@@ -436,7 +444,9 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
 
     Controller.prototype.setUpModels=function(text, paper,position){
-        var paper, position;
+        var paper,
+            position,
+            Position = SoCuteGraph.helpers.coordinates.Position;
 
         if (position===undefined){
             position=new Position({'x':10,'y':20});
@@ -461,10 +471,14 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     }
 
+    Controller.prototype.getPosition=function(){
+        return this._nodeFrame.getPosition();
+    }
+
     Controller.prototype.setDependsOf=function(dependedOf){
-
-
-
+        var Position = SoCuteGraph.helpers.coordinates.Position;
+        var parentNodePosition=dependedOf.getPosition();
+        var lastParentNodePosition=new Position(parentNodePosition.getPosition());
         this.addSubscribition(new MoveEvent(dependedOf),
             function(Evnt){
 
@@ -473,8 +487,10 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
                 var diff = Evnt.getPosition().getPositionDiff();
                 var newPosition = new Position(diff);
-                this._nodeFrame.moveByDiff(newPosition);
 
+                
+
+                this._nodeFrame.moveByDiff(newPosition);
 
 
                 var moveEvent = new MoveEvent(this,element.position);
@@ -503,7 +519,9 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype.setUpBehavior=function(){
 
-        var element, moveEvent;
+        var element,
+            moveEvent,
+            Position = SoCuteGraph.helpers.coordinates.Position;
 
         element = this._nodeFrame;
 
@@ -557,3 +575,166 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
 
 })();
+
+
+SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
+    function(){
+        test( "Jump event get name", function() {
+
+
+            var Position=SoCuteGraph.helpers.coordinates.Position;
+            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
+            var Line = SoCuteGraph.elements.joinLine.Controller;
+
+
+            var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
+            disp=new Dispathcer();
+
+            position=new Position();
+            position.setPos({'x':10,'y':30});
+
+
+
+            deepEqual(position.getNewPos(),{'x':10,'y':30},'new position was set');
+
+            equal(position.getNewPos(),false,'Position was not set');
+
+            deepEqual(position.getPosition(),{'x':10,'y':30},'Position was given by setter is valid');
+
+
+
+            var paper = Raphael(document.getElementById('canvas'), 800, 600);
+
+            node=new Node('РџРµСЂРІР°СЏ РЅРѕРґР°', paper, new Position({'x':380,'y':180}));
+            node.setOrientation(Element.ORIENTED_MULTI);
+
+            //TODO delete it
+            var centerView=node.getViewObject().frame.getRaphaelElement();
+            var centerText=node.getViewObject().text.getRaphaelElement();
+            centerText.attr("font-family",'Arial');
+            centerText.attr("font-weight",'bold');
+
+            centerText.attr("font-size",17);
+
+
+            centerView.attr("fill", "#FFEC73");
+            centerView.attr("fill-opacity",0.5);
+            centerView.attr("stroke", "#A68F00");
+            centerView.attr("r", 25);
+            node.getViewObject().frame.setVerticalOffset(20);
+            node.getViewObject().frame.setHorizontalOffset(15);
+
+            node.redraw();
+
+
+
+
+            disp.addObject(node);
+
+
+            nodeDepends=new Node('Р’С‚РѕСЂР°СЏ РЅРѕРґР°\nРњРЅРѕРіРѕ СЃС‚СЂРѕРє\nР—РґРµСЃСЊ\nР•СЃС‚СЊ', paper, new Position({'x':610,'y':21}));
+            nodeDepends.setDependsOf(node);
+
+            disp.addObject(nodeDepends);
+
+            equal(nodeDepends._moveEvent.getUniqueName(),'move_object_2','SCEvent name of depended object is correct');
+
+            equal(node._moveEvent.getUniqueName(),'move_object_1','SCEvent name of master object is correct');
+
+
+            disp.notify(node._moveEvent);
+
+
+
+            //equal(disp._lastEvent, node._moveEvent, 'Last event of dispatcher is correct for master object');
+
+
+
+
+
+            line=new Line(paper);
+
+
+            line.setLineStartNode(node);
+
+
+
+            line.setLineEndNode(nodeDepends);
+
+            disp.addObject(line);
+
+            node3=new Node('РўСЂРµС‚СЊСЏ РЅРѕРґР°', paper, new Position({'x':610,'y':340}));
+
+            node3.setDependsOf(node);
+
+            disp.addObject(node3);
+
+            line2=new Line(paper);
+            line2.setLineStartNode(node);
+            line2.setLineEndNode(node3);
+
+
+            disp.addObject(line2);
+
+            node4=new Node('Р§РµС‚РІРµСЂС‚Р°СЏ РЅРѕРґР°', paper, new Position({'x':230,'y':250}));
+            node4.setOrientation(Element.ORIENTED_LEFT);
+
+
+            node4.setDependsOf(node);
+
+            node4.getViewObject().frame.getRaphaelElement()
+                .attr('fill','#34CFBE')
+                .attr('opacity',0.5);
+
+            disp.addObject(node4);
+
+
+
+            line3=new Line(paper);
+            line3.setLineStartNode(node);
+            line3.setLineEndNode(node4);
+            disp.addObject(line3);
+
+            node5=new Node('РџСЏС‚Р°СЏ РЅРѕРґР°', paper, new Position({'x':30,'y':90}));
+            node5.setOrientation(Element.ORIENTED_RIGHT);
+            node5.setOrientation(Element.ORIENTED_LEFT);
+            node5.setDependsOf(node4);
+            disp.addObject(node5);
+
+
+            line4=new Line(paper);
+            line4.setLineStartNode(node4);
+            line4.setLineEndNode(node5);
+            disp.addObject(line4);
+
+            node6=new Node('РЁРµСЃС‚Р°СЏ РЅРѕРґР°', paper, new Position({'x':70,'y':330}));
+            node6.setDependsOf(node4);
+            node6.setOrientation(Element.ORIENTED_LEFT);
+            disp.addObject(node6);
+
+            line5 = new Line(paper);
+            line5.setLineStartNode(node4);
+            line5.setLineEndNode(node6);
+            disp.addObject(line5);
+
+
+
+
+
+        });
+
+        test ("set orientation", function(){
+            var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
+
+            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
+            testNode=new Node('wrong node', paper);
+            try{
+                testNode.setOrientation('wrong');
+                ok(false, 'Exception was not thrown');
+            } catch (e){
+                ok(true, 'Exception was thrown');
+            }
+        });
+
+    }
+)

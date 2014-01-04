@@ -71,3 +71,33 @@ SoCuteGraph.helpers.coordinates = (function () {
     }
 
 })();
+
+SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers',
+    function(){
+
+        test("MoveEvent sub positions",function(){
+
+            var Position=SoCuteGraph.helpers.coordinates.Position;
+            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
+            var Line = SoCuteGraph.elements.joinLine.Controller;
+
+
+
+            var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
+
+            console.log(Position);
+            var node = new Node('test node', paper, new Position({'x':10,'y':220}));
+            var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+            var SCEvent = SoCuteGraph.events.std.SCEvent;
+            var moveEvent=new MoveEvent(node, node.getPosition());
+
+
+            testPostion=new Position({'x':12,'y':22});
+            moveEvent.setSubPosition('tested_position', testPostion);
+
+            deepEqual(moveEvent.getSubPosition('tested_position'),
+                testPostion, 'seted subpostion equals to getted'
+            );
+        });
+    }
+)

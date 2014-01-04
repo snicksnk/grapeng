@@ -13,7 +13,7 @@ SoCuteGraph.elements.joinLine = (function () {
 
 
     var ViewModel = function(paper){
-
+        var Position = SoCuteGraph.helpers.coordinates.Position;
         this.startPos = new Position();
         this.endPos = new Position();
 
@@ -164,7 +164,7 @@ SoCuteGraph.elements.joinLine = (function () {
 
     Controller.prototype.setLineStartNode=function(Node){
         this._initStartNode=Node;
-        //TODO Возможно стоит передавать ноду туда целиком?
+        //TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
         this._nodeFrame.setStartNodeOrientation(Node.getOrientation())
         this._tryToinitLine();
     }
