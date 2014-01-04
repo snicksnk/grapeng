@@ -1,7 +1,115 @@
 SoCuteGraph.nsCrete("elements.basicNode.viewModel");
 SoCuteGraph.nsCrete("elements.basicNode.controllers");
 SoCuteGraph.nsCrete("elements.basicNode.view");
+SoCuteGraph.nsCrete("elements.basicNode.dependencies");
 
+
+SoCuteGraph.elements.basicNode.dependencies = (function(){
+    "use strict";
+
+    var MoveSlave = function(dispathcer, master, slave){
+        if (dispathcer){
+            this.init(dispathcer);
+        }
+
+        this.moverFunction = MoveSlave.defaultMover;
+
+
+        if (master && slave) {
+            this.setMaster(master);
+            this.setSlave(slave);
+            this.apply();
+        }
+
+    }
+
+    MoveSlave.defaultMover = function(Evnt){
+        //Node controller context
+
+        var Position = SoCuteGraph.helpers.coordinates.Position;
+        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+        var diffAmount = Position.getDiffAmount(this.MoveSlaveData.oldMasterPosition.getDiffWith(Evnt.getPosition()));
+
+        if (diffAmount!==0){
+            var dispatcher = this.getDispatcher();
+            var diff = Evnt.getPosition().getPositionDiff();
+            var newPosition = new Position(diff);
+            this._nodeFrame.moveByDiff(newPosition);
+            this.MoveSlaveData.oldMasterPosition.setPos(Evnt.getPosition().getPosition());
+
+            var moveEvent = new MoveEvent(this, this.getPosition());
+            moveEvent.setPosition(this.getPosition());
+            moveEvent.setOrientation(this.getOrientation());
+            dispatcher.notify(moveEvent);
+
+        }
+    }
+
+    MoveSlave.prototype.init=function(dispathcer){
+        this._dispatcher = dispathcer;
+    }
+
+    MoveSlave.prototype.setMaster = function(master){
+        this._master = master;
+    }
+
+    MoveSlave.prototype.setSlave = function(slave){
+        this._slave = slave;
+    }
+
+    MoveSlave.prototype.apply=function(){
+        var Position = SoCuteGraph.helpers.coordinates.Position;
+
+        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+
+        this._slave.MoveSlaveData=[];
+        this._slave.MoveSlaveData.oldMasterPosition = new Position();
+
+        this._slave.addSubscribition(new MoveEvent(this._master), this.moverFunction);
+
+
+    }
+
+
+    /*
+
+
+     Controller.prototype.setDependsOf=function(dependedOf){
+     var Position = SoCuteGraph.helpers.coordinates.Position;
+     var parentNodePosition=dependedOf.getPosition();
+     var lastParentNodePosition=new Position(parentNodePosition.getPosition());
+     this.addSubscribition(new MoveEvent(dependedOf),
+     function(Evnt){
+
+     var element = this._nodeFrame;
+     var dispatcher = this.getDispatcher();
+
+     var diff = Evnt.getPosition().getPositionDiff();
+     var newPosition = new Position(diff);
+
+
+
+     this._nodeFrame.moveByDiff(newPosition);
+
+
+     var moveEvent = new MoveEvent(this,element.position);
+
+     moveEvent.setPosition(element.position);
+     moveEvent.setOrientation(element.getOrientation());
+
+
+     dispatcher.notify(moveEvent);
+
+     });
+     }
+
+
+
+     */
+
+    return {'MoveSlave': MoveSlave};
+
+})();
 
 SoCuteGraph.elements.basicNode.views=(function (){
     "use strict";
@@ -241,7 +349,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         this.position.setPos(position.getPosition());
 
-        //TODO ������ �������� ������� ��������� �������
+
+
         this.position.sub['leftJoinPoint']=new Position();
         this.position.sub['rightJoinPoint']=new Position();
         this.position.sub['text']=new Position;
@@ -475,6 +584,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return this._nodeFrame.getPosition();
     }
 
+    /*
     Controller.prototype.setDependsOf=function(dependedOf){
         var Position = SoCuteGraph.helpers.coordinates.Position;
         var parentNodePosition=dependedOf.getPosition();
@@ -503,7 +613,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
             });
     }
-
+    */
     Controller.prototype.setOrientation=function(orientation){
         this._nodeFrame.setOrientation(orientation);
 
@@ -588,6 +698,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
             var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
+            var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
             disp=new Dispathcer();
 
             position=new Position();
@@ -633,7 +744,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
             nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', paper, new Position({'x':610,'y':21}));
-            nodeDepends.setDependsOf(node);
+
+            new MoveSlave(disp, node, nodeDepends);
+
+            //
+            // nodeDepends.setDependsOf(node);
 
             disp.addObject(nodeDepends);
 
@@ -664,8 +779,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp.addObject(line);
 
             node3=new Node('Третья нода', paper, new Position({'x':610,'y':340}));
+            new MoveSlave(disp, node, node3);
 
-            node3.setDependsOf(node);
 
             disp.addObject(node3);
 
@@ -679,8 +794,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             node4=new Node('Четвертая нода', paper, new Position({'x':230,'y':250}));
             node4.setOrientation(Element.ORIENTED_LEFT);
 
+            new MoveSlave(disp, node, node4);
 
-            node4.setDependsOf(node);
 
             node4.getViewObject().frame.getRaphaelElement()
                 .attr('fill','#34CFBE')
@@ -698,7 +813,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             node5=new Node('Пятая нода', paper, new Position({'x':30,'y':90}));
             node5.setOrientation(Element.ORIENTED_RIGHT);
             node5.setOrientation(Element.ORIENTED_LEFT);
-            node5.setDependsOf(node4);
+            new MoveSlave(disp, node4, node5);
+
             disp.addObject(node5);
 
 
@@ -708,7 +824,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp.addObject(line4);
 
             node6=new Node('Шестая нода', paper, new Position({'x':70,'y':330}));
-            node6.setDependsOf(node4);
+            new MoveSlave(disp, node4, node6);
+
             node6.setOrientation(Element.ORIENTED_LEFT);
             disp.addObject(node6);
 

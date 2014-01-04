@@ -21,9 +21,7 @@ SoCuteGraph.elements.abstractController=(function () {
     }
 
 
-    /**
-     * TODO Rename to getPosition
-     */
+
     ObjController.prototype.getPosition=function(){
         return this._nodeFrame.position;
     }

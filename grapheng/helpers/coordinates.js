@@ -38,8 +38,6 @@ SoCuteGraph.helpers.coordinates = (function () {
         }
         */
 
-
-
         for (var dimension in this._cords){
             diffCoordinates[dimension]=this._cords[dimension]-this._lastCords[dimension];
         }
@@ -48,6 +46,27 @@ SoCuteGraph.helpers.coordinates = (function () {
         //this._lastCords=this._cords;
         return diffCoordinates;
     }
+
+    Position.prototype.getDiffWith=function(otherPosition){
+        var diffCoordinates={}, otherCoords = otherPosition.getPosition();
+
+        for (var dimension in this._cords){
+            diffCoordinates[dimension]=otherCoords[dimension] - this._cords[dimension];
+        }
+
+        return diffCoordinates;
+    }
+
+
+    Position.getDiffAmount = function(diffCoords){
+        var diffAmount = 0;
+        for (var dimension in diffCoords){
+            diffAmount+=diffCoords[dimension];
+        }
+
+        return diffAmount;
+    }
+
 
     Position.prototype.setDiff=function(diff){
         var newCords={};
@@ -72,8 +91,42 @@ SoCuteGraph.helpers.coordinates = (function () {
 
 })();
 
-SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers',
+SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',
     function(){
+        var Position=SoCuteGraph.helpers.coordinates.Position;
+
+        test("Get diff with other position", function(){
+            var pos1=new Position({'x':3,'y':4});
+            var pos2=new Position({'x':5,'y':17});
+
+            deepEqual(pos1.getDiffWith(pos2), {'x':2,'y':13}, 'pos1 + posResult = pos2');
+
+            pos1=new Position({'x':13,'y':24});
+            pos2=new Position({'x':5,'y':17});
+
+            deepEqual(pos1.getDiffWith(pos2), {'x':-8,'y':-7}, 'pos1 + posResult = pos2');
+
+            pos1=new Position({'x':13,'y':24});
+            pos2=new Position({'x':13,'y':24});
+
+            deepEqual(pos1.getDiffWith(pos2), {'x':0,'y':0}, 'pos1 + posResult = pos2');
+
+
+
+        });
+
+
+        test("Get diff amount", function(){
+
+            var Position=SoCuteGraph.helpers.coordinates.Position;
+
+            var diff={'x':2,'y':3};
+            equal(Position.getDiffAmount(diff), 5, 'Diff amount is ok')
+
+            diff={'x':0, 'y':0};
+            equal(Position.getDiffAmount(diff), 0, 'Diff amount is ok')
+
+        });
 
         test("MoveEvent sub positions",function(){
 
@@ -85,7 +138,6 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers',
 
             var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
 
-            console.log(Position);
             var node = new Node('test node', paper, new Position({'x':10,'y':220}));
             var MoveEvent = SoCuteGraph.events.std.MoveEvent;
             var SCEvent = SoCuteGraph.events.std.SCEvent;
