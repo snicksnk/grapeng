@@ -1,4 +1,6 @@
 SoCuteGraph.nsCrete("elements.joinLine");
+SoCuteGraph.nsCrete("elements.joinLine.dependencies");
+
 
 
 
@@ -12,23 +14,15 @@ SoCuteGraph.elements.joinLine = (function () {
     var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
 
-    var ViewModel = function(paper){
+    var ViewModel = function(scene){
         var Position = SoCuteGraph.helpers.coordinates.Position;
         this.startPos = new Position();
         this.endPos = new Position();
-
         this._startNodeOrientation=false;
         this._endNodeOrientation=false;
 
-        this.paper = paper;
-
-
-        this.path = paper.path("0");
-
         //this.moveStartPoint(new Position({'x':230,'y':'150'}))
-        this.curve = paper.path("0");
-        //M181 31 L 79 59 Q 181 90 260 90
-        //this.curvea=paper.path("M181 31 L 221 61 L 260 90");
+        this.curve = scene.Path("0");
 
     }
 
@@ -122,7 +116,7 @@ SoCuteGraph.elements.joinLine = (function () {
 
         //this.paper.circle(centerX, centerY, 10);
 
-        this.curve.attr("path", [
+        this.curve.setSVGPath([
             "M",start['x'],start['y'],
             'Q',centerX,start['y'],
             ,centerX,centerY,
@@ -164,7 +158,6 @@ SoCuteGraph.elements.joinLine = (function () {
 
     Controller.prototype.setLineStartNode=function(Node){
         this._initStartNode=Node;
-        //TODO �������� ����� ���������� ���� ���� �������?
         this._nodeFrame.setStartNodeOrientation(Node.getOrientation())
         this._tryToinitLine();
     }

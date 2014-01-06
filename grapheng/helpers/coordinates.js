@@ -133,12 +133,14 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',
             var Position=SoCuteGraph.helpers.coordinates.Position;
             var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
             var Line = SoCuteGraph.elements.joinLine.Controller;
-
+            var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
 
 
             var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
 
-            var node = new Node('test node', paper, new Position({'x':10,'y':220}));
+            var scene = new Scene(paper);
+
+            var node = new Node('test node', scene, new Position({'x':10,'y':220}));
             var MoveEvent = SoCuteGraph.events.std.MoveEvent;
             var SCEvent = SoCuteGraph.events.std.SCEvent;
             var moveEvent=new MoveEvent(node, node.getPosition());
