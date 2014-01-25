@@ -1,17 +1,81 @@
+/*
 SoCuteGraph.nsCrete("elements.joinLine");
+SoCuteGraph.nsCrete("elements.joinLine");
+SoCuteGraph.nsCrete("elements.joinLine.dependencies");
+*/
+
+SoCuteGraph.nsCrete("elements.joinLine.viewModels");
+SoCuteGraph.nsCrete("elements.joinLine.controllers");
+SoCuteGraph.nsCrete("elements.joinLine.view");
 SoCuteGraph.nsCrete("elements.joinLine.dependencies");
 
 
+SoCuteGraph.elements.joinLine.dependencies = (function () {
+    var ParentChildJoin = function (dispathcer, line, parentNode, childNode) {
+        if (dispathcer, line, parentNode, childNode){
+            this.init(dispathcer, line, parentNode, childNode);
+            this.apply();
+        }
+    }
+
+    ParentChildJoin.prototype.init = function (dispathcer, line, parentNode, childNode){
+        this._dispatcher = dispathcer;
+        this._line = line;
+        this.setStart(parentNode);
+        this.setEnd(childNode);
+        this._startOrientation = this._startNode.getOrientation();
+        this._endOrientation = this._endNode.getOrientation();
+
+        ParentChildJoin.initLine.call(this._line, this._startNode, this._endNode);
+
+    }
+
+    ParentChildJoin.initLine=function(startNode, endNode){
+        this._nodeFrame.redrawLine(startNode.getPosition(), endNode.getPosition());
+    }
+
+    ParentChildJoin.prototype.setStart = function(parentNode){
+        this._startNode = parentNode;
+    }
+
+    ParentChildJoin.prototype.setEnd = function(childNode){
+        this._endNode = childNode;
+    }
 
 
-SoCuteGraph.elements.joinLine = (function () {
+
+    ParentChildJoin.prototype.apply = function(){
+
+        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+
+        //this.line._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
+        this._line.addSubscribition(new MoveEvent(this._startNode),
+            ParentChildJoin.lineStartDepends);
+        //this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
+        this._line.addSubscribition(new MoveEvent(this._endNode),
+            ParentChildJoin.lineEndDepends);
+    }
+
+    ParentChildJoin.lineStartDepends=function(Evnt){
+        this._nodeFrame.moveStartPoint(Evnt.getPosition(), Evnt.getOrientation());
+    }
+
+    ParentChildJoin.lineEndDepends=function(Evnt){
+        this._nodeFrame.moveEndPoint(Evnt.getPosition(), Evnt.getOrientation());
+    }
+
+
+
+
+    return {
+        'ParentChildJoin':ParentChildJoin
+    }
+})();
+
+SoCuteGraph.elements.joinLine.viewModels = (function () {
     "use strict";
 
-
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
-    var ObjController = SoCuteGraph.elements.abstractController.Controller;
-    var FrameEvent = SoCuteGraph.events.std.FrameEvent;
-    var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
 
     var ViewModel = function(scene){
@@ -41,9 +105,9 @@ SoCuteGraph.elements.joinLine = (function () {
 
     ViewModel.prototype.moveStartPoint=function(position, orientation){
 
-            this.startPos.setPos(this._resolveNodeOutPoint(position, orientation).getPosition());
+        this.startPos.setPos(this._resolveNodeOutPoint(position, orientation).getPosition());
 
-            this._startNodeOrientation=orientation;
+        this._startNodeOrientation=orientation;
 
         this.redrawLine();
     }
@@ -107,10 +171,18 @@ SoCuteGraph.elements.joinLine = (function () {
     }
 
 
-    ViewModel.prototype.redrawLine=function(){
-        var start=this.getStartPostion();
-        var end=this.getEndPosition();
+    ViewModel.prototype.redrawLine=function(start, end){
 
+        if (start &&  end){
+            var start = start.getPosition();
+            var end = end.getPosition();
+        } else {
+            var start = this.getStartPostion();
+            var end = this.getEndPosition();
+        }
+
+
+        console.log('11111  1111 ', start, end);
         var centerX=(end['x']-start['x'])/2+start['x'];
         var centerY=(end['y']-start['y'])/2+start['y'];
 
@@ -136,6 +208,21 @@ SoCuteGraph.elements.joinLine = (function () {
         return end;
     }
 
+    return {
+        'ViewModel':ViewModel
+    };
+
+})();
+
+
+SoCuteGraph.elements.joinLine.controllers = (function () {
+    "use strict";
+
+
+    var ObjController = SoCuteGraph.elements.abstractController.Controller;
+    var ViewModel = SoCuteGraph.elements.joinLine.viewModels.ViewModel;
+    var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+    var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
     function Controller(paper){
         this._nodeFrame=new ViewModel(paper);
@@ -203,10 +290,15 @@ SoCuteGraph.elements.joinLine = (function () {
     };
 
     return {
-        'ViewModel':ViewModel,
         'Controller':Controller
     };
 
-
-
 })();
+
+/**
+ *   var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
+ var ObjController = SoCuteGraph.elements.abstractController.Controller;
+ var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+ var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+
+ */

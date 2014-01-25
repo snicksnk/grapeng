@@ -507,7 +507,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             var Position=SoCuteGraph.helpers.coordinates.Position;
             var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
-            var Line = SoCuteGraph.elements.joinLine.Controller;
+            var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
 
 
             var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
@@ -536,6 +536,9 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             //TODO delete it
             var centerView=node.getViewObject().frame.getRaphaelElement();
             var centerText=node.getViewObject().text.getRaphaelElement();
+
+            var ParentChildJoin = SoCuteGraph.elements.joinLine.dependencies.ParentChildJoin;
+
             centerText.attr("font-family",'Arial');
             centerText.attr("font-weight",'bold');
 
@@ -584,12 +587,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             line=new Line(scene);
 
 
+            new ParentChildJoin(disp, line, node, nodeDepends);
+            /*
             line.setLineStartNode(node);
-
-
-
             line.setLineEndNode(nodeDepends);
-
+            */
             disp.addObject(line);
 
             node3=new Node('Третья нода', scene, new Position({'x':610,'y':340}));
@@ -601,6 +603,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             line2=new Line(scene);
             line2.setLineStartNode(node);
             line2.setLineEndNode(node3);
+
 
 
             disp.addObject(line2);

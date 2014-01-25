@@ -4,12 +4,396 @@
 		"selected_items":
 		[
 			[
-				"get",
-				"getUniqueName"
+				"o",
+				"oLib"
+			],
+			[
+				"tes",
+				"testPostion"
+			],
+			[
+				"move",
+				"moveEvent"
+			],
+			[
+				"moveEve",
+				"_moveEvent"
+			],
+			[
+				"Mov",
+				"MoveEvent"
+			],
+			[
+				"su",
+				"subPosition"
+			],
+			[
+				"s",
+				"subPosition"
+			],
+			[
+				"getUn",
+				"getUniqueId"
+			],
+			[
+				"ma",
+				"masterObjectId"
+			],
+			[
+				"Mo",
+				"MoveEvent"
+			],
+			[
+				"Move",
+				"MoveNodeEvent"
+			],
+			[
+				"tex",
+				"textPosition"
+			],
+			[
+				"text",
+				"textPosition"
+			],
+			[
+				"_pre",
+				"_prepareInPointPositionData"
+			],
+			[
+				"inPoin",
+				"inPointPosition"
+			],
+			[
+				"_pr",
+				"_prepareInPointPositionData"
+			],
+			[
+				"out",
+				"outPointPosition"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"nod",
+				"nodeText"
+			],
+			[
+				"no",
+				"nodeText"
+			],
+			[
+				"_mo",
+				"_moveText"
+			],
+			[
+				"pso",
+				"position"
+			],
+			[
+				"rig",
+				"rightY"
+			],
+			[
+				"ri",
+				"rightX"
+			],
+			[
+				"le",
+				"leftY"
 			],
 			[
 				"ge",
-				"getUniqueName"
+				"getPos"
+			],
+			[
+				"get",
+				"getPos"
+			],
+			[
+				"_m",
+				"_moveRightPoint"
+			],
+			[
+				"_mov",
+				"_moveLeftPoint"
+			],
+			[
+				"n",
+				"node5"
+			],
+			[
+				"se",
+				"setLineEndNode"
+			],
+			[
+				"line",
+				"line4"
+			],
+			[
+				"red",
+				"redraw"
+			],
+			[
+				"set",
+				"setOrientation"
+			],
+			[
+				"in",
+				"inPointPosition"
+			],
+			[
+				"right",
+				"rightJoinPoint"
+			],
+			[
+				"OR",
+				"ORIENTED_RIGHT"
+			],
+			[
+				"node",
+				"node"
+			],
+			[
+				"Tes",
+				"testNode"
+			],
+			[
+				"cen",
+				"centerX"
+			],
+			[
+				"ce",
+				"centerY"
+			],
+			[
+				"Ce",
+				"centerY"
+			],
+			[
+				"st",
+				"start"
+			],
+			[
+				"end",
+				"end"
+			],
+			[
+				"cent",
+				"centerY"
+			],
+			[
+				"E",
+				"Element"
+			],
+			[
+				"posi",
+				"position1"
+			],
+			[
+				"new",
+				"newPos"
+			],
+			[
+				"subscrib",
+				"subscribition"
+			],
+			[
+				"sta",
+				"start"
+			],
+			[
+				"t",
+				"text"
+			],
+			[
+				"te",
+				"text"
+			],
+			[
+				"righ",
+				"rightJoinPoint"
+			],
+			[
+				"c",
+				"console"
+			],
+			[
+				"lef",
+				"leftJoinPoint"
+			],
+			[
+				"Pos",
+				"Position"
+			],
+			[
+				"setLi",
+				"setLineEndNode"
+			],
+			[
+				"l",
+				"line"
+			],
+			[
+				"left",
+				"leftJoinPoint"
+			],
+			[
+				"pa",
+				"paper"
+			],
+			[
+				"mo",
+				"movePosition"
+			],
+			[
+				"Node",
+				"NodeJoinPoint"
+			],
+			[
+				"Nod",
+				"NodeJoinPoint"
+			],
+			[
+				"ps",
+				"position"
+			],
+			[
+				"ne",
+				"newY"
+			],
+			[
+				"_s",
+				"_subPositions"
+			],
+			[
+				"d",
+				"dir"
+			],
+			[
+				"att",
+				"attr"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"re",
+				"rect"
+			],
+			[
+				"a",
+				"attr"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"_e",
+				"_element"
+			],
+			[
+				"mov",
+				"moveStartPoint"
+			],
+			[
+				"di",
+				"disp"
+			],
+			[
+				"eve",
+				"eventCompleate"
+			],
+			[
+				"p",
+				"push"
+			],
+			[
+				"on",
+				"onEventName"
+			],
+			[
+				"_",
+				"_onEventEvents"
+			],
+			[
+				"depe",
+				"nodeDepends"
+			],
+			[
+				"_li",
+				"_lineEndDepends"
+			],
+			[
+				"en",
+				"end"
+			],
+			[
+				"setUp",
+				"setUpModels"
+			],
+			[
+				"ha",
+				"handleframe"
+			],
+			[
+				"dis",
+				"disp"
+			],
+			[
+				"mas",
+				"masterObject"
+			],
+			[
+				"las",
+				"_lastX"
+			],
+			[
+				"jso",
+				"json_encode"
+			],
+			[
+				"res",
+				"result"
+			],
+			[
+				"onS",
+				"onStopMove"
+			],
+			[
+				"Sta",
+				"stateModel"
+			],
+			[
+				"ste",
+				"stateModel"
+			],
+			[
+				"state",
+				"states"
+			],
+			[
+				"stat",
+				"stateModel"
+			],
+			[
+				"New",
+				"newY"
+			],
+			[
+				"v",
+				"viewModel"
+			],
+			[
+				"th",
+				"this"
+			],
+			[
+				"cons",
+				"console"
 			],
 			[
 				"uniqu",
@@ -20,32 +404,12 @@
 				"prototype"
 			],
 			[
-				"E",
-				"Evnt"
-			],
-			[
-				"sta",
-				"state"
-			],
-			[
 				"subs",
 				"subsList"
 			],
 			[
-				"s",
-				"subscribition"
-			],
-			[
 				"subsc",
 				"subscribition"
-			],
-			[
-				"t",
-				"this"
-			],
-			[
-				"_",
-				"_subscriptions"
 			],
 			[
 				"getE",
@@ -62,14 +426,6 @@
 			[
 				"J",
 				"JumpEvent"
-			],
-			[
-				"su",
-				"subscribition"
-			],
-			[
-				"se",
-				"setUniqueId"
 			],
 			[
 				"obj",
@@ -92,10 +448,6 @@
 				"JumpEvent"
 			],
 			[
-				"re",
-				"return"
-			],
-			[
 				"fun",
 				"function"
 			],
@@ -108,16 +460,8 @@
 				"found_houses"
 			],
 			[
-				"end",
-				"endif"
-			],
-			[
 				"__",
 				"__init__"
-			],
-			[
-				"out",
-				"output"
 			],
 			[
 				"ou",
@@ -144,10 +488,6 @@
 				"hasText"
 			],
 			[
-				"te",
-				"templateRefaqui"
-			],
-			[
 				"grep",
 				"grepFilesSource"
 			],
@@ -172,26 +512,81 @@
 	"buffers":
 	[
 		{
-			"file": "index.html",
+			"file": "test.js",
 			"settings":
 			{
-				"buffer_size": 4219,
+				"buffer_size": 1799,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "grapheng/SoCuteGraph.js",
+			"settings":
+			{
+				"buffer_size": 547,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "grapheng/oLib.js",
+			"settings":
+			{
+				"buffer_size": 1272,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test.html",
+			"settings":
+			{
+				"buffer_size": 1736,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "grapheng/elements/basicNode.js",
+			"settings":
+			{
+				"buffer_size": 18170,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "SoCuteGraph.nsCrete(\"helpers.coordinates\");\n\nSoCuteGraph.helpers.coordinates = (function () {\n    \"use strict\";\n    var Position = function (cords) {\n        if (!cords) {\n            cords = {'x': 0, 'y': 0};\n        }\n        this._cords = cords;\n        this._lastCords = cords;\n        this.sub = {};\n    };\n\n    Position.prototype._lastGettedCords = {};\n\n    Position.prototype._cords = {};\n\n    Position.prototype._lastCords = {};     \n\n    Position.prototype.sub = {};\n\n    Position.prototype.orientation = false;\n\n    Position.prototype.getNewPos=function(){\n        var resultCoordinates=false;\n        if (this._cords != this._lastGettedCords){\n            this._lastGettedCords = this._cords;\n            resultCoordinates = this._cords;\n        }\n        return resultCoordinates;\n    }\n\n    Position.prototype.getPositionDiff=function(){\n        var diffCoordinates={};\n        /*\n        if (this._cords===this._lastCords){\n            return false;\n        }\n        */\n\n        for (var dimension in this._cords){\n            diffCoordinates[dimension]=this._cords[dimension]-this._lastCords[dimension];\n        }\n\n        this._lastGettedCords = this._cords;\n        //this._lastCords=this._cords;\n        return diffCoordinates;\n    }\n\n    Position.prototype.getDiffWith=function(otherPosition){\n        var diffCoordinates={}, otherCoords = otherPosition.getPosition();\n\n        for (var dimension in this._cords){\n            diffCoordinates[dimension]=otherCoords[dimension] - this._cords[dimension];\n        }\n\n        return diffCoordinates;\n    }\n\n\n    Position.getDiffAmount = function(diffCoords){\n        var diffAmount = 0;\n        for (var dimension in diffCoords){\n            diffAmount+=diffCoords[dimension];\n        }\n\n        return diffAmount;\n    }\n\n\n    Position.prototype.setDiff=function(diff){\n        var newCords={};\n        for (var dimension in diff){\n            newCords[dimension]=this._cords[dimension]+diff[dimension];\n        }\n        this.setPos(newCords);\n    }\n\n    Position.prototype.getPosition=function(){\n        return this._cords;\n    }\n\n    Position.prototype.setPos=function(cords){\n        this._lastCords=this._cords;\n        this._cords=cords;\n    };\n\n    return {\n        'Position':Position\n    }\n\n})();\n\nSoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',\n    function(){\n        var Position=SoCuteGraph.helpers.coordinates.Position;\n\n        test(\"Get diff with other position\", function(){\n            var pos1=new Position({'x':3,'y':4});\n            var pos2=new Position({'x':5,'y':17});\n\n            deepEqual(pos1.getDiffWith(pos2), {'x':2,'y':13}, 'pos1 + posResult = pos2');\n\n            pos1=new Position({'x':13,'y':24});\n            pos2=new Position({'x':5,'y':17});\n\n            deepEqual(pos1.getDiffWith(pos2), {'x':-8,'y':-7}, 'pos1 + posResult = pos2');\n\n            pos1=new Position({'x':13,'y':24});\n            pos2=new Position({'x':13,'y':24});\n\n            deepEqual(pos1.getDiffWith(pos2), {'x':0,'y':0}, 'pos1 + posResult = pos2');\n\n\n\n        });\n\n\n        test(\"Get diff amount\", function(){\n\n            var Position=SoCuteGraph.helpers.coordinates.Position;\n\n            var diff={'x':2,'y':3};\n            equal(Position.getDiffAmount(diff), 5, 'Diff amount is ok')\n\n            diff={'x':0, 'y':0};\n            equal(Position.getDiffAmount(diff), 0, 'Diff amount is ok')\n\n        });\n\n        test(\"MoveEvent sub positions\",function(){\n\n            var Position=SoCuteGraph.helpers.coordinates.Position;\n            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;\n            var Line = SoCuteGraph.elements.joinLine.Controller;\n            var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;\n\n\n            var paper = Raphael(document.getElementById('testCanvas'), 600, 600);\n\n            var scene = new Scene(paper);\n\n            var node = new Node('test node', scene, new Position({'x':10,'y':220}));\n            var MoveEvent = SoCuteGraph.events.std.MoveEvent;\n            var SCEvent = SoCuteGraph.events.std.SCEvent;\n            var moveEvent=new MoveEvent(node, node.getPosition());\n\n\n            testPostion=new Position({'x':12,'y':22});\n            moveEvent.setSubPosition('tested_position', testPostion);\n\n            deepEqual(moveEvent.getSubPosition('tested_position'),\n                testPostion, 'seted subpostion equals to getted'\n            );\n        });\n    }\n)",
+			"file": "grapheng/helpers/coordinates.js",
+			"file_size": 4431,
+			"file_write_time": 130335002079827573,
+			"settings":
+			{
+				"buffer_size": 4436,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/var/www/maitavr/zf/module/Application/view/layout/admin.phtml",
+			"settings":
+			{
+				"buffer_size": 3614,
 				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "",
+	"build_system": "Packages/JSLint/JSLint.sublime-build",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 54.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
 			[
 				"open",
 				"View: Toggle Open Files in Side Bar"
 			]
 		],
-		"width": 392.0
+		"width": 449.0
 	},
 	"console":
 	{
@@ -212,6 +607,51 @@
 	},
 	"file_history":
 	[
+		"/var/www/maitavr/zf/module/Application/src/Application/Controller/PartnersApiController.php",
+		"/var/www/maitavr/index.php",
+		"/var/www/maitavr/subsystem/index.php",
+		"/var/www/grapheng/index.html",
+		"/var/www/grapheng/grapheng/GameObj.js",
+		"/var/www/grapheng/grapheng/dia.js",
+		"/var/www/grapheng/grapheng/Event.js",
+		"/var/www/grapheng/grapheng/Dispathcer.js",
+		"/var/www/corpblue/index.html",
+		"/var/www/maitavr/zf/vendor/snicksnk/maitavr-lib/src/Maitavr/UserAccount.php",
+		"/tmp/fz3temp-1/index2.php",
+		"/var/www/yeopssh/application/modules/user/views/scripts/account/index.phtml",
+		"/var/www/maitavr/extras/wm exmaple/merchant-php-1.0.4/README.rus",
+		"/tmp/fz3temp-1/index.php",
+		"/tmp/fz3temp-1/.htaccess",
+		"/tmp/fz3temp-1/.htaccess 2",
+		"/var/www/maitavr/extras/wm exmaple/merchant-php-1.0.4/v2/README",
+		"/var/www/yeopen.com/index2.php",
+		"/var/www/yeopen.com/.htaccess",
+		"/var/www/yeopen.com/index.php",
+		"/home/snicksnk/tmpfs/etc/nginx/nginx.conf",
+		"/home/snicksnk/tmpfs/etc/nginx/nginx.confn",
+		"/home/snicksnk/tmpfs/home/maitavr/maitavr.org/docs/.htaccess",
+		"/home/snicksnk/tmpfs/home/maitavr/etc/httpd.conf",
+		"/var/www/yeopen.com/public/.htaccess",
+		"/home/snicksnk/.config/sublime-text-3/Packages/User/JSLint.sublime-settings",
+		"/home/snicksnk/.config/sublime-text-3/Packages/JSLint/JSLint.sublime-build",
+		"/home/snicksnk/.config/sublime-text-3/Packages/User/Package Control.sublime-settings",
+		"/home/snicksnk/.config/sublime-text-3/Packages/JSLint/JSLint.sublime-settings",
+		"/var/www/crusat/templates/bakstep/home/index.html",
+		"/etc/php5/apache2/php.ini",
+		"/home/snicksnk/skype/parserv2/index.php",
+		"/home/snicksnk/skype/parserv2/functions.php",
+		"/home/snicksnk/wm exmaple/merchant-php-1.0.4/index.php",
+		"/home/snicksnk/skype/parserv2/files/4_1_1382383240.xls",
+		"/home/snicksnk/wm exmaple/merchant-php-1.0.4/README.rus",
+		"/home/snicksnk/Загрузки/geo.sql",
+		"/home/snicksnk/skype/parserv2/result.txt",
+		"/home/snicksnk/skype/parser/functions.php",
+		"/home/snicksnk/skype/parser/index.php",
+		"/var/www/grapheng/grapheng/Modifier.js",
+		"/var/www/grapheng/resources/strathausen-dracula-a6a5fa7/examples/algorithms.js",
+		"/var/www/grapheng/resources/strathausen-dracula-a6a5fa7/js/dracula_graph.js",
+		"/var/www/grapheng/resources/draculav0.0.3alpha5.js",
+		"/var/www/grapheng/grapheng/gameObj.js",
 		"/var/www/devos_hub/application/library/snicksnk/tools/lazyRegister/Register.php",
 		"/var/www/pymed/clinics/admin.py",
 		"/etc/apache2/apache2.conf",
@@ -257,23 +697,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"notifyjump",
-			"cons",
-			"cosn",
-			"getEventUniqueId",
-			"notify",
-			"name",
-			"uniqueName",
-			"subscribeForEvents",
-			"test",
-			"for",
-			"media",
-			"so",
-			".so",
-			"mod_header.so",
-			"def",
+			"getPos",
+			"MoveEven",
+			"pap",
+			"MoveEvent",
+			"MoveEn",
+			"MoveEvent",
+			"moveEv",
+			"masterObjectId",
+			"MoveEvent",
+			"LeftJoinPoint",
+			"movePosition",
+			"movePos",
+			"movePosition",
+			"leftJoinPoint",
+			"even",
+			"node4",
+			"_orient",
+			"oriented",
+			"inPoint",
+			"Node",
+			".sub",
+			"rightPoint",
+			"right",
+			"Join",
+			"orientation",
+			"JoinLi",
 			"start",
-			"print"
+			"setsta",
+			"Element",
+			"Node",
+			"Even",
+			"sub",
+			"node",
+			"Element(",
+			"Elemen",
+			"circle",
+			"line",
+			"stateMode",
+			"posi",
+			"node",
+			"node=",
+			"posi",
+			"undefi",
+			"ELement",
+			"Position.sub",
+			"Element",
+			"Node",
+			"moveEndPoint",
+			"position.sub",
+			"2",
+			"on posi",
+			"setUpModels",
+			"_element",
+			"on posi",
+			" posi",
+			"posi",
+			"_element",
+			"join",
+			"prototype.position",
+			"Element",
+			"position",
+			"Node",
+			"consol",
+			"line",
+			"first node befor",
+			"customOnMoving",
+			"leftJoinPoint",
+			"nodeTextPos",
+			"node",
+			"Element",
+			"Moveto",
+			"Element",
+			"new Nod",
+			"Node",
+			"position",
+			"rightPoint",
+			"console.lo",
+			"console.log",
+			"moveto",
+			"rightPoint",
+			"Line",
+			"node",
+			"start",
+			"moveStartPoint",
+			"rightPo",
+			"leftPoint",
+			"nodeTextPos",
+			"leftJoinPoint",
+			"join",
+			"leftPoint",
+			"text",
+			"resizeFramerToText",
+			"text",
+			"console",
+			"getPos",
+			"right",
+			"sub",
+			"posi",
+			"leftPosition",
+			"stateModel",
+			"Move",
+			"rightPoint",
+			"moveTo",
+			"startpos",
+			"attr",
+			"circle",
+			"cir",
+			"ci",
+			"circle",
+			"Element",
+			"getPos",
+			"}",
+			"get",
+			"getEventUni",
+			"Dispathcer",
+			"getEventUn",
+			"subscribeForEven",
+			"_subscribeForEvents",
+			"player",
+			"posit",
+			"moveStartPoint",
+			"subsc",
+			"_subscribeForEvents",
+			"getUn",
+			"allow",
+			"AllowOverride",
+			"DocumentRoot",
+			"_subscribeForEvents"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -281,6 +832,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"framer",
+			"frame ",
+			"frame",
+			"ObjController",
+			"._state"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -291,16 +847,16 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "index.html",
+					"file": "test.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4219,
+						"buffer_size": 1799,
 						"regions":
 						{
 						},
@@ -313,6 +869,97 @@
 						],
 						"settings":
 						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 668.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "grapheng/SoCuteGraph.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 547,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								546,
+								546
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "grapheng/oLib.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1272,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								583,
+								583
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 162.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "test.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1736,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								253,
+								253
+							]
+						],
+						"settings":
+						{
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -321,6 +968,97 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "grapheng/elements/basicNode.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18170,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12918,
+								12918
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8730.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "grapheng/helpers/coordinates.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4436,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								312,
+								312
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 972.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/var/www/maitavr/zf/module/Application/view/layout/admin.phtml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3614,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								585,
+								585
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -328,7 +1066,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 25.0
+		"height": 30.0
 	},
 	"input":
 	{
@@ -359,12 +1097,16 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 112.0
+		"height": 29.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
 	},
 	"project": "untitled.sublime-project",
 	"replace":
 	{
-		"height": 46.0
+		"height": 56.0
 	},
 	"save_all_on_build": true,
 	"select_file":
