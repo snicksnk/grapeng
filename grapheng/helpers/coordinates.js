@@ -67,6 +67,23 @@ SoCuteGraph.helpers.coordinates = (function () {
         return diffAmount;
     }
 
+    Position.getCenterPoint = function(position1, position2){
+        var diffCords = position1.getDiffWith(position2);
+        var centerPosition = new Position();
+        var centerCords = {};
+
+        for (var dimension in position1.getPosition()){
+            if (position1.getPosition()[dimension]<position2.getPosition()[dimension]){
+                centerCords[dimension] = position1.getPosition()[dimension] + diffCords[dimension]/2;
+            } else {
+                centerCords[dimension] = position2.getPosition()[dimension] + diffCords[dimension]/2;
+            }
+        }
+        centerPosition.setPos(centerCords);
+        console.log('1:',position1.getPosition(), '2:', position2.getPosition(), 'center:', centerPosition.getPosition());
+        return centerPosition;
+    }
+
 
     Position.prototype.setDiff=function(diff){
         var newCords={};
@@ -152,6 +169,17 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',
             deepEqual(moveEvent.getSubPosition('tested_position'),
                 testPostion, 'seted subpostion equals to getted'
             );
+        })
+
+        test("get center point", function(){
+            var Position=SoCuteGraph.helpers.coordinates.Position;
+            var position1 = new Position({'x':-5,'y':10});
+            var position2 = new Position({'x':10, 'y':20});
+            var centerPositon = Position.getCenterPoint(position1, position2);
+
+            deepEqual(centerPositon.getPosition(), {'x':2.5, 'y':15}, 'Center position is good');
+
+
         });
     }
 )

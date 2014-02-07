@@ -514,6 +514,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
             var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
             var disp=new Dispathcer();
+            var ResolveAssocLinePoints = SoCuteGraph.elements.joinLine.dependencies.ResolveAssocLinePoints;
 
             position=new Position();
             position.setPos({'x':10,'y':30});
@@ -584,14 +585,10 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-            line=new Line(scene);
+            line=new Line(scene, node, nodeDepends);
 
+            //new ParentChildJoin(disp, line, node, nodeDepends);
 
-            new ParentChildJoin(disp, line, node, nodeDepends);
-            /*
-            line.setLineStartNode(node);
-            line.setLineEndNode(nodeDepends);
-            */
             disp.addObject(line);
 
             node3=new Node('Третья нода', scene, new Position({'x':610,'y':340}));
@@ -600,9 +597,9 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             disp.addObject(node3);
 
-            line2=new Line(scene);
-            line2.setLineStartNode(node);
-            line2.setLineEndNode(node3);
+            line2=new Line(scene, node, node3);
+
+
 
 
 
@@ -622,10 +619,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-            line3=new Line(scene);
-            line3.setLineStartNode(node);
-            line3.setLineEndNode(node4);
+            line3=new Line(scene, node, node4);
             disp.addObject(line3);
+
+
+
 
             node5=new Node('Пятая нода', scene, new Position({'x':30,'y':90}));
             node5.setOrientation(Element.ORIENTED_RIGHT);
@@ -635,9 +633,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp.addObject(node5);
 
 
-            line4=new Line(scene);
-            line4.setLineStartNode(node4);
-            line4.setLineEndNode(node5);
+            line4=new Line(scene, node4, node5);
             disp.addObject(line4);
 
             node6=new Node('Шестая нода', scene, new Position({'x':70,'y':330}));
@@ -646,13 +642,14 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             node6.setOrientation(Element.ORIENTED_LEFT);
             disp.addObject(node6);
 
-            line5 = new Line(scene);
-            line5.setLineStartNode(node4);
-            line5.setLineEndNode(node6);
+            line5 = new Line(scene, node4, node6);
             disp.addObject(line5);
 
 
+            lineAssoc=new Line(scene, node5, node6, ResolveAssocLinePoints);
 
+
+            disp.addObject(lineAssoc);
 
 
         });

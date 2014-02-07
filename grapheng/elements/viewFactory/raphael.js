@@ -101,7 +101,7 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         // Sets the fill attribute of the circle to red (#f00)
         this._nodeFrame.attr("fill", "90-#34CFBE-#34CFBE");
         this._nodeFrame.attr("stroke-width",0.7);
-        this._nodeFrame.attr("fill-opacity",0.00001);
+        //this._nodeFrame.attr("fill-opacity",0.00001);
 
 
         // Sets the stroke attribute of the circle to white
@@ -231,6 +231,7 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     Path.prototype.setSVGPath = function(path){
         this._path.attr("path", path);
+        this._path.toBack();
     }
 
 

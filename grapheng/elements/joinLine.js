@@ -11,93 +11,120 @@ SoCuteGraph.nsCrete("elements.joinLine.dependencies");
 
 
 SoCuteGraph.elements.joinLine.dependencies = (function () {
-    var ParentChildJoin = function (dispathcer, line, parentNode, childNode) {
-        if (dispathcer, line, parentNode, childNode){
-            this.init(dispathcer, line, parentNode, childNode);
-            this.apply();
+
+    var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
+    var Position = SoCuteGraph.helpers.coordinates.Position;
+    var ResolveHierarchyLinePoints = function(startNode, endNode){
+        if (startNode && endNode){
+            this.init(startNode, endNode);
         }
     }
 
-    ParentChildJoin.prototype.init = function (dispathcer, line, parentNode, childNode){
-        this._dispatcher = dispathcer;
-        this._line = line;
-        this.setStart(parentNode);
-        this.setEnd(childNode);
-        this._startOrientation = this._startNode.getOrientation();
-        this._endOrientation = this._endNode.getOrientation();
+    ResolveHierarchyLinePoints.prototype.init=function(startNode, endNode) {
+        this._endNodeOrientation = endNode.getOrientation();
+        this._startNodeOrientation = startNode.getOrientation();
+    }
 
-        ParentChildJoin.initLine.call(this._line, this._startNode, this._endNode);
+    ResolveHierarchyLinePoints.prototype.resolveStartPoint = function(position, orientation){
+        var outPointPosition;
+        this._startNodeOrientation = orientation;
+        if (orientation===NodeViewModel.ORIENTED_RIGHT){
+            outPointPosition=position.sub.rightJoinPoint;
+        } else if (orientation===NodeViewModel.ORIENTED_LEFT){
+            outPointPosition=position.sub.leftJoinPoint;
+        } else if (orientation===NodeViewModel.ORIENTED_MULTI){
+
+            var endNodeOrientation=this._endNodeOrientation;
+
+            if (endNodeOrientation===NodeViewModel.ORIENTED_RIGHT) {
+                outPointPosition=position.sub.rightJoinPoint;
+            } else if (endNodeOrientation===NodeViewModel.ORIENTED_LEFT) {
+                outPointPosition=position.sub.leftJoinPoint;
+            }
+            else if (endNodeOrientation===NodeViewModel.ORIENTED_MULTI) {
+                throw 'Still not implemented ((';
+            } else {
+                throw 'Undefined orientation "'+endNodeOrientation+'"';
+            }
+            //outPointPosition=position.sub.leftJoinPoint;
+        } else {
+            throw "Can't resolve points for orientation '"+orientation+"'";
+        }
+        return outPointPosition;
 
     }
 
-    ParentChildJoin.initLine=function(startNode, endNode){
-        this._nodeFrame.redrawLine(startNode.getPosition(), endNode.getPosition());
+    ResolveHierarchyLinePoints.prototype.resolveEndPoint = function (position, orientation){
+        var inPointPostion;
+        this._endNodeOrientation = orientation;
+        if (orientation===NodeViewModel.ORIENTED_RIGHT){
+            inPointPostion=position.sub.leftJoinPoint;
+        } else if (orientation===NodeViewModel.ORIENTED_LEFT){
+            inPointPostion=position.sub.rightJoinPoint;
+        } else if (orientation===NodeViewModel.ORIENTED_MULTI){
+            inPointPostion=position.sub.leftJoinPoint;
+        } else {
+            throw "Can't resolve points for orientation '"+orientation+"'";
+        }
+        return inPointPostion;
     }
 
-    ParentChildJoin.prototype.setStart = function(parentNode){
-        this._startNode = parentNode;
+
+
+    var ResolveAssocLinePoints = function(){
+
+    }
+    //Add abstract class instead
+    ResolveAssocLinePoints.prototype = new ResolveAssocLinePoints();
+
+    ResolveAssocLinePoints.prototype.resolveStartPoint = function(position, orientation){
+        var outPointPosition;
+        outPointPosition = this._calcCenter(position.sub.leftJoinPoint, position.sub.rightJoinPoint);
+        return outPointPosition;
+
     }
 
-    ParentChildJoin.prototype.setEnd = function(childNode){
-        this._endNode = childNode;
+    ResolveAssocLinePoints.prototype._calcCenter = function(leftPoint, rightPoint){
+        var center = Position.getCenterPoint(leftPoint, rightPoint);
+        return center;
     }
 
-
-
-    ParentChildJoin.prototype.apply = function(){
-
-        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
-
-        //this.line._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
-        this._line.addSubscribition(new MoveEvent(this._startNode),
-            ParentChildJoin.lineStartDepends);
-        //this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
-        this._line.addSubscribition(new MoveEvent(this._endNode),
-            ParentChildJoin.lineEndDepends);
+    ResolveAssocLinePoints.prototype.resolveEndPoint = function (position, orientation){
+        var inPointPostion
+        inPointPostion = this._calcCenter(position.sub.leftJoinPoint, position.sub.rightJoinPoint);
+        return inPointPostion;
     }
-
-    ParentChildJoin.lineStartDepends=function(Evnt){
-        this._nodeFrame.moveStartPoint(Evnt.getPosition(), Evnt.getOrientation());
-    }
-
-    ParentChildJoin.lineEndDepends=function(Evnt){
-        this._nodeFrame.moveEndPoint(Evnt.getPosition(), Evnt.getOrientation());
-    }
-
 
 
 
     return {
-        'ParentChildJoin':ParentChildJoin
+        'ResolveHierarchyLinePoints':ResolveHierarchyLinePoints,
+        'ResolveAssocLinePoints': ResolveAssocLinePoints
     }
 })();
 
 SoCuteGraph.elements.joinLine.viewModels = (function () {
     "use strict";
 
-    var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
 
 
-    var ViewModel = function(scene){
+    var ViewModel = function(scene, pointsResolver){
+        if (scene, pointsResolver){
+            this.init(scene, pointsResolver);
+        }
+    }
+
+    ViewModel.prototype.init = function(scene, pointsResolver) {
         var Position = SoCuteGraph.helpers.coordinates.Position;
         this.startPos = new Position();
         this.endPos = new Position();
         this._startNodeOrientation=false;
         this._endNodeOrientation=false;
+        this._pointsResolver = pointsResolver;
 
         //this.moveStartPoint(new Position({'x':230,'y':'150'}))
         this.curve = scene.Path("0");
 
-    }
-
-
-    ViewModel.prototype.setStartNodeOrientation=function(orientation) {
-        this._startNodeOrientation = orientation;
-    }
-
-
-    ViewModel.prototype.setEndNodeOrientation=function(orientation) {
-        this._endNodeOrientation = orientation;
     }
 
 
@@ -112,34 +139,13 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
         this.redrawLine();
     }
 
+
+
+
+
+
     ViewModel.prototype._resolveNodeOutPoint=function(position, orientation){
-        var outPointPosition;
-        if (orientation===NodeViewModel.ORIENTED_RIGHT){
-            outPointPosition=position.sub.rightJoinPoint;
-        } else if (orientation===NodeViewModel.ORIENTED_LEFT){
-            outPointPosition=position.sub.leftJoinPoint;
-        } else if (orientation===NodeViewModel.ORIENTED_MULTI){
-
-            var endNodeOrientation=this._endNodeOrientation;
-
-            if (endNodeOrientation===NodeViewModel.ORIENTED_RIGHT) {
-                outPointPosition=position.sub.rightJoinPoint;
-            } else if (endNodeOrientation===NodeViewModel.ORIENTED_LEFT) {
-                outPointPosition=position.sub.leftJoinPoint;
-            }
-            else if (endNodeOrientation===NodeViewModel.ORIENTED_MULTI){
-                throw 'Still not implemented ((';
-            } else {
-                throw 'Undefined orientation "'+endNodeOrientation+'"';
-            }
-
-
-
-            //outPointPosition=position.sub.leftJoinPoint;
-        } else {
-            throw "Can't resolve points for orientation '"+orientation+"'";
-        }
-        return outPointPosition;
+        return this._pointsResolver.resolveStartPoint(position, orientation);
     }
 
 
@@ -147,17 +153,7 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
 
 
     ViewModel.prototype._resolveNodeInPoint=function(position, orientation){
-        var inPointPostion;
-        if (orientation===NodeViewModel.ORIENTED_RIGHT){
-            inPointPostion=position.sub.leftJoinPoint;
-        } else if (orientation===NodeViewModel.ORIENTED_LEFT){
-            inPointPostion=position.sub.rightJoinPoint;
-        } else if (orientation===NodeViewModel.ORIENTED_MULTI){
-            inPointPostion=position.sub.leftJoinPoint;
-        } else {
-            throw "Can't resolve points for orientation '"+orientation+"'";
-        }
-        return inPointPostion;
+        return this._pointsResolver.resolveEndPoint(position, orientation);
     }
 
 
@@ -181,12 +177,11 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
             var end = this.getEndPosition();
         }
 
-
-        console.log('11111  1111 ', start, end);
         var centerX=(end['x']-start['x'])/2+start['x'];
         var centerY=(end['y']-start['y'])/2+start['y'];
 
         //this.paper.circle(centerX, centerY, 10);
+
 
         this.curve.setSVGPath([
             "M",start['x'],start['y'],
@@ -223,54 +218,41 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
     var ViewModel = SoCuteGraph.elements.joinLine.viewModels.ViewModel;
     var FrameEvent = SoCuteGraph.events.std.FrameEvent;
     var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+    var ResolveHierarchyLinePoints = SoCuteGraph.elements.joinLine.dependencies.ResolveHierarchyLinePoints;
 
-    function Controller(paper){
-        this._nodeFrame=new ViewModel(paper);
-        this._subscribeForEvents=[FrameEvent];
 
-        this._initStartNode=false;
-        this._initEndNode=false;
+    function Controller(paper, startNode, endNode, PointsResolver){
+        if (paper, startNode, endNode){
+            this._init(paper, startNode, endNode, PointsResolver);
+        }
     }
 
 
     Controller.prototype=new ObjController();
 
-    Controller.prototype.setUpModels=function(paper){
 
-    }
+    Controller.prototype._init=function(paper, startNode, endNode, PointsResolver){
+        var resolver;
+        this._subscribeForEvents=[FrameEvent];
 
-    Controller.prototype.setUpBehavior=function(){
-
-    }
-
-    Controller.prototype.setLineStartNode=function(Node){
-        this._initStartNode=Node;
-        this._nodeFrame.setStartNodeOrientation(Node.getOrientation())
-        this._tryToinitLine();
-    }
-
-
-    Controller.prototype.setLineEndNode=function(Node){
-        this._initEndNode=Node;
-        this._nodeFrame.setEndNodeOrientation(Node.getOrientation());
-        this._tryToinitLine();
-    }
-
-    Controller.prototype._tryToinitLine=function(){
-        var startNode = this._initStartNode;
-        var endNode=this._initEndNode;
-        if (startNode && endNode){
-            ;
-            this._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
-            this.addSubscribition(new MoveEvent(startNode),
-                this._lineStartDepends);
-            this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
-            this.addSubscribition(new MoveEvent(endNode),
-                this._lineEndDepends);
-
+        if (!PointsResolver) {
+            PointsResolver = ResolveHierarchyLinePoints;
         }
+
+        resolver = new PointsResolver(startNode, endNode);
+        this._nodeFrame=new ViewModel(paper, resolver);
+
+
+        this._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
+        this.addSubscribition(new MoveEvent(startNode),
+            this._lineStartDepends);
+        this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
+        this.addSubscribition(new MoveEvent(endNode),
+             this._lineEndDepends);
+
     }
 
+    var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
 
 
 
