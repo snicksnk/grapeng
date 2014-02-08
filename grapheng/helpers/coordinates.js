@@ -80,7 +80,6 @@ SoCuteGraph.helpers.coordinates = (function () {
             }
         }
         centerPosition.setPos(centerCords);
-        console.log('1:',position1.getPosition(), '2:', position2.getPosition(), 'center:', centerPosition.getPosition());
         return centerPosition;
     }
 

@@ -58,7 +58,7 @@ test("Player subscribition", function(){
 
         player=new Player();
         player.eventCompleate=false;
-        player.addSubscribition(CustomEvent,function(){
+        player.addSubscription(CustomEvent,function(){
             this.eventCompleate=true;
         });
 

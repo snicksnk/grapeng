@@ -20,8 +20,6 @@ SoCuteGraph.elements.abstractController=(function () {
         this.uniqueId=id;
     }
 
-
-
     ObjController.prototype.getPosition=function(){
         return this._nodeFrame.position;
     }
@@ -41,19 +39,38 @@ SoCuteGraph.elements.abstractController=(function () {
     }
 
 
-
     ObjController.prototype._subscribeForEvents=[];
 
     ObjController.prototype.setUpBehavior=function(){
 
     }
 
-    ObjController.prototype.addSubscribition=function(Evnt, Handler){
+    ObjController.prototype.addSubscription=function(Evnt, Handler){
         var handlerName;
         this._subscribeForEvents.push(Evnt);
-        handlerName='handle'+ Dispathcer.getEventUniqueId(Evnt);
+        handlerName=this.createHandlerName(Evnt);
         this[handlerName]=Handler;
+        if (this._dispatcher !== null){
+            this._dispatcher.addSubscriptionToObject(this.getUniqueId(), Evnt);
+        }
     }
+
+    ObjController.prototype.createHandlerName = function(Evnt){
+        return 'handle'+ Dispathcer.getEventUniqueId(Evnt);
+    }
+
+    ObjController.prototype.removeSubscription = function(Evnt){
+        var index,
+            newSubscribeForEvents = this._subscribeForEvents;
+        delete this[this.createHandlerName(Evnt)];
+        SoCuteGraph.oLib.each(this._subscribeForEvents, function(key, val){
+            if (Dispathcer.getEventUniqueId(val) == Dispathcer.getEventUniqueId(val)){
+                newSubscribeForEvents.splice(key, 1);
+            }
+        });
+        this._subscribeForEvents = newSubscribeForEvents;
+    }
+
 
     return {
       'Controller': ObjController

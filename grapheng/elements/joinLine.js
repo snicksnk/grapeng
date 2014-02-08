@@ -244,10 +244,10 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
 
 
         this._nodeFrame.moveStartPoint(startNode.getPosition(), startNode.getOrientation());
-        this.addSubscribition(new MoveEvent(startNode),
+        this.addSubscription(new MoveEvent(startNode),
             this._lineStartDepends);
         this._nodeFrame.moveEndPoint(endNode.getPosition(), endNode.getOrientation());
-        this.addSubscribition(new MoveEvent(endNode),
+        this.addSubscription(new MoveEvent(endNode),
              this._lineEndDepends);
 
     }

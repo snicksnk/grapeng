@@ -65,7 +65,7 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
         this._slave.MoveSlaveData=[];
         this._slave.MoveSlaveData.oldMasterPosition = new Position();
 
-        this._slave.addSubscribition(new MoveEvent(this._master), this.moverFunction);
+        this._slave.addSubscription(new MoveEvent(this._master), this.moverFunction);
 
 
     }
@@ -78,7 +78,7 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
      var Position = SoCuteGraph.helpers.coordinates.Position;
      var parentNodePosition=dependedOf.getPosition();
      var lastParentNodePosition=new Position(parentNodePosition.getPosition());
-     this.addSubscribition(new MoveEvent(dependedOf),
+     this.addSubscription(new MoveEvent(dependedOf),
      function(Evnt){
 
      var element = this._nodeFrame;
@@ -350,7 +350,6 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     var ObjController=SoCuteGraph.elements.abstractController.Controller;
     function Controller(text, scene,position){
-        console.log(scene);
         this.setUpModels(text, scene, position);
     }
 
@@ -402,7 +401,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         var Position = SoCuteGraph.helpers.coordinates.Position;
         var parentNodePosition=dependedOf.getPosition();
         var lastParentNodePosition=new Position(parentNodePosition.getPosition());
-        this.addSubscribition(new MoveEvent(dependedOf),
+        this.addSubscription(new MoveEvent(dependedOf),
             function(Evnt){
 
                 var element = this._nodeFrame;
