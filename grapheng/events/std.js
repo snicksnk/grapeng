@@ -58,6 +58,7 @@ SoCuteGraph.events.std=function(){
      * @returns {*}
      */
     MoveEvent.prototype.getPosition=function(){
+
         return this.position;
     }
 

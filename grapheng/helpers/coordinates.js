@@ -57,6 +57,20 @@ SoCuteGraph.helpers.coordinates = (function () {
         return diffCoordinates;
     }
 
+    Position.prototype.clone = function(){
+        var pos = new Position(this.getPosition());
+        if (sub.length>0){
+
+        }
+    }
+
+
+    Position.prototype._cloneSUbPositions = function(sub){
+        SoCuteGraph.oLib.each(sub, function(index, val){
+
+        });
+    }
+
 
     Position.getDiffAmount = function(diffCoords){
         var diffAmount = 0;

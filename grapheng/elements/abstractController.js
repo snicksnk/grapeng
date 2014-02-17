@@ -72,6 +72,8 @@ SoCuteGraph.elements.abstractController=(function () {
     }
 
 
+
+
     return {
       'Controller': ObjController
     };

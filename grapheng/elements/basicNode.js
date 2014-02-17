@@ -33,8 +33,10 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
         if (diffAmount!==0){
             var dispatcher = this.getDispatcher();
             var diff = Evnt.getPosition().getPositionDiff();
+            console.log(this._views.nodeFrame.text, '***',Evnt.getPosition().getPositionDiff(),this.MoveSlaveData.oldMasterPosition.getPosition(), Evnt.getPosition().getPosition(), diffAmount);
+
             var newPosition = new Position(diff);
-            this._nodeFrame.moveByDiff(newPosition);
+            this._views.nodeFrame.moveByDiff(newPosition);
             this.MoveSlaveData.oldMasterPosition.setPos(Evnt.getPosition().getPosition());
 
             var moveEvent = new MoveEvent(this, this.getPosition());
@@ -63,7 +65,7 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
         var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
         this._slave.MoveSlaveData=[];
-        this._slave.MoveSlaveData.oldMasterPosition = new Position();
+        this._slave.MoveSlaveData.oldMasterPosition = new Position(this._master.getPosition().getPosition());
 
         this._slave.addSubscription(new MoveEvent(this._master), this.moverFunction);
 
@@ -144,8 +146,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype.getViewObject=function(){
         return {
-            'frame':this._nodeFrame,
-            'text':this.nodeText
+            'frame':this._views.nodeFrame,
+            'text':this._views.nodeText
         };
     }
 
@@ -160,7 +162,6 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.position.setPos(position.getPosition());
 
 
-
         this.position.sub['leftJoinPoint']=new Position();
         this.position.sub['rightJoinPoint']=new Position();
         this.position.sub['text']=new Position;
@@ -168,10 +169,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         this.text=text;
 
+        this._views = {};
 
-        this._nodeFrame = scene.NodeFrame(position);
-        this.nodeText=scene.NodeText(text, scene);
-        this._nodeFrame.afterDrawText();
+        this._views.nodeFrame = scene.NodeFrame(position);
+        this._views.nodeText=scene.NodeText(text, scene);
+        this._views.nodeFrame.afterDrawText();
 
 
         this.resizeFramerToText();
@@ -213,19 +215,26 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype.resizeFramerToText=function(){
 
-        var width=this.nodeText.getWidth()+(this._nodeFrame.getHorizontalOffset()*2);
-        var height=this.nodeText.getHeight()+this._nodeFrame.getVerticalOffset()*2;
+        var width=this._views.nodeText.getWidth()+(this._views.nodeFrame.getHorizontalOffset()*2);
+        var height=this._views.nodeText.getHeight()+this._views.nodeFrame.getVerticalOffset()*2;
 
-        this._nodeFrame.setWidth(width);
-        this._nodeFrame.setHeight(height);
+        this._views.nodeFrame.setWidth(width);
+        this._views.nodeFrame.setHeight(height);
     }
 
     ViewModel.prototype.getWidth=function(){
-        return this._nodeFrame.getWidth();
+        return this._views.nodeFrame.getWidth();
     }
 
     ViewModel.prototype.redraw=function(){
-        this.moveTo(this.position);
+
+        this.resizeFramerToText();
+        this._moveFrame(this.position);
+        this._moveText(this.position)
+        this._moveLeftPoint(this.position);
+        this._moveRightPoint(this.position);
+        this._prepareSubElementsPositionData();
+
     }
 
     ViewModel.prototype.moveByDiff = function(diffPosition){
@@ -237,18 +246,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.moveTo=function(position){
         var pos=position.getPosition();
         this.position.setPos(pos);
-
-        this.resizeFramerToText();
-
-        this._moveFrame(position);
-
-        this._moveText(position)
-
-        this._moveLeftPoint(position);
-
-        this._moveRightPoint(position);
-
-        this._prepareSubElementsPositionData();
+        this.redraw();
     }
 
     ViewModel.prototype._prepareSubElementsPositionData=function(){
@@ -265,45 +263,40 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     }
 
     ViewModel.prototype._prepareTextPositionData=function(){
-        return this.nodeText.position.getPosition();
+        return this._views.nodeText.position.getPosition();
     }
 
 
-
-
     ViewModel.prototype._preparePointsPositionData=function() {
-
         this.position.sub.leftJoinPoint.setPos(this.leftJoinPoint.position.getPosition());
         this.position.sub.rightJoinPoint.setPos(this.rightJoinPoint.position.getPosition());
-
     }
 
 
     ViewModel.prototype._moveFrame=function(position){
-        this._nodeFrame.moveTo(position);
+        this._views.nodeFrame.moveTo(position);
     }
 
     ViewModel.prototype._moveText=function(position){
         var pos=position.getPosition();
-        var textX=pos['x']+this._nodeFrame.getHorizontalOffset();
-        var textY=pos['y']+this._nodeFrame.getVerticalOffset()+this.nodeText.getHeight()/2;
-        this.nodeText.movePosition(new Position({'x':textX,'y':textY}));
+        var textX=pos['x']+this._views.nodeFrame.getHorizontalOffset();
+        var textY=pos['y']+this._views.nodeFrame.getVerticalOffset()+this._views.nodeText.getHeight()/2;
+        this._views.nodeText.movePosition(new Position({'x':textX,'y':textY}));
     }
 
 
     ViewModel.prototype._moveLeftPoint=function(position){
         var pos=position.getPosition();
-        //TODO ������� ��� �� � ���� -1
         var leftX=pos['x']-1;
-        var leftY=pos['y']+this._nodeFrame.getHeight()/2;
+        var leftY=pos['y']+this._views.nodeFrame.getHeight()/2;
         this.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
     }
 
     ViewModel.prototype._moveRightPoint=function(position){
-        var nodeWidth=this._nodeFrame.getWidth();
+        var nodeWidth=this._views.nodeFrame.getWidth();
         var pos=position.getPosition();
         var rightX=pos['x']+nodeWidth-1;
-        var rightY=pos['y']+this._nodeFrame.getHeight()/2;
+        var rightY=pos['y']+this._views.nodeFrame.getHeight()/2;
         this.rightJoinPoint.movePosition(new Position({'x':rightX,'y':rightY}));
     }
 
@@ -313,7 +306,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
 
-        this._nodeFrame.setDrag(function(x,y){
+        this._views.nodeFrame.setDrag(function(x,y){
                 var newX=this.startpos.x+x
                 var newY=this.startpos.y+y
                 onMoving(newX, newY);
@@ -347,53 +340,36 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     var ViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
     var FrameEvent = SoCuteGraph.events.std.FrameEvent;
     var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+    var Position = SoCuteGraph.helpers.coordinates.Position;
+
 
     var ObjController=SoCuteGraph.elements.abstractController.Controller;
     function Controller(text, scene,position){
-        this.setUpModels(text, scene, position);
+        this.init(text, scene, position);
     }
 
     Controller.prototype = new ObjController();
 
-
-    Controller.prototype._nodeFrame=null;
-
     Controller.prototype.redraw=function(){
-        this._nodeFrame.redraw();
+        this._views.nodeFrame.redraw();
     }
 
-    Controller.prototype.setUpModels=function(text, scene, position){
+    Controller.prototype.init=function(text, scene, position){
 
-
-
-        var position,
-            Position = SoCuteGraph.helpers.coordinates.Position;
-
+        var position;
         if (position===undefined){
             position=new Position({'x':10,'y':20});
-        } else {
-
         }
 
-
-
         this._dispatcher=null;
-        //alert(moveEvent.getUniqueName());
-        //this._stateModel=new StateModel();
-
-
-
-
-        this._nodeFrame = new ViewModel(text, scene, position);
-
-
+        this._views = {};
+        this._views.nodeFrame = new ViewModel(text, scene, position);
         this._subscribeForEvents=[FrameEvent];
-
 
     }
 
     Controller.prototype.getPosition=function(){
-        return this._nodeFrame.getPosition();
+        return this._views.nodeFrame.getPosition();
     }
 
     /*
@@ -427,69 +403,69 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
     */
     Controller.prototype.setOrientation=function(orientation){
-        this._nodeFrame.setOrientation(orientation);
+        this._views.nodeFrame.setOrientation(orientation);
 
     }
 
     Controller.prototype.getOrientation=function(){
-        return this._nodeFrame.getOrientation();
+        return this._views.nodeFrame.getOrientation();
     }
 
     Controller.prototype.getViewObject=function(){
-        return this._nodeFrame.getViewObject();
+        return this._views.nodeFrame.getViewObject();
     }
 
     Controller.prototype.setUpBehavior=function(){
 
-        var element,
-            moveEvent,
-            Position = SoCuteGraph.helpers.coordinates.Position;
-
-        element = this._nodeFrame;
-
+        var element, moveEvent;
+        element = this._views.nodeFrame;
 
         this._moveEvent=new MoveEvent(this,element.position);
         moveEvent = this._moveEvent;
 
         var dispatcher = this.getDispatcher();
 
-
-
-
-
-        this._nodeFrame.drag(
+        this._views.nodeFrame.drag(
             function(x,y){
-                /*
-                 stateModel.setState(stateModel.states.moved);
-                 stateModel.position=element.position;
-                 */
-            },
-            function(x,y){
-                element.moveTo(new Position({"x":x,"y":y}));
-
-                moveEvent.setPosition(element.position);
-                moveEvent.setOrientation(element.getOrientation());
-                dispatcher.notify(moveEvent);
 
             },
             function(x,y){
-
-                moveEvent.setPosition(element.position);
-                moveEvent.setOrientation(element.getOrientation());
+                var newPosition = new Position({"x":x,"y":y});
+                Controller.moveTo(newPosition, element, moveEvent);
                 dispatcher.notify(moveEvent);
+            },
+            function(x,y){
+
             }
         );
     };
+    /**
+     *
+     * @param position
+     * @param moveEventWithController
+     * @param viewModel
+     */
+    Controller.moveTo = function(position, viewModel, moveEventWithController){
+        viewModel.moveTo(position);
+        moveEventWithController.setPosition(viewModel.position);
+        moveEventWithController.setOrientation(viewModel.getOrientation());
+        return moveEventWithController;
+    }
+
+    Controller.prototype.moveTo = function(position){
+        var moveEvent = new MoveEvent(this);
+        this._moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
+        this._dispatcher.notify(this._moveEvent);
+
+    }
 
     Controller.prototype.subscribeForEvents=function(){
         return this._subscribeForEvents;
     };
 
     Controller.prototype.handleframe=function(){
-        /*
-         if (newState=this._stateModel.getNewState()){
-         }
-         */
+
+        //this._views.nodeFrame.redraw();
     };
 
     return {
@@ -501,17 +477,18 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
 SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
     function(){
+        var Position=SoCuteGraph.helpers.coordinates.Position;
+        var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
+        var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
+
+
+        var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
+        var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
+        var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
         test( "Jump event get name", function() {
 
 
-            var Position=SoCuteGraph.helpers.coordinates.Position;
-            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
-            var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
 
-
-            var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
-            var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
-            var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
             var disp=new Dispathcer();
             var ResolveAssocLinePoints = SoCuteGraph.elements.joinLine.dependencies.ResolveAssocLinePoints;
 
@@ -649,6 +626,36 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
             disp.addObject(lineAssoc);
+
+
+
+        });
+
+        test ("Move dependent object", function(){
+            disp = new Dispathcer();
+            var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
+            var scene = new Scene(paper);
+
+            node7 = new Node('Нода 7', scene, new Position({'x':10, 'y':20}));
+            disp.addObject(node7);
+
+            node8 = new Node('Нода 8', scene, new Position({'x':30, 'y':40}));
+            console.log(node8.getPosition().getPosition());
+            new MoveSlave(disp, node7, node8);
+            disp.addObject(node8);
+
+            node7.moveTo(new Position({'x':0,'y':0  }));
+
+            deepEqual({'x':20,'y':20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+
+            node7.moveTo(new Position({'x':-30,'y':-40  }));
+
+            deepEqual({'x':-10,'y':-20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+
+
+            node7.moveTo(new Position({'x':230,'y':230  }));
+
+            deepEqual({'x':250,'y':250}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
 
         });

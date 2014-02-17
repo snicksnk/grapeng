@@ -6,11 +6,18 @@ SoCuteGraph.events.dispatchers = (function () {
     }
 
     Dispathcer.prototype.init = function(){
+        var FrameEvent = SoCuteGraph.events.std.FrameEvent;
         this._objects=[];
         this._subscriptions={};
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
+
+        setInterval(function(dispathcher){
+            return function(){
+                dispathcher.notify(FrameEvent)
+            }
+        }(this), 100);
     }
 
 
@@ -25,7 +32,7 @@ SoCuteGraph.events.dispatchers = (function () {
         obj.setDispatcher(this);
         obj.setUpBehavior();
 
-        for (i=0; i<subscribition.length; i++){
+        for (var i=0; i<subscribition.length; i++){
             this.addSubscriptionToObject(id, subscribition[i]);
         }
     }
@@ -61,6 +68,7 @@ SoCuteGraph.events.dispatchers = (function () {
             if (typeof object !=='undefined' && typeof object['handle'+evntName] !=='undefined'){
                 object['handle'+evntName](Evnt);
             } else if (typeof this._subscriptions[evntName] !=='undefined') {
+                console.log('handle'+evntName)
                 this._subscriptions[evntName].splice(key, 1);
             }
         }
