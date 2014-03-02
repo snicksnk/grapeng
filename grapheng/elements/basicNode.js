@@ -566,6 +566,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             var animation = new Animation(500, 340, 3000, function(newY){
                console.log(newY);
+                newY = Math.round(newY);
                node3.moveTo(new Position({'x':610, 'y':newY}));
             });
 

@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/grapheng/elements/joinLine.js" line="148" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f0e87dfc-dec2-40c8-aeff-f2b997dab292" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/elements/basicNode.js" afterPath="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
+    </list>
+    <ignored path="grapheng.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="grapheng" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="basicNode.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="568" column="40" selection-start="15966" selection-end="15966" vertical-scroll-proportion="0.0" vertical-offset="9934" max-vertical-offset="11448">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="oLib.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/oLib.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="0" selection-start="598" selection-end="598" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1188">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="animation.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grapheng/elements/animation.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="0" selection-start="1258" selection-end="1258" vertical-scroll-proportion="0.6964286" vertical-offset="162" max-vertical-offset="1836">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="joinLine.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5130">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="49" selection-start="863" selection-end="863" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="1530">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dispatchers.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="26" selection-start="432" selection-end="432" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3564">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="abstractController.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="28" selection-start="1082" selection-end="1082" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1548">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="emptyElement.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/elements/emptyElement.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="5" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="378">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="std.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/events/std.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="21" selection-start="521" selection-end="521" vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="2484">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="coordinates.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="62" column="0" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.0" vertical-offset="864" max-vertical-offset="3654">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/grapheng/elements/viewFactory.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/emptyController.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/emptyElement.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/abstractController.js" />
+        <option value="$PROJECT_DIR$/grapheng/helpers/coordinates.js" />
+        <option value="$PROJECT_DIR$/grapheng/oLib.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/joinLine.js" />
+        <option value="$PROJECT_DIR$/test.html" />
+        <option value="$PROJECT_DIR$/grapheng/events/std.js" />
+        <option value="$PROJECT_DIR$/grapheng/events/dispatchers.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/animation.js" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="-24" />
+    <option name="width" value="1366" />
+    <option name="height" value="792" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="events" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grapheng" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elements" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="SearchEverywhereHistory" value="" />
+    <property name="FullScreen" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/grapheng/elements/viewFactory" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
+    <list size="0" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f0e87dfc-dec2-40c8-aeff-f2b997dab292" name="Default" comment="" />
+      <created>1388861060248</created>
+      <updated>1388861060248</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="-24" width="1366" height="792" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816984" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32937685" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="5" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.0" vertical-offset="684" max-vertical-offset="5562">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="41" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="4518" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="1494">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="17" selection-start="60" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="1440" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="56" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="91" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="34" selection-start="2035" selection-end="2046" vertical-scroll-proportion="0.0" vertical-offset="1404" max-vertical-offset="2916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="504" column="0" selection-start="13007" selection-end="13007" vertical-scroll-proportion="0.0" vertical-offset="8924" max-vertical-offset="12240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="5" selection-start="1249" selection-end="1249" vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="5562">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="41" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="4518" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="1494">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="17" selection-start="60" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="1440" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="56" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="91" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="34" selection-start="2035" selection-end="2046" vertical-scroll-proportion="0.0" vertical-offset="972" max-vertical-offset="2916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="0" selection-start="1908" selection-end="1967" vertical-scroll-proportion="0.0" vertical-offset="860" max-vertical-offset="12240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="12" selection-start="1831" selection-end="1831" vertical-scroll-proportion="0.0" vertical-offset="478" max-vertical-offset="5238">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="41" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="4518" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="1494">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="17" selection-start="60" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="1440" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="56" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="91" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="134" column="64" selection-start="3664" selection-end="3664" vertical-scroll-proportion="0.0" vertical-offset="2412" max-vertical-offset="2916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="658" column="21" selection-start="17502" selection-end="17507" vertical-scroll-proportion="0.0" vertical-offset="10605" max-vertical-offset="12186">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="39" selection-start="3895" selection-end="3910" vertical-scroll-proportion="0.0" vertical-offset="2304" max-vertical-offset="3924">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="41" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="4518" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1458">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="17" selection-start="60" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="1440" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="56" selection-start="215" selection-end="215" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="91" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="134" column="64" selection-start="3664" selection-end="3664" vertical-scroll-proportion="0.0" vertical-offset="2412" max-vertical-offset="2916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="595" column="45" selection-start="15710" selection-end="15717" vertical-scroll-proportion="0.0" vertical-offset="10507" max-vertical-offset="15516">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="5" selection-start="844" selection-end="844" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="25" selection-start="472" selection-end="485" vertical-scroll-proportion="0.0" vertical-offset="99" max-vertical-offset="1620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/untitled.sublime-project">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="23" selection-start="443" selection-end="443" vertical-scroll-proportion="0.4896" vertical-offset="0" max-vertical-offset="1440" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="308" selection-end="308" vertical-scroll-proportion="-10.666667" vertical-offset="0" max-vertical-offset="4536" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/emptyElement.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="5" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="806" column="20" selection-start="12035" selection-end="12035" vertical-scroll-proportion="0.3328" vertical-offset="14300" max-vertical-offset="68634" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="0" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.0" vertical-offset="864" max-vertical-offset="3654">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/SoCuteGraph.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="352" selection-end="352" vertical-scroll-proportion="0.45933014" vertical-offset="0" max-vertical-offset="627">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5166">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="49" selection-start="863" selection-end="863" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="1530">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/oLib.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="598" selection-end="598" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1188">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/abstractController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="28" selection-start="1082" selection-end="1082" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1548">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/std.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="21" selection-start="521" selection-end="521" vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="2484">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="26" selection-start="432" selection-end="432" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3564">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="568" column="40" selection-start="15966" selection-end="15966" vertical-scroll-proportion="0.0" vertical-offset="9934" max-vertical-offset="11448">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/animation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="0" selection-start="1258" selection-end="1258" vertical-scroll-proportion="0.6964286" vertical-offset="162" max-vertical-offset="1836">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+
