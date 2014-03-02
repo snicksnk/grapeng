@@ -23,30 +23,6 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
 
     }
 
-    MoveSlave.defaultMover = function(Evnt){
-        //Node controller context
-
-        var Position = SoCuteGraph.helpers.coordinates.Position;
-        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
-        var diffAmount = Position.getDiffAmount(this.MoveSlaveData.oldMasterPosition.getDiffWith(Evnt.getPosition()));
-
-        if (diffAmount!==0){
-            var dispatcher = this.getDispatcher();
-            var diff = Evnt.getPosition().getPositionDiff();
-            console.log(this._views.nodeFrame.text, '***',Evnt.getPosition().getPositionDiff(),this.MoveSlaveData.oldMasterPosition.getPosition(), Evnt.getPosition().getPosition(), diffAmount);
-
-            var newPosition = new Position(diff);
-            this._views.nodeFrame.moveByDiff(newPosition);
-            this.MoveSlaveData.oldMasterPosition.setPos(Evnt.getPosition().getPosition());
-
-            var moveEvent = new MoveEvent(this, this.getPosition());
-            moveEvent.setPosition(this.getPosition());
-            moveEvent.setOrientation(this.getOrientation());
-            dispatcher.notify(moveEvent);
-
-        }
-    }
-
     MoveSlave.prototype.init=function(dispathcer){
         this._dispatcher = dispathcer;
     }
@@ -67,47 +43,10 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
         this._slave.MoveSlaveData=[];
         this._slave.MoveSlaveData.oldMasterPosition = new Position(this._master.getPosition().getPosition());
 
-        this._slave.addSubscription(new MoveEvent(this._master), this.moverFunction);
-
+        this._slave.setDependsOf(this._master);
 
     }
 
-
-    /*
-
-
-     Controller.prototype.setDependsOf=function(dependedOf){
-     var Position = SoCuteGraph.helpers.coordinates.Position;
-     var parentNodePosition=dependedOf.getPosition();
-     var lastParentNodePosition=new Position(parentNodePosition.getPosition());
-     this.addSubscription(new MoveEvent(dependedOf),
-     function(Evnt){
-
-     var element = this._nodeFrame;
-     var dispatcher = this.getDispatcher();
-
-     var diff = Evnt.getPosition().getPositionDiff();
-     var newPosition = new Position(diff);
-
-
-
-     this._nodeFrame.moveByDiff(newPosition);
-
-
-     var moveEvent = new MoveEvent(this,element.position);
-
-     moveEvent.setPosition(element.position);
-     moveEvent.setOrientation(element.getOrientation());
-
-
-     dispatcher.notify(moveEvent);
-
-     });
-     }
-
-
-
-     */
 
     return {'MoveSlave': MoveSlave};
 
@@ -372,26 +311,26 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return this._views.nodeFrame.getPosition();
     }
 
-    /*
+
     Controller.prototype.setDependsOf=function(dependedOf){
         var Position = SoCuteGraph.helpers.coordinates.Position;
         var parentNodePosition=dependedOf.getPosition();
         var lastParentNodePosition=new Position(parentNodePosition.getPosition());
+
+
         this.addSubscription(new MoveEvent(dependedOf),
             function(Evnt){
 
-                var element = this._nodeFrame;
+                var element = this._views.nodeFrame;
                 var dispatcher = this.getDispatcher();
 
                 var diff = Evnt.getPosition().getPositionDiff();
                 var newPosition = new Position(diff);
 
-                
-
-                this._nodeFrame.moveByDiff(newPosition);
+                this._views.nodeFrame.moveByDiff(newPosition);
 
 
-                var moveEvent = new MoveEvent(this,element.position);
+                var moveEvent = new MoveEvent(this,element.getPosition());
 
                 moveEvent.setPosition(element.position);
                 moveEvent.setOrientation(element.getOrientation());
@@ -401,7 +340,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
             });
     }
-    */
+
     Controller.prototype.setOrientation=function(orientation){
         this._views.nodeFrame.setOrientation(orientation);
 
@@ -628,7 +567,6 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp.addObject(lineAssoc);
 
 
-
         });
 
         test ("Move dependent object", function(){
@@ -656,6 +594,10 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             node7.moveTo(new Position({'x':230,'y':230  }));
 
             deepEqual({'x':250,'y':250}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+
+
+            node7.moveTo(new Position({'x':210,'y':240  }));
+            deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
 
         });
