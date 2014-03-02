@@ -18,9 +18,9 @@ SoCuteGraph.oLib = (function () {
 	};
 
     var animateCallback = function(getStartValue, getEndValue, time, onFinish){
+
         var startVal = getStartValue();
         var endValue = getEndValue();
-        
 
     }
 
@@ -30,10 +30,6 @@ SoCuteGraph.oLib = (function () {
     };
 
 })();
-
-
-
-
 
 SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.oLib',
     function(){

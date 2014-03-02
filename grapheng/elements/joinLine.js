@@ -1,9 +1,3 @@
-/*
-SoCuteGraph.nsCrete("elements.joinLine");
-SoCuteGraph.nsCrete("elements.joinLine");
-SoCuteGraph.nsCrete("elements.joinLine.dependencies");
-*/
-
 SoCuteGraph.nsCrete("elements.joinLine.viewModels");
 SoCuteGraph.nsCrete("elements.joinLine.controllers");
 SoCuteGraph.nsCrete("elements.joinLine.view");

@@ -12,12 +12,14 @@ SoCuteGraph.events.dispatchers = (function () {
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
+        this.frameRate = 10;
 
         setInterval(function(dispathcher){
             return function(){
-                dispathcher.notify(FrameEvent)
+                var frame = new FrameEvent(new Date().getTime(), dispathcher.frameRate);
+                dispathcher.notify(frame)
             }
-        }(this), 100);
+        }(this), this.frameRate);
     }
 
 

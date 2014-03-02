@@ -104,7 +104,6 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this.position.sub['leftJoinPoint']=new Position();
         this.position.sub['rightJoinPoint']=new Position();
         this.position.sub['text']=new Position;
-        this.position.orientation=ViewModel.ORIENTED_RIGHT;
 
         this.text=text;
 
@@ -113,15 +112,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this._views.nodeFrame = scene.NodeFrame(position);
         this._views.nodeText=scene.NodeText(text, scene);
         this._views.nodeFrame.afterDrawText();
-
-
         this.resizeFramerToText();
-
         this.leftJoinPoint=scene.JoinPoint(scene);
         this.rightJoinPoint=scene.JoinPoint(scene);
 
         this.moveTo(this.position);
-
     }
 
 
@@ -424,6 +419,9 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
         var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
         var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
         var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
+
+        var Animation = SoCuteGraph.elements.animation.controllers.Animation;
+
         test( "Jump event get name", function() {
 
 
@@ -566,6 +564,14 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             disp.addObject(lineAssoc);
 
+            var animation = new Animation(500, 340, 3000, function(newY){
+               console.log(newY);
+               node3.moveTo(new Position({'x':610, 'y':newY}));
+            });
+
+            disp.addObject(animation);
+            animation.start();
+
 
         });
 
@@ -598,6 +604,10 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             node7.moveTo(new Position({'x':210,'y':240  }));
             deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+
+
+
+
 
 
         });
