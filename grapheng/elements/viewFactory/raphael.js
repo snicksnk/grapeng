@@ -32,13 +32,28 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     }
 
 
+    function AbstractView(){
+
+    }
+
+    AbstractView.prototype.hide = function(){
+        this._element.hide();
+    }
+
+    AbstractView.prototype.show = function(){
+        this._element.show();
+    }
+
+
 
 
     function AbstractJoinPoint(paper){
     }
 
+    AbstractJoinPoint.prototype = new AbstractView();
+
     AbstractJoinPoint.prototype.position=null;
-    AbstractJoinPoint.prototype._point=null;
+    AbstractJoinPoint.prototype._element=null;
 
     AbstractJoinPoint.prototype.movePosition=function(){
         throw 'specify it!';
@@ -46,10 +61,11 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     AbstractJoinPoint.prototype._initElement=function(paper){
         var Position = SoCuteGraph.helpers.coordinates.Position;
-        this._point=paper.rect(0,0,2,2,0);
-        this._point.attr("stroke-width", 1);
+        this._element=paper.rect(0,0,2,2,0);
+        this._element.attr("stroke-width", 1);
         this.position=new Position();
     }
+
 
 
     function JoinPoint(paper){
@@ -67,19 +83,42 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         this.position.setPos({'x':newX,'y':newY});
 
         var newXWithoutLineWidth = newX;
-        var newYWithoutLineWidth = newY-this._point.attr("stroke-width");
+        var newYWithoutLineWidth = newY-this._element.attr("stroke-width");
 
-        this._point.attr('x', newXWithoutLineWidth);
-        this._point.attr('y', newYWithoutLineWidth);
+        this._element.attr('x', newXWithoutLineWidth);
+        this._element.attr('y', newYWithoutLineWidth);
         return this;
     }
 
+
+    JoinPoint.prototype.hide = function(){
+        this._element.hide();
+    }
+
+    JoinPoint.prototype.show = function(){
+        this._element.show();
+    }
 
     var NodeFrame= function(position, paper) {
         if (position){
             this.init(position, paper);
         }
     }
+
+    NodeFrame.prototype = new AbstractView();
+
+
+    NodeFrame.prototype.hide = function(){
+        this._nodeFrame.hide();
+        this._nodeCover.hide();
+    }
+
+    NodeFrame.prototype.show = function(){
+        this._nodeFrame.show();
+        this._nodeCover.show();
+    }
+
+
 
     NodeFrame.prototype.init=function(position, paper){
         var Position = SoCuteGraph.helpers.coordinates.Position;
@@ -185,37 +224,39 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         var Position = SoCuteGraph.helpers.coordinates.Position;
         this.text=text;
         this.position=new Position();
-        this._text = paper.text(50, 50, text);
-        this._text.attr('font-size',12);
-        this._text.attr('fill','#272323');
-        this._text.attr('font-family','verdana');
+        this._element = paper.text(50, 50, text);
+        this._element.attr('font-size',12);
+        this._element.attr('fill','#272323');
+        this._element.attr('font-family','verdana');
     }
 
+    NodeText.prototype = new AbstractView();
+
     NodeText.prototype.position=null;
-    NodeText.prototype._text=null;
+    NodeText.prototype._element=null;
 
 
     NodeText.prototype.movePosition=function(position){
         var pos=position.getPosition();
-        var textX=pos['x']+this._text.node.getBBox().width/2;
+        var textX=pos['x']+this._element.node.getBBox().width/2;
         var textY=pos['y'];
-        this._text.attr('x',textX);
-        this._text.attr('y',textY);
+        this._element.attr('x',textX);
+        this._element.attr('y',textY);
         this.position.setPos({'x':textX,'y':textY})
         return this;
     }
 
     NodeText.prototype.getRaphaelElement=function(){
-        return this._text;
+        return this._element;
     }
 
     NodeText.prototype.getWidth=function(){
-        var width=this._text.node.getBBox().width;
+        var width=this._element.node.getBBox().width;
         return width;
     }
 
     NodeText.prototype.getHeight=function(){
-        var height=this._text.node.getBBox().height;
+        var height=this._element.node.getBBox().height;
         return height;
     }
 
