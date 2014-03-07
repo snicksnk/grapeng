@@ -375,7 +375,6 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
 
     Controller.prototype.hide = function(){
-        console.log(this._visability);
         if (this._visibility===true){
             var that = this;
             SoCuteGraph.oLib.each(this._views, function(index, value){

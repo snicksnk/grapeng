@@ -70,7 +70,6 @@ SoCuteGraph.events.dispatchers = (function () {
             if (typeof object !=='undefined' && typeof object['handle'+evntName] !=='undefined'){
                 object['handle'+evntName](Evnt);
             } else if (typeof this._subscriptions[evntName] !=='undefined') {
-                console.log('handle'+evntName)
                 this._subscriptions[evntName].splice(key, 1);
             }
         }

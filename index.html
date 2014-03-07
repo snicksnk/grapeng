@@ -10,7 +10,9 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="builds/SoCuteGraph-0.1.0.js?state=1394223587"></script>    <script type="text/javascript" src="builds/script.js?state=1394223587"></script>    <script src="examples/example.js"></script>
+    <script type="text/javascript" src="http://snicksnk.github.io/grapeng/builds/SoCuteGraph-0.1.0.js?state=1394223587"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="examples/example.js"></script>
     <title>So Cute Graph by snicksnk</title>
     <style>
         #canvas-example-1{
@@ -19,6 +21,8 @@
         }
     </style>
 </head>
+
+
 
 <body>
 <div id="container">
@@ -55,17 +59,22 @@
 
             </script>
 
-            <a href="Код целиком">Посмотреть код примера целиком</a>
+            <a href="https://github.com/snicksnk/grapeng/blob/master/examples/example.js">Посмотреть код примера целиком</a>
 
             <p>
-            <h2>Разберем подробнее</h2>
+            <h2>Разберём подробнее</h2>
+
+            <h3>Подключаем библиотеки</h3>
+
+<pre><code>
+&lt;script type="text/javascript" src="http://snicksnk.github.io/grapeng/builds/SoCuteGraph-0.1.0.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"&gt;&lt;/script&gt;
+</code></pre>
 
             <h3>
                 <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>
                 Внедряем зависимости
             </h3>
-
-
 
 <pre><code>
     //Класс обмена событиями между элементами
