@@ -18,7 +18,7 @@ window.onload = function(){
     //var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
 
     //Создаем холст RaphaelJs на месте <div id="canvas-example-1"></div>
-    var paper = Raphael(document.getElementById('canvas-example-1'), 800, 600);
+    var paper = Raphael(document.getElementById('canvas-example-1'), 720,480 );
     //Создаем инстанс абстрактной фабрики виузуализации
     var scene = new Scene(paper);
     //Создаем инстанс диспатчера
