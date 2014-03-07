@@ -100,11 +100,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         this.position.setPos(position.getPosition());
 
+        this._visibility = false;
 
         this.position.sub['leftJoinPoint']=new Position();
         this.position.sub['rightJoinPoint']=new Position();
         this.position.sub['text']=new Position;
-        this.position.orientation=ViewModel.ORIENTED_RIGHT;
 
         this.text=text;
 
@@ -113,15 +113,14 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         this._views.nodeFrame = scene.NodeFrame(position);
         this._views.nodeText=scene.NodeText(text, scene);
         this._views.nodeFrame.afterDrawText();
-
-
         this.resizeFramerToText();
+        this._views.leftJoinPoint=scene.JoinPoint(scene);
+        this._views.rightJoinPoint=scene.JoinPoint(scene);
 
-        this.leftJoinPoint=scene.JoinPoint(scene);
-        this.rightJoinPoint=scene.JoinPoint(scene);
+        this._visibility = false;
+        this.hide();
 
         this.moveTo(this.position);
-
     }
 
 
@@ -130,6 +129,42 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.ORIENTED_RIGHT='right';
 
     ViewModel.ORIENTED_MULTI='multi';
+
+
+    ViewModel.prototype.setVisability = function(visability){
+
+        if (visability === true){
+            this._views.nodeFrame.show();
+        } else if (visability === false) {
+            this._views.nodeFrame.hide();
+        }
+    }
+
+    ViewModel.prototype.getVisability = function(){
+        return this._visibility;
+    }
+
+
+    ViewModel.prototype.show = function(){
+        if (!this.visability){
+            var that = this;
+            SoCuteGraph.oLib.each(this._views, function(index, value){
+                that._views[index].show();
+            });
+            this._visibility = true;
+        }
+    }
+
+    ViewModel.prototype.hide = function(){
+        if (this.visibility){
+            var that = this;
+            SoCuteGraph.oLib.each(this._views, function(index, value){
+                that._views[index].hide();
+            });
+            this._visibility = false;
+        }
+    }
+
 
     ViewModel.prototype.setOrientation=function(orientation){
         if (orientation===ViewModel.ORIENTED_RIGHT || orientation===ViewModel.ORIENTED_LEFT || orientation===ViewModel.ORIENTED_MULTI) {
@@ -207,8 +242,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
 
     ViewModel.prototype._preparePointsPositionData=function() {
-        this.position.sub.leftJoinPoint.setPos(this.leftJoinPoint.position.getPosition());
-        this.position.sub.rightJoinPoint.setPos(this.rightJoinPoint.position.getPosition());
+        this.position.sub.leftJoinPoint.setPos(this._views.leftJoinPoint.position.getPosition());
+        this.position.sub.rightJoinPoint.setPos(this._views.rightJoinPoint.position.getPosition());
     }
 
 
@@ -228,7 +263,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         var pos=position.getPosition();
         var leftX=pos['x']-1;
         var leftY=pos['y']+this._views.nodeFrame.getHeight()/2;
-        this.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
+        this._views.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
     }
 
     ViewModel.prototype._moveRightPoint=function(position){
@@ -236,7 +271,7 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         var pos=position.getPosition();
         var rightX=pos['x']+nodeWidth-1;
         var rightY=pos['y']+this._views.nodeFrame.getHeight()/2;
-        this.rightJoinPoint.movePosition(new Position({'x':rightX,'y':rightY}));
+        this._views.rightJoinPoint.movePosition(new Position({'x':rightX,'y':rightY}));
     }
 
     ViewModel.prototype._moveLeftPosition
@@ -299,13 +334,58 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         if (position===undefined){
             position=new Position({'x':10,'y':20});
         }
+        this._visibility = false;
 
         this._dispatcher=null;
         this._views = {};
+        this.text = text;
         this._views.nodeFrame = new ViewModel(text, scene, position);
         this._subscribeForEvents=[FrameEvent];
 
+
     }
+
+    Controller.prototype.setVisability = function(visability){
+        if (visability == true){
+            this.show();
+        } else {
+
+            this.hide();
+        }
+    }
+
+    Controller.prototype.getVisability = function(){
+
+        return this._visibility;
+
+    }
+
+
+    Controller.prototype.show = function(){
+
+
+        if (this._visibility == false){
+            var that = this;
+            SoCuteGraph.oLib.each(this._views, function(index, value){
+                that._views[index].show();
+            });
+            this._visibility = true;
+
+        }
+    }
+
+    Controller.prototype.hide = function(){
+        console.log(this._visability);
+        if (this._visibility===true){
+            var that = this;
+            SoCuteGraph.oLib.each(this._views, function(index, value){
+                that._views[index].hide();
+            });
+
+            this._visibility = false;
+        }
+    }
+
 
     Controller.prototype.getPosition=function(){
         return this._views.nodeFrame.getPosition();
@@ -364,6 +444,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
         var dispatcher = this.getDispatcher();
 
+        this.show();
         this._views.nodeFrame.drag(
             function(x,y){
 
@@ -377,6 +458,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
             }
         );
+
     };
     /**
      *
@@ -424,6 +506,9 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
         var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
         var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
         var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
+
+        var Animation = SoCuteGraph.elements.animation.controllers.Animation;
+
         test( "Jump event get name", function() {
 
 
@@ -469,12 +554,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             node.getViewObject().frame.setHorizontalOffset(15);
 
             node.redraw();
-
-
-
-
             disp.addObject(node);
-
 
             nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', scene, new Position({'x':610,'y':21}));
 
@@ -566,6 +646,14 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             disp.addObject(lineAssoc);
 
+            var animation = new Animation(500, 340, 3000, function(newY){
+               newY = Math.round(newY);
+               node3.moveTo(new Position({'x':610, 'y':newY}));
+            });
+
+            disp.addObject(animation);
+            animation.start();
+
 
         });
 
@@ -578,7 +666,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp.addObject(node7);
 
             node8 = new Node('Нода 8', scene, new Position({'x':30, 'y':40}));
-            console.log(node8.getPosition().getPosition());
+
             new MoveSlave(disp, node7, node8);
             disp.addObject(node8);
 
@@ -600,6 +688,10 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
 
+
+
+
+
         });
 
         test ("set orientation", function(){
@@ -614,6 +706,36 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             } catch (e){
                 ok(true, 'Exception was thrown');
             }
+        });
+
+
+        test("Hide node", function(){
+            var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;
+            var paper = Raphael(document.getElementById('testCanvas'), 800, 600);
+            var scene = new Scene(paper);
+            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
+            var testNode=new Node('hidden node', scene);
+
+
+
+            var disp=new Dispathcer();
+
+            equal(false, testNode.getVisability());
+
+            disp.addObject(testNode);
+
+            equal(true, testNode.getVisability());
+
+            testNode.setVisability(false);
+            equal(false, testNode.getVisability());
+            testNode.show();
+            equal(true, testNode.getVisability());
+
+            testNode.hide();
+            equal(false, testNode.getVisability());
+
+            //testNode.show();
+
         });
 
     }

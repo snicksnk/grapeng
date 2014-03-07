@@ -24,12 +24,28 @@ SoCuteGraph.events.std=function(){
     }
 
 
-    function FrameEvent(){
-
+    function FrameEvent(time, frameRate){
+        this.setTime(time);
+        this.setFrameRate(frameRate);
     };
-
-
     FrameEvent.prototype=new SCEvent();
+
+    FrameEvent.prototype.getTime = function(){
+        return this.time;
+    }
+
+    FrameEvent.prototype.setTime = function(time){
+        this.time = time;
+    }
+
+    FrameEvent.prototype.getFrameRate = function(){
+        return this.frameRate;
+    }
+
+    FrameEvent.prototype.setFrameRate = function(frameRate){
+        this.frameRate = frameRate;
+    }
+
 
     FrameEvent.prototype.getUniqueName=function(){
         return 'frame';

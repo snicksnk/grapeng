@@ -17,12 +17,19 @@ SoCuteGraph.oLib = (function () {
         return obj;
 	};
 
+    var animateCallback = function(getStartValue, getEndValue, time, onFinish){
+
+        var startVal = getStartValue();
+        var endValue = getEndValue();
+
+    }
+
+
     return {
         'each': each
     };
 
 })();
-
 
 SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.oLib',
     function(){
