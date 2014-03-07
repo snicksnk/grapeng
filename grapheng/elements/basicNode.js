@@ -554,12 +554,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             node.getViewObject().frame.setHorizontalOffset(15);
 
             node.redraw();
-
-
-
-
             disp.addObject(node);
-
 
             nodeDepends=new Node('Вторая нода\nМного строк\nЗдесь\nЕсть', scene, new Position({'x':610,'y':21}));
 
