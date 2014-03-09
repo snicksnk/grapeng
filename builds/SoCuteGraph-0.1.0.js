@@ -619,7 +619,7 @@ SoCuteGraph.events.dispatchers = (function () {
                 if (expectedEndTime>endTime){
                     setTimeout(frameFunction, that.frameRate);
                 } else {
-                    console.log('slow frame with'+(endTime-expectedEndTime));
+                    //console.log('slow frame with'+(endTime-expectedEndTime));
                     frameFunction();
                 }
         };

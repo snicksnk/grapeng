@@ -7,12 +7,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e87dfc-dec2-40c8-aeff-f2b997dab292" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/builds/SoCuteGraph-0.1.0.js" afterPath="$PROJECT_DIR$/builds/SoCuteGraph-0.1.0.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/elements/basicNode.js" afterPath="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CodeGlue/config.php" afterPath="$PROJECT_DIR$/CodeGlue/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/events/dispatchers.js" afterPath="$PROJECT_DIR$/grapheng/events/dispatchers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/example.js" afterPath="$PROJECT_DIR$/examples/example.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CodeGlue/cache/glueState.json" afterPath="$PROJECT_DIR$/CodeGlue/cache/glueState.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/elements/joinLine.js" afterPath="$PROJECT_DIR$/grapheng/elements/joinLine.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="grapheng.iws" />
@@ -45,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="23" selection-start="1041" selection-end="1044" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="3636">
+            <state line="13" column="85" selection-start="856" selection-end="856" vertical-scroll-proportion="0.3848684" vertical-offset="0" max-vertical-offset="3636">
               <folding />
             </state>
           </provider>
@@ -57,7 +53,7 @@
       <file leaf-file-name="deploy.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deploy.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="11" selection-start="5007" selection-end="5007" vertical-scroll-proportion="0.0" vertical-offset="1044" max-vertical-offset="3690">
+            <state line="17" column="59" selection-start="617" selection-end="617" vertical-scroll-proportion="-11.333333" vertical-offset="0" max-vertical-offset="3690">
               <folding />
             </state>
           </provider>
@@ -84,16 +80,16 @@
       <file leaf-file-name="SoCuteGraph-0.1.0.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/builds/SoCuteGraph-0.1.0.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1379" column="0" selection-start="36917" selection-end="36917" vertical-scroll-proportion="0.0" vertical-offset="24619" max-vertical-offset="39348">
+            <state line="1379" column="0" selection-start="36919" selection-end="36919" vertical-scroll-proportion="0.0" vertical-offset="24619" max-vertical-offset="39348">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dispatchers.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="dispatchers.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="27" selection-start="433" selection-end="433" vertical-scroll-proportion="0.31994048" vertical-offset="37" max-vertical-offset="3744">
+            <state line="28" column="17" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0" vertical-offset="37" max-vertical-offset="3744">
               <folding />
             </state>
           </provider>
@@ -150,7 +146,6 @@
         <option value="$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js" />
         <option value="$PROJECT_DIR$/../Code-glue-master/config.php" />
         <option value="$PROJECT_DIR$/deploy.php" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/CodeGlue/config.php" />
         <option value="$PROJECT_DIR$/builds/SoCuteGraph-0.1.0.js" />
         <option value="$PROJECT_DIR$/grapheng/elements/abstractController.js" />
@@ -158,14 +153,14 @@
         <option value="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
         <option value="$PROJECT_DIR$/grapheng/elements/joinLine.js" />
         <option value="$PROJECT_DIR$/grapheng/events/dispatchers.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="-24" />
     <option name="width" value="1366" />
-    <option name="height" value="792" />
+    <option name="height" value="768" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -365,7 +360,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-24" width="1366" height="792" extended-state="6" />
+    <frame x="0" y="0" width="1366" height="768" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -403,9 +398,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816984" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -662,20 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deploy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="11" selection-start="5007" selection-end="5007" vertical-scroll-proportion="0.0" vertical-offset="1044" max-vertical-offset="3690">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="1041" selection-end="1044" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="3636">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CodeGlue/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="25" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="756">
@@ -685,7 +666,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/builds/SoCuteGraph-0.1.0.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1379" column="0" selection-start="36917" selection-end="36917" vertical-scroll-proportion="0.0" vertical-offset="24619" max-vertical-offset="39348">
+        <state line="1379" column="0" selection-start="36919" selection-end="36919" vertical-scroll-proportion="0.0" vertical-offset="24619" max-vertical-offset="39348">
           <folding />
         </state>
       </provider>
@@ -727,7 +708,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grapheng/events/dispatchers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="27" selection-start="433" selection-end="433" vertical-scroll-proportion="0.31994048" vertical-offset="37" max-vertical-offset="3744">
+        <state line="28" column="17" selection-start="1048" selection-end="1048" vertical-scroll-proportion="0.0" vertical-offset="37" max-vertical-offset="3744">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deploy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="59" selection-start="617" selection-end="617" vertical-scroll-proportion="-11.333333" vertical-offset="0" max-vertical-offset="3690">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="85" selection-start="856" selection-end="856" vertical-scroll-proportion="0.3848684" vertical-offset="0" max-vertical-offset="3636">
           <folding />
         </state>
       </provider>
