@@ -1,4 +1,4 @@
-window.onload = function(){
+$().ready(function () {
     //Внедряем зависимости
 
     //Класс обмена событиями между элементами
@@ -156,4 +156,4 @@ window.onload = function(){
     stylizeClass(dispatcher);
 
 
-};
+});
