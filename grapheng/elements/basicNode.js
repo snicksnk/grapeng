@@ -284,7 +284,6 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
                 var newX=this.startpos.x+x
                 var newY=this.startpos.y+y
                 onMoving(newX, newY);
-
             },
             function(x,y){
                 this.startpos={}
@@ -326,6 +325,12 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype.redraw=function(){
         this._views.nodeFrame.redraw();
+        if (this.getDispatcher()){
+            var moveEvent = new MoveEvent(this);
+            moveEvent.setPosition(this._views.nodeFrame.getPosition());
+            moveEvent.setOrientation(this._views.nodeFrame.getOrientation());
+            this.getDispatcher().notify(moveEvent);
+        }
     }
 
     Controller.prototype.init=function(text, scene, position){
@@ -342,6 +347,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         this._views.nodeFrame = new ViewModel(text, scene, position);
         this._subscribeForEvents=[FrameEvent];
 
+        this._newCords = false;
 
     }
 
@@ -435,23 +441,38 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype.setUpBehavior=function(){
 
-        var element, moveEvent;
+        var element;
         element = this._views.nodeFrame;
 
-        this._moveEvent=new MoveEvent(this,element.position);
-        moveEvent = this._moveEvent;
 
-        var dispatcher = this.getDispatcher();
+
+        this._moveEvent=new MoveEvent(this,element.position);
+
+
 
         this.show();
+
+        var that = this;
+
+        this.addSubscription(FrameEvent, function(){
+            if (this._newCords){
+                var moveEvent = this._moveEvent;
+                var dispatcher = this.getDispatcher();
+
+                Controller.moveTo(new Position(this._newCords), element, moveEvent);
+                dispatcher.notify(moveEvent);
+                this._newCords = false;
+            }
+        });
+
+
+
         this._views.nodeFrame.drag(
             function(x,y){
 
             },
             function(x,y){
-                var newPosition = new Position({"x":x,"y":y});
-                Controller.moveTo(newPosition, element, moveEvent);
-                dispatcher.notify(moveEvent);
+                that._newCords = {"x":x,"y":y};
             },
             function(x,y){
 

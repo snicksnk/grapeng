@@ -120,6 +120,7 @@ window.onload = function(){
 
     centerText.attr("font-family",'Arial');
     centerText.attr("font-weight",'bold');
+    centerText.attr("font-size",'13');
 
     centerView.attr("fill", "#FFEC73");
     centerView.attr("fill-opacity",0.5);

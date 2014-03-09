@@ -12,14 +12,25 @@ SoCuteGraph.events.dispatchers = (function () {
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
-        this.frameRate = 10;
+        this.frameRate = 33;
 
-        setInterval(function(dispathcher){
-            return function(){
-                var frame = new FrameEvent(new Date().getTime(), dispathcher.frameRate);
-                dispathcher.notify(frame)
-            }
-        }(this), this.frameRate);
+        var that = this;
+        var frameFunction = function(){
+                var startTime = new Date().getTime();
+                var expectedEndTime = startTime + that.frameRate;
+                var frame = new FrameEvent(startTime, that.frameRate);
+                that.notify(frame);
+                var endTime = new Date().getTime();
+                if (expectedEndTime>endTime){
+                    setTimeout(frameFunction, that.frameRate);
+                } else {
+                    //console.log('slow frame with'+(endTime-expectedEndTime));
+                    frameFunction();
+                }
+        };
+
+        frameFunction();
+
     }
 
 

@@ -244,6 +244,21 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
         this.addSubscription(new MoveEvent(endNode),
              this._lineEndDepends);
 
+        this._newStartNodeEvnt = false;
+        this._newEndNodeEvnt = false;
+
+        this.addSubscription(FrameEvent, function(){
+            if (this._newEndNodeEvnt){
+                this._nodeFrame.moveEndPoint(this._newEndNodeEvnt.getPosition(), this._newEndNodeEvnt.getOrientation());
+                this._newEndNodeEvnt = false;
+            }
+
+            if (this._newStartNodeEvnt){
+                this._nodeFrame.moveStartPoint(this._newStartNodeEvnt.getPosition(), this._newStartNodeEvnt.getOrientation());
+                this._newStartNodeEvnt = false;
+            }
+        });
+
     }
 
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
@@ -251,11 +266,13 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
 
 
     Controller.prototype._lineStartDepends=function(Evnt){
-        this._nodeFrame.moveStartPoint(Evnt.getPosition(), Evnt.getOrientation());
+        this._newStartNodeEvnt = Evnt;
+        //this._nodeFrame.moveStartPoint(Evnt.getPosition(), Evnt.getOrientation());
     }
 
     Controller.prototype._lineEndDepends=function(Evnt){
-        this._nodeFrame.moveEndPoint(Evnt.getPosition(), Evnt.getOrientation());
+        this._newEndNodeEvnt = Evnt;
+        //this._nodeFrame.moveEndPoint(Evnt.getPosition(), Evnt.getOrientation());
     }
 
 
