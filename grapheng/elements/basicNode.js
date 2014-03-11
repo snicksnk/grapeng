@@ -680,6 +680,17 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             animation.start();
 
 
+            var FrameDebugger = SoCuteGraph.elements.animation.tools.FrameDebugger;
+
+            var framer = new FrameDebugger();
+            framer.setDisplayCallback(function(frameEvnt){
+
+                console.log(frameEvnt.getFrameTime());
+            })
+
+            disp.addObject(framer);
+
+
         });
 
         test ("Move dependent object", function(){

@@ -7,31 +7,38 @@ SoCuteGraph.events.dispatchers = (function () {
     }
 
     Dispathcer.prototype.init = function(){
-        var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+
         this._objects=[];
         this._subscriptions={};
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
         this.frameRate = 33;
+        this.frameTime = false;
+        this.fpsProcessor();
 
+    }
+
+    Dispathcer.prototype.fpsProcessor = function(){
+        var FrameEvent = SoCuteGraph.events.std.FrameEvent;
         var that = this;
         var frameFunction = function(){
-                var startTime = new Date().getTime();
-                var expectedEndTime = startTime + that.frameRate;
-                var frame = new FrameEvent(startTime, that.frameRate);
-                that.notify(frame);
-                var endTime = new Date().getTime();
-                if (expectedEndTime>endTime){
-                    setTimeout(frameFunction, that.frameRate);
-                } else {
-                    //console.log('slow frame with'+(endTime-expectedEndTime));
-                    frameFunction();
-                }
+            var startTime = new Date().getTime();
+            var expectedEndTime = startTime + that.frameRate;
+            var frame = new FrameEvent(startTime, that.frameRate, that.frameTime);
+            that.notify(frame);
+            var endTime = new Date().getTime();
+
+            that.frameTime = endTime - startTime;
+            if (expectedEndTime>endTime){
+                setTimeout(frameFunction, that.frameRate);
+            } else {
+                //console.log('slow frame with'+(endTime-expectedEndTime));
+                frameFunction();
+            }
+
         };
-
         frameFunction();
-
     }
 
 

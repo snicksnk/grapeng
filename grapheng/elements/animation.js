@@ -1,6 +1,57 @@
 SoCuteGraph.nsCrete("elements.animation.controllers");
+SoCuteGraph.nsCrete("elements.animation.tools");
 
 
+
+SoCuteGraph.elements.animation.tools = (function () {
+    var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+    var AbstractController = SoCuteGraph.elements.abstractController.Controller;
+
+    var FrameDebugger = function(){
+        this.init();
+    };
+
+
+    FrameDebugger.prototype = new AbstractController;
+
+
+    FrameDebugger.prototype.init = function () {
+        var that = this;
+        this._timeHistory = [];
+
+        this.addSubscription(FrameEvent, function(frameEvnt){
+            that.frameHandler.call(that, frameEvnt);
+        });
+
+
+    }
+
+    FrameDebugger.prototype.frameHandler = function(frameEvent){
+        this._timeHistory.push(frameEvent.getFrameTime());
+        var frameRate = this.getDispatcher().frameRate;
+        if (this._timeHistory.length >= frameRate){
+
+            var sum = this._timeHistory.reduce(function(previousValue, currentItem){
+                return previousValue + currentItem;
+            });
+
+            var fps = sum/frameRate;
+
+            //console.log(sum, fps);
+
+            //this._callback(frameEvent);
+            this._timeHistory = [];
+        }
+    }
+
+    FrameDebugger.prototype.setDisplayCallback = function(callback){
+        this._callback = callback;
+    }
+
+    return {
+        'FrameDebugger':FrameDebugger
+    }
+})();
 
 SoCuteGraph.elements.animation.controllers = (function() {
 
