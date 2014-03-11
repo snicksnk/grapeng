@@ -220,7 +220,12 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.moveTo=function(position){
         var pos=position.getPosition();
         this.position.setPos(pos);
-        this.redraw();
+        this._moveFrame(this.position);
+        this._moveText(this.position)
+        this._moveLeftPoint(this.position);
+        this._moveRightPoint(this.position);
+        this._prepareSubElementsPositionData();
+
     }
 
     ViewModel.prototype._prepareSubElementsPositionData=function(){
@@ -521,7 +526,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
         var Position=SoCuteGraph.helpers.coordinates.Position;
         var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
         var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
-
+        var Dispatcher = SoCuteGraph.events.dispatchers.Dispatcher;
 
         var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
         var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
@@ -533,7 +538,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-            var disp=new Dispathcer();
+            var disp=new Dispatcher();
             var ResolveAssocLinePoints = SoCuteGraph.elements.joinLine.dependencies.ResolveAssocLinePoints;
 
             position=new Position();
@@ -678,7 +683,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
         });
 
         test ("Move dependent object", function(){
-            disp = new Dispathcer();
+            disp = new Dispatcher();
             var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
             var scene = new Scene(paper);
 
@@ -738,7 +743,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-            var disp=new Dispathcer();
+            var disp=new Dispatcher();
 
             equal(false, testNode.getVisability());
 

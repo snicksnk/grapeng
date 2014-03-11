@@ -596,7 +596,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',
 SoCuteGraph.nsCrete("events.dispatchers");
 
 SoCuteGraph.events.dispatchers = (function () {
-    Dispathcer = function(){
+    "use strict";
+    var Dispathcer = function () {
         this.init();
     }
 
@@ -635,7 +636,7 @@ SoCuteGraph.events.dispatchers = (function () {
         this._objects[id] = obj;
         this._uniqueIdCounter++;
 
-        subscribition=obj.subscribeForEvents();
+        var subscribition=obj.subscribeForEvents();
 
         obj.setDispatcher(this);
         obj.setUpBehavior();
@@ -671,7 +672,7 @@ SoCuteGraph.events.dispatchers = (function () {
         if (typeof this._onEventEvents['evntName']!==undefined){
             onEvents=this._onEventEvents;
         }
-        for (key in subsList){
+        for (var key in subsList){
             object = this.getObjectById(subsList[key]);
             if (typeof object !=='undefined' && typeof object['handle'+evntName] !=='undefined'){
                 object['handle'+evntName](Evnt);
@@ -693,6 +694,8 @@ SoCuteGraph.events.dispatchers = (function () {
         }
         this._subscriptions[evntName].push(objId);
     }
+
+
 
     return {
       'Dispatcher':Dispathcer
@@ -932,6 +935,8 @@ SoCuteGraph.nsCrete('elements.abstractController');
 
 SoCuteGraph.elements.abstractController=(function () {
     "use strict";
+    var Dispathcer = SoCuteGraph.events.dispatchers.Dispatcher;
+
     function ObjController(){};
 
     ObjController.prototype.setUpModels=function(paper){
@@ -1247,7 +1252,12 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.moveTo=function(position){
         var pos=position.getPosition();
         this.position.setPos(pos);
-        this.redraw();
+        this._moveFrame(this.position);
+        this._moveText(this.position)
+        this._moveLeftPoint(this.position);
+        this._moveRightPoint(this.position);
+        this._prepareSubElementsPositionData();
+
     }
 
     ViewModel.prototype._prepareSubElementsPositionData=function(){

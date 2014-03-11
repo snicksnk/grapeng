@@ -82,7 +82,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.abstractController.C
 
             });
 
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             disp.addObject(animate);
             animate.start();
             ok(true, "animation is ok");

@@ -20,6 +20,7 @@ $glue->glueEnable = true;
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="http://yandex.st/jquery/2.1.0/jquery.min.js"></script>
     <?= $glue->genIncluder('socutegraph') ?>
     <?= $glue->genIncluder('raphael') ?>
     <script src="examples/example.js"></script>

@@ -2,6 +2,8 @@ SoCuteGraph.nsCrete('elements.abstractController');
 
 SoCuteGraph.elements.abstractController=(function () {
     "use strict";
+    var Dispathcer = SoCuteGraph.events.dispatchers.Dispatcher;
+
     function ObjController(){};
 
     ObjController.prototype.setUpModels=function(paper){

@@ -1,7 +1,8 @@
 SoCuteGraph.nsCrete("events.dispatchers");
 
 SoCuteGraph.events.dispatchers = (function () {
-    Dispathcer = function(){
+    "use strict";
+    var Dispathcer = function () {
         this.init();
     }
 
@@ -40,7 +41,7 @@ SoCuteGraph.events.dispatchers = (function () {
         this._objects[id] = obj;
         this._uniqueIdCounter++;
 
-        subscribition=obj.subscribeForEvents();
+        var subscribition=obj.subscribeForEvents();
 
         obj.setDispatcher(this);
         obj.setUpBehavior();
@@ -76,7 +77,7 @@ SoCuteGraph.events.dispatchers = (function () {
         if (typeof this._onEventEvents['evntName']!==undefined){
             onEvents=this._onEventEvents;
         }
-        for (key in subsList){
+        for (var key in subsList){
             object = this.getObjectById(subsList[key]);
             if (typeof object !=='undefined' && typeof object['handle'+evntName] !=='undefined'){
                 object['handle'+evntName](Evnt);
@@ -98,6 +99,8 @@ SoCuteGraph.events.dispatchers = (function () {
         }
         this._subscriptions[evntName].push(objId);
     }
+
+
 
     return {
       'Dispatcher':Dispathcer
@@ -121,7 +124,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Check handle event", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
 
             controller.testProperty = false;
@@ -136,7 +139,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Add event handler after adding to dispatcher", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
 
             controller.testProperty = false;
@@ -151,7 +154,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Removing the handler", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
 
             controller.testProperty = false;
@@ -168,7 +171,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Removing the handler after adding to dispatcher", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
             controller.testProperty = false;
 
@@ -182,7 +185,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Remove object", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
             controller.testProperty = false;
 
