@@ -63,7 +63,8 @@ var Jaspecto = function () {
         var that = this;
         return {
             'advice':function (aspectName, aspectCallback) {
-                that.addToStack(methodName,'before',aspectName,aspectCallback)
+                that.addToStack(methodName,'before',aspectName,aspectCallback);
+                return that;
             }
         };
     };
@@ -78,6 +79,7 @@ var Jaspecto = function () {
         return {
             'advice':function (aspectName, aspectCallback) {
                 that.addToStack(methodName,'after', aspectName, aspectCallback)
+                return that;
             }
         };
     };
@@ -95,7 +97,6 @@ var Jaspecto = function () {
             that._originalMethods[methodName].apply(that._subject, arguments);
             that.callAfterStack(methodName, arguments);
         }
-
     }
 
 
@@ -114,34 +115,38 @@ SoCuteGraph.testTool.Module.Tests.add('Jaspecto',
             this.b = 2;
         };
 
-        A.prototype.addToA = function (val) {
+        A.prototype.setA = function (val) {
             this.a = val;
         }
-        
+
+        A.prototype.setB = function (val) {
+            this.b = val;
+        }
+
 
         test( "Test wrap object",
             function() {
 
                 var a =new A;
 
-                a.addToA(32);
+                a.setA(32);
 
                 var newA =  Jaspecto.wrap(a);
 
                 var beforeWasCalled = false;
                 var afterWasCalled = false;
-                newA.jas.before('addToA').advice('beforeAdvice', function(val){
+                newA.jas.before('setA').advice('beforeAdvice', function(val){
                     equal(3,val,'before advice called with properly value');
                     beforeWasCalled = true;
                 });
 
-                newA.jas.after('addToA').advice('afterAdvice', function(val){
+                newA.jas.after('setA').advice('afterAdvice', function(val){
                     equal(3,val,'after advice called with properly value')
                     afterWasCalled = true;
                 });
 
 
-                newA.addToA(3);
+                newA.setA(3);
 
                 ok(beforeWasCalled, 'Before was called');
                 ok(afterWasCalled, 'After was called');
@@ -149,6 +154,37 @@ SoCuteGraph.testTool.Module.Tests.add('Jaspecto',
 
             }
         );
+
+        test ("many aspects", function(){
+            var a = new A;
+            Jaspecto.wrap(a);
+
+            var advice1compl = false;
+            var advice2compl = false;
+            var advice3compl = false;
+            var advice4compl = false;
+            a.jas.before('setB').advice('beforeBFirst', function(){
+                advice1compl = true;
+            }).before('setB').advice('beforeBSecond', function(){
+                advice2compl = true;
+            }).after('setA').advice('afterAFirst', function(){
+                advice3compl = true;
+            }).after('setA').advice('afterASecond', function(){
+                advice4compl = true;
+            });
+
+            a.setA(2);
+            a.  setB(3);
+
+            ok(advice1compl, 'Advice 1 is ok');
+            ok(advice2compl, 'Advice 2 is ok');
+            ok(advice3compl, 'Advice 3 is ok');
+            ok(advice4compl, 'Advice 4 is ok');
+
+
+
+
+        });
     }
 );
 
