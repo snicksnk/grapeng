@@ -23,13 +23,19 @@ SoCuteGraph.notations.mindMap = function () {
     MindMap.prototype.addNode = function (text, parentNode) {
 
 
-        var node = this.nodeFactory(text, new Position({'x': 30, 'y': Math.random()*130}));
+        var node = this.nodeFactory(text, new Position({'x': 30, 'y': 30}));
+
+
+
 
         if (parentNode){
             var parentVC = parentNode.getViewController();
             var currentVC = node.getViewController();
             var joinLine = new JoinLine(this._viewFactory, parentVC, currentVC);
             this._dispather.addObject(joinLine);
+
+            parentNode.addChildren(node);
+
 
         } else {
             node.getViewController().setOrientation('multi');
@@ -71,9 +77,109 @@ SoCuteGraph.notations.mindMap = function () {
     var Node = function (viewController) {
         this._viewController = viewController;
         this._mindMap = false;
+        this._childrens = {};
+        this._childrensOrder = [];
+        this._childOffsets = new Position({'x':150, 'y':0});
+        this._neighborhoodOffset = new Position({'x':0,'y':50});
     }
 
     Node.prototype = new AbstractController();
+
+    Node.prototype.getChildrens = function () {
+        return this._childrens;
+    }
+
+    Node.prototype.getChildren = function (node) {
+        return this._childrens[node.getUniqueId()];
+    }
+
+    Node.prototype.getPosition = function(){
+        return this.getViewController().getPosition();
+    }
+
+    Node.prototype.getWidth = function() {
+        return this.getViewController().getWidth();
+    }
+
+    Node.prototype.getHeight = function(){
+        //TODO Реализовать
+        return 30;
+    }
+
+
+    Node.prototype.getChildrenWithId = function (id) {
+        return this._childrens[id];
+    }
+
+    Node.prototype.reposeChildrens = function (){
+        var prevNode;
+        var nextNode;
+        for (var pos in this._childrensOrder){
+            var prevNodeId = this._childrensOrder[pos-1];
+            var nextNodeId = this._childrensOrder[pos+1];
+            var curNodeId = this._childrensOrder[pos];
+
+
+            prevNode = this.getChildrenWithId(prevNodeId);
+            nextNode = this.getChildrenWithId(nextNodeId);
+            curNode =  this.getChildrenWithId(curNodeId);
+
+
+            if (prevNode){
+                var newPos = this.calcChildPosition(curNode, prevNode);
+            } else {
+                var newPos = this.calcChildPosition(curNode);
+            }
+
+
+            curNode.getViewController().moveTo(newPos);
+
+        }
+    }
+
+    Node.prototype.addChildren = function (node) {
+        var nodeId = node.getUniqueId();
+        this._childrens[nodeId] = node;
+
+        this._childrensOrder.push(nodeId);
+
+
+        this.reposeChildrens();
+
+    }
+
+
+
+
+    Node.prototype.calcChildPosition = function(childNode, prevChildNode){
+        var curPosition = this.getViewController().getPosition();
+        var newPos = new Position();
+
+
+
+
+
+        if (prevChildNode){
+            newPos.setPos(prevChildNode.getPosition().getPosition());
+
+            var heightFactor = new Position({'x':0, 'y': prevChildNode.getHeight()});
+            newPos.setDiff(heightFactor.getPosition());
+            newPos.setDiff(this._neighborhoodOffset.getPosition());
+
+       ;
+        } else {
+            newPos.setPos(curPosition.getPosition());
+
+            newPos.setDiff(this._childOffsets.getPosition());
+        }
+
+
+        console.log(newPos.getPosition());
+
+
+        return newPos;
+    }
+
 
 
     Node.prototype.init = function (NodeViewController) {
@@ -132,6 +238,15 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                 mm.addNode('Первый ребенок',rootNode);
 
                 mm.addNode('Второй ребенок',rootNode);
+
+
+                var threeNode = mm.addNode('Третий ребенок',rootNode);
+
+                mm.addNode('Вложенная нода',threeNode);
+                mm.addNode('Вложенная нода',threeNode);
+                mm.addNode('Вложенная нода',threeNode);
+
+                mm.addNode('Четвертый ребенок',rootNode);
             }
         );
 

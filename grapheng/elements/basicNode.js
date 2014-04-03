@@ -356,6 +356,11 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     }
 
+    Controller.prototype.getWidth = function(){
+        return this._views.nodeFrame.getWidth();
+    }
+
+
     Controller.prototype.setVisability = function(visability){
         if (visability == true){
             this.show();

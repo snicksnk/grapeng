@@ -38,7 +38,6 @@ var Jaspecto = function () {
     Introducer.prototype.callStack = function(methodName, stack, args) {
         var aspect;
         for(aspect in this._pointcut[methodName][stack]) {
-            console.log(this._pointcut[methodName][stack][aspect]);
             this._pointcut[methodName][stack][aspect]['callback'].apply(this._subject, args);
         }
     }

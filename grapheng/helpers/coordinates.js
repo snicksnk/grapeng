@@ -59,9 +59,11 @@ SoCuteGraph.helpers.coordinates = (function () {
 
     Position.prototype.clone = function(){
         var pos = new Position(this.getPosition());
-        if (sub.length>0){
+        if (this.sub.length>0){
 
         }
+
+        return pos;
     }
 
 
