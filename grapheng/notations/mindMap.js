@@ -23,7 +23,7 @@ SoCuteGraph.notations.mindMap = function () {
     MindMap.prototype.addNode = function (text, parentNode) {
 
 
-        var node = this.nodeFactory(text, new Position({'x': 30, 'y': 30}));
+        var node = this.nodeFactory(text, new Position({'x': 0, 'y': 0}));
 
 
 
@@ -79,14 +79,48 @@ SoCuteGraph.notations.mindMap = function () {
         this._mindMap = false;
         this._childrens = {};
         this._childrensOrder = [];
-        this._childOffsets = new Position({'x':150, 'y':0});
+        this._childOffsets = new Position({'x':30, 'y':0});
         this._neighborhoodOffset = new Position({'x':0,'y':50});
+
     }
 
     Node.prototype = new AbstractController();
 
     Node.prototype.getChildrens = function () {
         return this._childrens;
+    }
+
+    Node.prototype.getText = function () {
+        return this.getViewController().getTitle();
+    }
+
+    Node.prototype.getNodeContainerSize = function(){
+
+        var heightDiff = new Position();
+
+        var firstChildrenId = this._childrensOrder.slice(0,1)[0];
+        var lastChildrenId = this._childrensOrder.slice(-1)[0];
+
+        var firstChildren = this.getChildrenWithId(firstChildrenId);
+        var lastChildren = this.getChildrenWithId(lastChildrenId);
+
+        if (firstChildren){
+
+            var topPoint = firstChildren.getPosition().getPosition()['y'];
+
+            var bottomPoint = lastChildren.getPosition().getPosition()['y'] + lastChildren.getNodeContainerSize().getPosition()['y'];
+
+            var height = bottomPoint - topPoint;
+
+
+
+
+        } else {
+            var height = this.getHeight();
+        }
+        heightDiff.setPos({'x':0, 'y':height});
+        return heightDiff;
+
     }
 
     Node.prototype.getChildren = function (node) {
@@ -149,32 +183,47 @@ SoCuteGraph.notations.mindMap = function () {
     }
 
 
+    Node.prototype._calcNotFirstChildPosition = function (parentNode, childNode, prevChildNode){
+
+
+        var newPos = new Position();
+        newPos.setPos(prevChildNode.getPosition().getPosition());
+
+
+        var heightFactor = new Position(prevChildNode.getNodeContainerSize().getPosition());
+        newPos.setDiff(heightFactor.getPosition());
+        newPos.setDiff(this._neighborhoodOffset.getPosition());
+
+        return newPos;
+
+    }
+
+    Node.prototype._calcFirstChildPosition = function (parentNode) {
+        var curPosition = parentNode.getViewController().getPosition();
+        var newPos = new Position();
+
+        newPos.setPos(curPosition.getPosition());
+
+        var widthFactor = new Position({'x':parentNode.getWidth(),'y':0});
+
+        newPos.setDiff(widthFactor.getPosition());
+        newPos.setDiff(parentNode._childOffsets.getPosition());
+        newPos.setDiff(parentNode._childOffsets.getPosition());
+
+        return newPos;
+    }
 
 
     Node.prototype.calcChildPosition = function(childNode, prevChildNode){
-        var curPosition = this.getViewController().getPosition();
+
         var newPos = new Position();
 
-
-
-
-
         if (prevChildNode){
-            newPos.setPos(prevChildNode.getPosition().getPosition());
-
-            var heightFactor = new Position({'x':0, 'y': prevChildNode.getHeight()});
-            newPos.setDiff(heightFactor.getPosition());
-            newPos.setDiff(this._neighborhoodOffset.getPosition());
-
-       ;
+            newPos = this._calcNotFirstChildPosition(this, childNode, prevChildNode);
         } else {
-            newPos.setPos(curPosition.getPosition());
-
-            newPos.setDiff(this._childOffsets.getPosition());
+            newPos = this._calcFirstChildPosition(this);
         }
 
-
-        console.log(newPos.getPosition());
 
 
         return newPos;
@@ -242,9 +291,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
                 var threeNode = mm.addNode('Третий ребенок',rootNode);
 
-                mm.addNode('Вложенная нода',threeNode);
-                mm.addNode('Вложенная нода',threeNode);
-                mm.addNode('Вложенная нода',threeNode);
+                mm.addNode('нода1',threeNode);
+                var inclNode2 = mm.addNode('2',threeNode);
+
+                mm.addNode('Вложенная нода1',inclNode2);
+                mm.addNode('Вложенная нода2',inclNode2);
 
                 mm.addNode('Четвертый ребенок',rootNode);
             }

@@ -356,6 +356,11 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     }
 
+
+    Controller.prototype.getTitle = function () {
+        return this._views.nodeFrame.text;
+    }
+
     Controller.prototype.getWidth = function(){
         return this._views.nodeFrame.getWidth();
     }
