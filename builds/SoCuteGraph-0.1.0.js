@@ -456,9 +456,11 @@ SoCuteGraph.helpers.coordinates = (function () {
 
     Position.prototype.clone = function(){
         var pos = new Position(this.getPosition());
-        if (sub.length>0){
+        if (this.sub.length>0){
 
         }
+
+        return pos;
     }
 
 
@@ -602,31 +604,38 @@ SoCuteGraph.events.dispatchers = (function () {
     }
 
     Dispathcer.prototype.init = function(){
-        var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+
         this._objects=[];
         this._subscriptions={};
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
         this.frameRate = 33;
+        this.frameTime = false;
+        this.fpsProcessor();
 
+    }
+
+    Dispathcer.prototype.fpsProcessor = function(){
+        var FrameEvent = SoCuteGraph.events.std.FrameEvent;
         var that = this;
         var frameFunction = function(){
-                var startTime = new Date().getTime();
-                var expectedEndTime = startTime + that.frameRate;
-                var frame = new FrameEvent(startTime, that.frameRate);
-                that.notify(frame);
-                var endTime = new Date().getTime();
-                if (expectedEndTime>endTime){
-                    setTimeout(frameFunction, that.frameRate);
-                } else {
-                    //console.log('slow frame with'+(endTime-expectedEndTime));
-                    frameFunction();
-                }
+            var startTime = new Date().getTime();
+            var expectedEndTime = startTime + that.frameRate;
+            var frame = new FrameEvent(startTime, that.frameRate, that.frameTime);
+            that.notify(frame);
+            var endTime = new Date().getTime();
+
+            that.frameTime = endTime - startTime;
+            if (expectedEndTime>endTime){
+                setTimeout(frameFunction, that.frameRate);
+            } else {
+                //console.log('slow frame with'+(endTime-expectedEndTime));
+                frameFunction();
+            }
+
         };
-
         frameFunction();
-
     }
 
 
@@ -719,7 +728,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Check handle event", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
 
             controller.testProperty = false;
@@ -734,7 +743,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Add event handler after adding to dispatcher", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
 
             controller.testProperty = false;
@@ -749,7 +758,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Removing the handler", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
 
             controller.testProperty = false;
@@ -766,7 +775,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Removing the handler after adding to dispatcher", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
             controller.testProperty = false;
 
@@ -780,7 +789,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.events.dispatchers.',
         });
 
         test("Remove object", function(){
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             var controller = new EmptyController();
             controller.testProperty = false;
 
@@ -824,26 +833,35 @@ SoCuteGraph.events.std=function(){
     }
 
 
-    function FrameEvent(time, frameRate){
+    function FrameEvent(time, frameRate, frameTime){
         this.setTime(time);
         this.setFrameRate(frameRate);
+        this.setFrameTime(frameTime);
     };
     FrameEvent.prototype=new SCEvent();
 
+    FrameEvent.prototype.setFrameTime = function(frameTime){
+        this._frameTime = frameTime;
+    }
+
+    FrameEvent.prototype.getFrameTime = function(){
+        return this._frameTime;
+    }
+
     FrameEvent.prototype.getTime = function(){
-        return this.time;
+        return this._time;
     }
 
     FrameEvent.prototype.setTime = function(time){
-        this.time = time;
+        this._time = time;
     }
 
     FrameEvent.prototype.getFrameRate = function(){
-        return this.frameRate;
+        return this._frameRate;
     }
 
     FrameEvent.prototype.setFrameRate = function(frameRate){
-        this.frameRate = frameRate;
+        this._frameRate = frameRate;
     }
 
 
@@ -1388,6 +1406,16 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     }
 
+
+    Controller.prototype.getTitle = function () {
+        return this._views.nodeFrame.text;
+    }
+
+    Controller.prototype.getWidth = function(){
+        return this._views.nodeFrame.getWidth();
+    }
+
+
     Controller.prototype.setVisability = function(visability){
         if (visability == true){
             this.show();
@@ -1558,7 +1586,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
         var Position=SoCuteGraph.helpers.coordinates.Position;
         var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
         var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
-
+        var Dispatcher = SoCuteGraph.events.dispatchers.Dispatcher;
 
         var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
         var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
@@ -1570,7 +1598,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-            var disp=new Dispathcer();
+            var disp=new Dispatcher();
             var ResolveAssocLinePoints = SoCuteGraph.elements.joinLine.dependencies.ResolveAssocLinePoints;
 
             position=new Position();
@@ -1712,10 +1740,21 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             animation.start();
 
 
+            var FrameDebugger = SoCuteGraph.elements.animation.tools.FrameDebugger;
+
+            var framer = new FrameDebugger();
+            framer.setDisplayCallback(function(frameEvnt){
+
+                console.log(frameEvnt.getFrameTime());
+            })
+
+            disp.addObject(framer);
+
+
         });
 
         test ("Move dependent object", function(){
-            disp = new Dispathcer();
+            disp = new Dispatcher();
             var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
             var scene = new Scene(paper);
 
@@ -1775,7 +1814,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-            var disp=new Dispathcer();
+            var disp=new Dispatcher();
 
             equal(false, testNode.getVisability());
 
@@ -2095,8 +2134,59 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
 
  *//**/;
 SoCuteGraph.nsCrete("elements.animation.controllers");
+SoCuteGraph.nsCrete("elements.animation.tools");
 
 
+
+SoCuteGraph.elements.animation.tools = (function () {
+    var FrameEvent = SoCuteGraph.events.std.FrameEvent;
+    var AbstractController = SoCuteGraph.elements.abstractController.Controller;
+
+    var FrameDebugger = function(){
+        this.init();
+    };
+
+
+    FrameDebugger.prototype = new AbstractController;
+
+
+    FrameDebugger.prototype.init = function () {
+        var that = this;
+        this._timeHistory = [];
+
+        this.addSubscription(FrameEvent, function(frameEvnt){
+            that.frameHandler.call(that, frameEvnt);
+        });
+
+
+    }
+
+    FrameDebugger.prototype.frameHandler = function(frameEvent){
+        this._timeHistory.push(frameEvent.getFrameTime());
+        var frameRate = this.getDispatcher().frameRate;
+        if (this._timeHistory.length >= frameRate){
+
+            var sum = this._timeHistory.reduce(function(previousValue, currentItem){
+                return previousValue + currentItem;
+            });
+
+            var fps = sum/frameRate;
+
+            //console.log(sum, fps);
+
+            //this._callback(frameEvent);
+            this._timeHistory = [];
+        }
+    }
+
+    FrameDebugger.prototype.setDisplayCallback = function(callback){
+        this._callback = callback;
+    }
+
+    return {
+        'FrameDebugger':FrameDebugger
+    }
+})();
 
 SoCuteGraph.elements.animation.controllers = (function() {
 
@@ -2178,7 +2268,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.abstractController.C
 
             });
 
-            var disp = new Dispathcer();
+            var disp = new Dispatcher();
             disp.addObject(animate);
             animate.start();
             ok(true, "animation is ok");
