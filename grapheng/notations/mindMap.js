@@ -254,74 +254,29 @@ SoCuteGraph.notations.mindMap.building = function () {
     var Position = SoCuteGraph.helpers.coordinates.Position;
 
     var Abstract = function(){
-        this.init();
+
     }
 
     Abstract.prototype.init = function(settings){
         this.defineAttrs();
     }
 
-    Abstract.prototype.setAttr = function(name, value){
-        if (typeof this._attrsSetters[name] === 'undefined'){
-            throw new Error('Undefined property "'+name+'"');
-        }
-
-        this._attrsSetters[name].setter.call(this, name, value);
-        return this;
-    }
-
-    Abstract.prototype.getAttr = function(name){
-        if (typeof this._attrsSetters[name] === 'undefined'){
-            throw new Error('Undefined property "'+name+'"');
-        }
-
-        return this._attrsSetters[name].getter.call(this, name);
-    }
 
     Abstract.prototype.defineAttrs = function (){
-        this._attrsSetters = {};
-
         this._addAttr('childOffsets', null);
         this._addAttr('neighborhoodOffset',null);
 
-
-    }
-
-    Abstract.prototype._addAttr = function(name, defaultValue, setter, getter) {
-
-        if (!setter){
-            setter = this._defaultSetter;
-        }
-
-        if (!getter){
-            getter = this._defaultGetter;
-        }
-
-
-
-        this._attrsSetters[name] = {};
-        this._attrsSetters[name].setter = setter;
-        this._attrsSetters[name].getter = getter;
-        this._attrsSetters[name].setter.call(this, name, defaultValue);
-
-    }
-
-    Abstract.prototype._defaultGetter = function(name) {
-
-        return this['_'.name];
-    }
-
-
-    Abstract.prototype._defaultSetter = function(name, value) {
-
-        this['_'.name] = value;
-        return this;
     }
 
 
     Abstract.prototype.reposeChildrens = function(parent, children, childrensOrder){
 
     }
+
+
+
+    SoCuteGraph.oLib.mixin(Abstract.prototype, SoCuteGraph.oLib.PropertyesMixin);
+
 
 
     var Default = function (){
@@ -331,6 +286,9 @@ SoCuteGraph.notations.mindMap.building = function () {
     }
 
     Default.prototype = new Abstract();
+
+
+
 
     Default.prototype._calcNotFirstChildPosition = function (parentNode, childNode, prevChildNode){
 
@@ -411,7 +369,7 @@ SoCuteGraph.notations.mindMap.building = function () {
         var lastChildId = childrensOrder[childrensOrder.length-1];
 
         var curPos = new Position(parent.getPosition().getPosition());
-        console.log(parent.getText(),curPos.getPosition());
+
 
         if (firstChildId && lastChildId){
 
@@ -421,13 +379,12 @@ SoCuteGraph.notations.mindMap.building = function () {
 
 
             var yOffset = lastChild.getPosition().getPosition()['y'] - firstChild.getPosition().getPosition()['y'];
-            console.log(yOffset);
+
             curPos.setDiff({'x': 0,'y':3    });
         }
 
 
 
-        console.log(curPos.getPosition());
         return curPos;
 
     }
@@ -498,6 +455,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                 mm.addNode('Вложенная нода2',inclNode2);
 
                 mm.addNode('Четвертый ребенок',rootNode);
+
+                ok('true');
             }
         );
 
