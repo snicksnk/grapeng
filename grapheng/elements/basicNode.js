@@ -282,6 +282,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype._moveLeftPosition
 
 
+
+    ViewModel.prototype.click = function(callback){
+        this._views.nodeFrame.click(callback);
+    }
+
     ViewModel.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
 
@@ -454,6 +459,17 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return this._views.nodeFrame.getViewObject();
     }
 
+
+    Controller.prototype.drag = function(x,y){
+        this._newCords = {"x":x,"y":y};
+    }
+
+
+    Controller.prototype.click = function(){
+
+    }
+
+
     Controller.prototype.setUpBehavior=function(){
 
         var element;
@@ -482,12 +498,16 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
 
 
+        that._views.nodeFrame.click(function(){
+            that.click();
+        });
+
         this._views.nodeFrame.drag(
             function(x,y){
 
             },
             function(x,y){
-                that._newCords = {"x":x,"y":y};
+                that.drag(x,y);
             },
             function(x,y){
 

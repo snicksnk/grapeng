@@ -32,6 +32,8 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     }
 
 
+
+
     function AbstractView(){
 
     }
@@ -216,6 +218,11 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     NodeFrame.prototype.setDrag=function(onStartMove, onMoving, onStopMove){
         this._nodeCover.drag(onStartMove, onMoving, onStopMove);
+    }
+
+
+    NodeFrame.prototype.click = function(handler){
+        this._nodeCover.click(handler);
     }
 
 

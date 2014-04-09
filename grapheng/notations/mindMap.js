@@ -7,6 +7,7 @@ SoCuteGraph.notations.mindMap = function () {
     var Position = SoCuteGraph.helpers.coordinates.Position;
     var JoinLine = SoCuteGraph.elements.joinLine.controllers.Controller;
 
+    var MoveSlave = SoCuteGraph.elements.basicNode.dependencies.MoveSlave;
 
     var MindMap = function (viewFactory, dispatcher) {
         this._nodeStorage = {};
@@ -14,10 +15,50 @@ SoCuteGraph.notations.mindMap = function () {
         this._viewFactory = viewFactory;
         this._dispather = dispatcher;
         this._nodePathes = {};
+        this._selectedNode = false;
+
+        this.setUpKeyCodes();
+
     }
+
+
+    MindMap.prototype = new AbstractController();
 
     MindMap.prototype.getLastAddedNodeId = function (){
         return this._lastAddedNodeId;
+    }
+
+
+    MindMap.prototype.setUpKeyCodes = function () {
+        document.onkeypress =  zx;
+
+        var that = this;
+
+        function zx(e){
+            var charCode = (typeof e.which == "number") ? e.which : e.keyCode
+            console.log(charCode)
+
+            if (charCode == 105){
+                that.addChildToSelectedNode();
+            }
+
+        }
+    }
+
+    MindMap.prototype.addChildToSelectedNode = function(){
+        var selectedNde = this._selectedNode;
+
+        if (selectedNde){
+            var newNodeText = prompt('Enter name');
+
+            this.addNode(newNodeText, selectedNde);
+
+        }
+
+    }
+
+    MindMap.prototype.setSelectedNode = function(node){
+        this._selectedNode = node;
     }
 
     MindMap.prototype.addNode = function (text, parentNode) {
@@ -32,31 +73,49 @@ SoCuteGraph.notations.mindMap = function () {
             var parentVC = parentNode.getViewController();
             var currentVC = node.getViewController();
             var joinLine = new JoinLine(this._viewFactory, parentVC, currentVC);
-            this._dispather.addObject(joinLine);
+            this.getDispatcher().addObject(joinLine);
 
             parentNode.addChildren(node);
+
+
+            new MoveSlave(this.getDispatcher(), parentNode.getViewController(), node.getViewController());
 
 
         } else {
             node.getViewController().setOrientation('multi');
         }
 
-
         return node;
 
     }
 
 
+
     MindMap.prototype.nodeFactory = function (text, position){
 
         var nodeViewController = new NodeViewController(text, this._viewFactory, position);
-        this._dispather.addObject(nodeViewController);
+        this.getDispatcher().addObject(nodeViewController);
+
+        Jaspecto.wrap(nodeViewController);
+
+        var that = this;
+
+
         var node = new Node(nodeViewController);
-        this._dispather.addObject(node);
+        this.getDispatcher().addObject(node);
         var nodeId = node.getUniqueId();
         this._nodeStorage[nodeId] = node;
         node.setMindMap(this);
         this._lastAddedNode = node;
+
+
+        nodeViewController.jas.after('click').advice('selectNode', function(){
+            that.setSelectedNode(node);
+
+        });
+
+
+
         return node;
     }
 
@@ -380,7 +439,7 @@ SoCuteGraph.notations.mindMap.building = function () {
 
             var yOffset = lastChild.getPosition().getPosition()['y'] - firstChild.getPosition().getPosition()['y'];
 
-            curPos.setDiff({'x': 0,'y':3    });
+            curPos.setDiff({'x': 0,'y':0   });
         }
 
 
@@ -431,14 +490,20 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
         var Node = SoCuteGraph.notations.mindMap.Node;
         var disp = new SoCuteGraph.events.dispatchers.Dispatcher;
 
+
+
+
         var paper;
 
         test( "Test create mm",
             function() {
 
-                var paper = Raphael(document.getElementById('mm-canvas'), 600, 600);
+                var paper = Raphael(document.getElementById('mm-canvas'), 1200, 1200);
 
-                var mm = new MindMap(new Scene(paper),disp);
+                var mm = new MindMap(new Scene(paper) );
+
+                disp.addObject(mm);
+
                 var rootNode = mm.addNode('root node');
 
                 mm.addNode('Первый ребенок',rootNode);
