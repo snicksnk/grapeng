@@ -156,7 +156,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     }
 
     ViewModel.prototype.hide = function(){
-        if (this.visibility){
+
+        if (this._visibility){
             var that = this;
             SoCuteGraph.oLib.each(this._views, function(index, value){
                 that._views[index].hide();
@@ -401,10 +402,13 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
 
     Controller.prototype.hide = function(){
+
         if (this._visibility===true){
             var that = this;
+
             SoCuteGraph.oLib.each(this._views, function(index, value){
-                that._views[index].hide();
+
+                value.hide();
             });
 
             this._visibility = false;

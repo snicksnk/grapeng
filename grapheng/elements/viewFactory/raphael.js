@@ -70,6 +70,7 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
 
 
+
     function JoinPoint(paper){
         this._initElement(paper);
     }
@@ -275,12 +276,37 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     Path.prototype.init = function(path, paper){
         this._path=paper.path(path);
+        this._paper = paper;
+
     }
 
     Path.prototype.setSVGPath = function(path){
         this._path.attr("path", path);
         this._path.toBack();
     }
+
+    Path.prototype.setPath = function(start, end){
+
+        var centerX=(end['x']-start['x'])/2+start['x'];
+        var centerY=(end['y']-start['y'])/2+start['y'];
+
+        //this._paper.circle(centerX, centerY, 1);
+
+
+        this._path.attr("path",[
+            "M",start['x'],start['y'],
+            'Q',centerX,start['y'],
+            ,centerX,centerY,
+            'Q',centerX,end['y'],
+            end['x'],end['y']
+        ]);
+        this._path.toBack();
+    }
+
+    Path.prototype.hide = function(){
+        this._path.hide();
+    }
+
 
 
     return {

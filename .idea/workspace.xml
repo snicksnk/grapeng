@@ -7,8 +7,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e87dfc-dec2-40c8-aeff-f2b997dab292" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/elements/basicNode.js" afterPath="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/elements/joinLine.js" afterPath="$PROJECT_DIR$/grapheng/elements/joinLine.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/notations/mindMap.js" afterPath="$PROJECT_DIR$/grapheng/notations/mindMap.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/mm.html" afterPath="$PROJECT_DIR$/tests/mm.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js" afterPath="$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -44,26 +44,29 @@
       </file>
       <file leaf-file-name="Jaspecto.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jaspecto/Jaspecto.js">
+          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="136" column="15" selection-start="3751" selection-end="3954" vertical-scroll-proportion="0.0" vertical-offset="2214" max-vertical-offset="3528">
+            <state line="136" column="15" selection-start="3751" selection-end="3954" vertical-scroll-proportion="0.0" vertical-offset="2448" max-vertical-offset="3528">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mindMap.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="mindMap.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grapheng/notations/mindMap.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="402" column="25" selection-start="9994" selection-end="9994" vertical-scroll-proportion="0.6" vertical-offset="6885" max-vertical-offset="9684">
+            <state line="82" column="41" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="1108" max-vertical-offset="10134">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="basicNode.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <file leaf-file-name="raphael.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="560" column="73" selection-start="14963" selection-end="15042" vertical-scroll-proportion="-6.5555553" vertical-offset="9903" max-vertical-offset="14634">
+            <state line="27" column="4" selection-start="610" selection-end="610" vertical-scroll-proportion="0.7648" vertical-offset="8" max-vertical-offset="5472">
               <folding />
             </state>
           </provider>
@@ -81,7 +84,7 @@
       <file leaf-file-name="mm.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/mm.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="21" selection-start="1442" selection-end="1442" vertical-scroll-proportion="7.851852" vertical-offset="1112" max-vertical-offset="1710">
+            <state line="50" column="21" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="1710">
               <folding />
             </state>
           </provider>
@@ -116,8 +119,11 @@
       </file>
       <file leaf-file-name="oLib.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grapheng/oLib.js">
+          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="60" selection-start="2212" selection-end="2212" vertical-scroll-proportion="0.0" vertical-offset="1637" max-vertical-offset="3420">
+            <state line="92" column="60" selection-start="2212" selection-end="2212" vertical-scroll-proportion="0.0" vertical-offset="1656" max-vertical-offset="3420">
               <folding />
             </state>
           </provider>
@@ -143,7 +149,6 @@
         <option value="$PROJECT_DIR$/../Code-glue-master/config.php" />
         <option value="$PROJECT_DIR$/CodeGlue/config.php" />
         <option value="$PROJECT_DIR$/builds/SoCuteGraph-0.1.0.js" />
-        <option value="$PROJECT_DIR$/grapheng/elements/joinLine.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/examples/example.js" />
         <option value="$PROJECT_DIR$/deploy.php" />
@@ -156,10 +161,11 @@
         <option value="$PROJECT_DIR$/jaspecto/Jaspecto.js" />
         <option value="$PROJECT_DIR$/grapheng/helpers/coordinates.js" />
         <option value="$PROJECT_DIR$/grapheng/oLib.js" />
-        <option value="$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js" />
-        <option value="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
         <option value="$PROJECT_DIR$/tests/mm.html" />
+        <option value="$PROJECT_DIR$/grapheng/elements/basicNode.js" />
         <option value="$PROJECT_DIR$/grapheng/notations/mindMap.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/joinLine.js" />
+        <option value="$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js" />
       </list>
     </option>
   </component>
@@ -194,6 +200,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -360,14 +367,13 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="SearchEverywhereHistory" value="&#10;th" />
     <property name="FullScreen" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../devos_hub" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -383,19 +389,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -409,14 +402,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1360" height="768" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24705015" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24705015" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -424,11 +417,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32789317" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -446,9 +439,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816446" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -709,58 +702,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="13" selection-start="6659" selection-end="6659" vertical-scroll-proportion="0.0" vertical-offset="3691" max-vertical-offset="5436">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grapheng/helpers/coordinates.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="24" selection-start="3266" selection-end="3266" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="3690">
-          <folding />
-        </state>
+        <state line="125" column="24" selection-start="3266" selection-end="3266" vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="3690" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grapheng/oLib.js">
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="92" column="60" selection-start="2212" selection-end="2212" vertical-scroll-proportion="0.0" vertical-offset="1637" max-vertical-offset="3420">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+    <entry file="file://$PROJECT_DIR$/tests/mm.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="0" selection-start="5228" selection-end="5228" vertical-scroll-proportion="0.45317724" vertical-offset="3725" max-vertical-offset="5400">
+        <state line="50" column="21" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="1710">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jaspecto/Jaspecto.js">
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="136" column="15" selection-start="3751" selection-end="3954" vertical-scroll-proportion="0.0" vertical-offset="2214" max-vertical-offset="3528">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="560" column="73" selection-start="14963" selection-end="15042" vertical-scroll-proportion="-6.5555553" vertical-offset="9903" max-vertical-offset="14634">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/mm.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="21" selection-start="1442" selection-end="1442" vertical-scroll-proportion="7.851852" vertical-offset="1112" max-vertical-offset="1710">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grapheng/notations/mindMap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="402" column="25" selection-start="9994" selection-end="9994" vertical-scroll-proportion="0.6" vertical-offset="6885" max-vertical-offset="9684">
+        <state line="82" column="41" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="1108" max-vertical-offset="10134">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/joinLine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="35" selection-start="4368" selection-end="4368" vertical-scroll-proportion="0.5833333" vertical-offset="1785" max-vertical-offset="5526">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/basicNode.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="566" column="0" selection-start="15035" selection-end="15035" vertical-scroll-proportion="0.33333334" vertical-offset="9984" max-vertical-offset="14706" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grapheng/elements/viewFactory/raphael.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="4" selection-start="610" selection-end="610" vertical-scroll-proportion="0.7648" vertical-offset="8" max-vertical-offset="5472">
           <folding />
         </state>
       </provider>

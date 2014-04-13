@@ -160,6 +160,9 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
         this.redrawLine();
     }
 
+    ViewModel.prototype.hide = function () {
+        this.curve.hide();
+    }
 
     ViewModel.prototype.redrawLine=function(start, end){
 
@@ -171,19 +174,7 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
             var end = this.getEndPosition();
         }
 
-        var centerX=(end['x']-start['x'])/2+start['x'];
-        var centerY=(end['y']-start['y'])/2+start['y'];
-
-        //this.paper.circle(centerX, centerY, 10);
-
-
-        this.curve.setSVGPath([
-            "M",start['x'],start['y'],
-            'Q',centerX,start['y'],
-            ,centerX,centerY,
-            'Q',centerX,end['y'],
-            end['x'],end['y']
-        ]);
+        this.curve.setPath(start, end);
 
     }
 
@@ -263,7 +254,9 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
 
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
 
-
+    Controller.prototype.hide = function() {
+        this._nodeFrame.hide();
+    }
 
     Controller.prototype._lineStartDepends=function(Evnt){
         this._newStartNodeEvnt = Evnt;
