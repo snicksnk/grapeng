@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"re",
+				"return"
+			],
+			[
+				"pro",
+				"prototype"
+			],
+			[
+				"gec",
+				"getChildren"
+			],
+			[
+				"pa",
+				"parent"
+			],
+			[
+				"getCh",
+				"getChildrenWithId"
+			],
+			[
+				"getC",
+				"getChildren"
+			],
+			[
+				"child",
+				"childrens"
+			],
+			[
+				"chi",
+				"childrensOrder"
+			],
+			[
+				"par",
+				"parent"
+			],
+			[
+				"rem",
+				"removeChild"
+			],
+			[
+				"getPa",
+				"getParentNode"
+			],
+			[
+				"t",
+				"this"
+			],
+			[
+				"pare",
+				"parentNode"
+			],
+			[
+				"_chil",
+				"_childrensOrder"
+			],
+			[
+				"_pa",
+				"_path"
+			],
+			[
 				"o",
 				"oLib"
 			],
@@ -204,10 +264,6 @@
 				"start"
 			],
 			[
-				"t",
-				"text"
-			],
-			[
 				"te",
 				"text"
 			],
@@ -238,10 +294,6 @@
 			[
 				"left",
 				"leftJoinPoint"
-			],
-			[
-				"pa",
-				"paper"
 			],
 			[
 				"mo",
@@ -278,10 +330,6 @@
 			[
 				"lo",
 				"log"
-			],
-			[
-				"re",
-				"rect"
 			],
 			[
 				"a",
@@ -436,10 +484,6 @@
 				"subscribeForEvents"
 			],
 			[
-				"pro",
-				"prototype"
-			],
-			[
 				"ju",
 				"jumpEvent"
 			],
@@ -470,42 +514,6 @@
 			[
 				"add",
 				"addProcessor"
-			],
-			[
-				"wi",
-				"withText"
-			],
-			[
-				"proc",
-				"processorsChain"
-			],
-			[
-				"file",
-				"fileName"
-			],
-			[
-				"has",
-				"hasText"
-			],
-			[
-				"grep",
-				"grepFilesSource"
-			],
-			[
-				"std",
-				"stdProcessor"
-			],
-			[
-				"processor",
-				"processors"
-			],
-			[
-				"process",
-				"processor"
-			],
-			[
-				"files",
-				"filesListPreprocess"
 			]
 		]
 	},
@@ -515,7 +523,7 @@
 			"file": "test.js",
 			"settings":
 			{
-				"buffer_size": 1799,
+				"buffer_size": 1798,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,15 +539,39 @@
 			"file": "grapheng/oLib.js",
 			"settings":
 			{
-				"buffer_size": 1272,
+				"buffer_size": 4407,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "test.html",
+			"file": "grapheng/elements/viewFactory/raphael.js",
 			"settings":
 			{
-				"buffer_size": 1736,
+				"buffer_size": 7582,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "grapheng/elements/joinLine.js",
+			"settings":
+			{
+				"buffer_size": 8926,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "grapheng/notations/mindMap.js",
+			"settings":
+			{
+				"buffer_size": 14251,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "grapheng/elements/abstractController.js",
+			"settings":
+			{
+				"buffer_size": 2179,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,18 +579,15 @@
 			"file": "grapheng/elements/basicNode.js",
 			"settings":
 			{
-				"buffer_size": 18170,
+				"buffer_size": 22361,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "SoCuteGraph.nsCrete(\"helpers.coordinates\");\n\nSoCuteGraph.helpers.coordinates = (function () {\n    \"use strict\";\n    var Position = function (cords) {\n        if (!cords) {\n            cords = {'x': 0, 'y': 0};\n        }\n        this._cords = cords;\n        this._lastCords = cords;\n        this.sub = {};\n    };\n\n    Position.prototype._lastGettedCords = {};\n\n    Position.prototype._cords = {};\n\n    Position.prototype._lastCords = {};     \n\n    Position.prototype.sub = {};\n\n    Position.prototype.orientation = false;\n\n    Position.prototype.getNewPos=function(){\n        var resultCoordinates=false;\n        if (this._cords != this._lastGettedCords){\n            this._lastGettedCords = this._cords;\n            resultCoordinates = this._cords;\n        }\n        return resultCoordinates;\n    }\n\n    Position.prototype.getPositionDiff=function(){\n        var diffCoordinates={};\n        /*\n        if (this._cords===this._lastCords){\n            return false;\n        }\n        */\n\n        for (var dimension in this._cords){\n            diffCoordinates[dimension]=this._cords[dimension]-this._lastCords[dimension];\n        }\n\n        this._lastGettedCords = this._cords;\n        //this._lastCords=this._cords;\n        return diffCoordinates;\n    }\n\n    Position.prototype.getDiffWith=function(otherPosition){\n        var diffCoordinates={}, otherCoords = otherPosition.getPosition();\n\n        for (var dimension in this._cords){\n            diffCoordinates[dimension]=otherCoords[dimension] - this._cords[dimension];\n        }\n\n        return diffCoordinates;\n    }\n\n\n    Position.getDiffAmount = function(diffCoords){\n        var diffAmount = 0;\n        for (var dimension in diffCoords){\n            diffAmount+=diffCoords[dimension];\n        }\n\n        return diffAmount;\n    }\n\n\n    Position.prototype.setDiff=function(diff){\n        var newCords={};\n        for (var dimension in diff){\n            newCords[dimension]=this._cords[dimension]+diff[dimension];\n        }\n        this.setPos(newCords);\n    }\n\n    Position.prototype.getPosition=function(){\n        return this._cords;\n    }\n\n    Position.prototype.setPos=function(cords){\n        this._lastCords=this._cords;\n        this._cords=cords;\n    };\n\n    return {\n        'Position':Position\n    }\n\n})();\n\nSoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',\n    function(){\n        var Position=SoCuteGraph.helpers.coordinates.Position;\n\n        test(\"Get diff with other position\", function(){\n            var pos1=new Position({'x':3,'y':4});\n            var pos2=new Position({'x':5,'y':17});\n\n            deepEqual(pos1.getDiffWith(pos2), {'x':2,'y':13}, 'pos1 + posResult = pos2');\n\n            pos1=new Position({'x':13,'y':24});\n            pos2=new Position({'x':5,'y':17});\n\n            deepEqual(pos1.getDiffWith(pos2), {'x':-8,'y':-7}, 'pos1 + posResult = pos2');\n\n            pos1=new Position({'x':13,'y':24});\n            pos2=new Position({'x':13,'y':24});\n\n            deepEqual(pos1.getDiffWith(pos2), {'x':0,'y':0}, 'pos1 + posResult = pos2');\n\n\n\n        });\n\n\n        test(\"Get diff amount\", function(){\n\n            var Position=SoCuteGraph.helpers.coordinates.Position;\n\n            var diff={'x':2,'y':3};\n            equal(Position.getDiffAmount(diff), 5, 'Diff amount is ok')\n\n            diff={'x':0, 'y':0};\n            equal(Position.getDiffAmount(diff), 0, 'Diff amount is ok')\n\n        });\n\n        test(\"MoveEvent sub positions\",function(){\n\n            var Position=SoCuteGraph.helpers.coordinates.Position;\n            var Node = SoCuteGraph.elements.basicNode.controllers.Controller;\n            var Line = SoCuteGraph.elements.joinLine.Controller;\n            var Scene = SoCuteGraph.elements.viewFactory.raphael.Scene;\n\n\n            var paper = Raphael(document.getElementById('testCanvas'), 600, 600);\n\n            var scene = new Scene(paper);\n\n            var node = new Node('test node', scene, new Position({'x':10,'y':220}));\n            var MoveEvent = SoCuteGraph.events.std.MoveEvent;\n            var SCEvent = SoCuteGraph.events.std.SCEvent;\n            var moveEvent=new MoveEvent(node, node.getPosition());\n\n\n            testPostion=new Position({'x':12,'y':22});\n            moveEvent.setSubPosition('tested_position', testPostion);\n\n            deepEqual(moveEvent.getSubPosition('tested_position'),\n                testPostion, 'seted subpostion equals to getted'\n            );\n        });\n    }\n)",
 			"file": "grapheng/helpers/coordinates.js",
-			"file_size": 4431,
-			"file_write_time": 130335002079827573,
 			"settings":
 			{
-				"buffer_size": 4436,
+				"buffer_size": 5828,
 				"line_ending": "Unix"
 			}
 		},
@@ -607,6 +636,8 @@
 	},
 	"file_history":
 	[
+		"/var/www/grapheng/grapheng/notations/mindMap.js",
+		"/var/www/grapheng/test.html",
 		"/var/www/maitavr/zf/module/Application/src/Application/Controller/PartnersApiController.php",
 		"/var/www/maitavr/index.php",
 		"/var/www/maitavr/subsystem/index.php",
@@ -683,7 +714,7 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -697,6 +728,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"node",
+			"_calcParentPosition",
+			"getChildren",
+			"_calcFirstChildPosition",
+			"calcChildPosition",
+			"reposeChildrens",
+			"repos",
+			"console.log",
+			"remove",
+			"reposeChildrens",
+			"addNode",
+			"consol",
+			"parent",
+			"JoinL",
+			"id",
+			"addC",
+			"add",
+			"addChildToSelectedNode",
+			"line",
+			"this.curve",
+			"line",
 			"getPos",
 			"MoveEven",
 			"pap",
@@ -803,28 +855,7 @@
 			"startpos",
 			"attr",
 			"circle",
-			"cir",
-			"ci",
-			"circle",
-			"Element",
-			"getPos",
-			"}",
-			"get",
-			"getEventUni",
-			"Dispathcer",
-			"getEventUn",
-			"subscribeForEven",
-			"_subscribeForEvents",
-			"player",
-			"posit",
-			"moveStartPoint",
-			"subsc",
-			"_subscribeForEvents",
-			"getUn",
-			"allow",
-			"AllowOverride",
-			"DocumentRoot",
-			"_subscribeForEvents"
+			"cir"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -847,7 +878,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -856,7 +887,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1799,
+						"buffer_size": 1798,
 						"regions":
 						{
 						},
@@ -877,7 +908,7 @@
 						"translation.y": 668.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -907,7 +938,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -916,15 +947,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1272,
+						"buffer_size": 4407,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								583,
-								583
+								381,
+								381
 							]
 						],
 						"settings":
@@ -935,57 +966,147 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 162.0,
+						"translation.y": 69.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "test.html",
+					"file": "grapheng/elements/viewFactory/raphael.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1736,
+						"buffer_size": 7582,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								253,
-								253
+								7052,
+								7052
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 6252.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "grapheng/elements/joinLine.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8926,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5590,
+								5590
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3755.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "grapheng/elements/basicNode.js",
+					"buffer": 5,
+					"file": "grapheng/notations/mindMap.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18170,
+						"buffer_size": 14251,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12918,
-								12918
+								4883,
+								4883
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4054.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "grapheng/elements/abstractController.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2179,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								704,
+								704
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 351.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "grapheng/elements/basicNode.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22361,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -998,16 +1119,16 @@
 						"translation.y": 8730.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 8,
 					"file": "grapheng/helpers/coordinates.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4436,
+						"buffer_size": 5828,
 						"regions":
 						{
 						},
@@ -1028,11 +1149,11 @@
 						"translation.y": 972.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 9,
 					"file": "/var/www/maitavr/zf/module/Application/view/layout/admin.phtml",
 					"semi_transient": false,
 					"settings":
@@ -1058,7 +1179,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				}
 			]

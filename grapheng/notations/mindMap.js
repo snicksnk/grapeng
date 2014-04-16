@@ -142,6 +142,32 @@ SoCuteGraph.notations.mindMap = function () {
         return this._nodePathes[node.getUniqueId()];
     }
 
+
+    MindMap.createFromDump = function (dump, scene, dispatcher) {
+        console.log(dump);
+        var mm = new MindMap(scene);
+
+        dispatcher.addObject(mm);
+
+        var nodes = dump['nodes'];
+
+        mm.parseNodesDump(nodes);
+    }
+
+    MindMap.prototype.parseNodesDump = function (nodesDump, parentNode){
+        var that = this;
+        SoCuteGraph.oLib.each(nodesDump, function(i, val){
+            var newNode = that.addNode(val['title'], parentNode);
+            that.parseNodesDump(val['_childrens'], newNode);
+        });
+
+    }
+
+    MindMap.prototype._parseNodeDump = function (nodeDump){
+
+    }
+
+
     MindMap.prototype.setNodePathOf = function (node, parentNode){
         var nodeId = node.getUniqueId();
         if (parentNode) {
@@ -166,7 +192,13 @@ SoCuteGraph.notations.mindMap = function () {
         this._neighborhoodOffset = new Position({'x':0,'y':50});
         this._buildStrategy = new Default();
         this._parentJoin = false;
-        this._parent;
+        this._parent = false;
+
+        this._calculatedPosition = new Position();
+        this._structureOffset = new Position();
+
+
+
 
     }
 
@@ -177,6 +209,16 @@ SoCuteGraph.notations.mindMap = function () {
         this._parentJoin = joinLine;
 
     }
+
+    Node.prototype.setCalculatedPosition = function (position) {
+        this._calculatedPosition.setPos(position.getPosition());
+    }
+
+    Node.prototype.getDump = function () {
+        
+    }
+
+
 
     Node.prototype.removeChild = function (child) {
         var childId = child.getUniqueId();
@@ -202,6 +244,7 @@ SoCuteGraph.notations.mindMap = function () {
     Node.prototype.getChildrens = function () {
         return this._childrens;
     }
+
 
     Node.prototype.getText = function () {
         return this.getViewController().getTitle();
@@ -531,6 +574,54 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
         var paper;
 
+        test("create from notation", function(){
+
+            var mmDump = {
+                "nodes":[
+                    {
+                        "title":"Mother node",
+
+                        "_childrens":[
+                            {
+                                "title":"Children 1",
+                                "_childrens":[
+                                    {
+                                        "title":"Children 1 of 1",
+                                        "_childrens":[
+
+                                        ]
+                                    },
+                                    {
+                                        "title":"Children 2 of 1",
+                                        "_childrens":[
+
+                                        ]
+                                    }
+
+                                ]
+                            },
+                            {
+                                "title":"Children 2",
+                                "_childrens" : [
+
+                                ]
+                            }
+
+
+                        ]
+                    }
+                ]
+            }
+
+
+            var paper = Raphael(document.getElementById('mm-canvas'), 1200, 1200);
+
+
+           var mm = MindMap.createFromDump(mmDump, new Scene(paper), disp);
+
+
+        });
+        /*
         test( "Test create mm",
             function() {
 
@@ -560,6 +651,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                 ok('true');
             }
         );
+        */
 
     }
 );
