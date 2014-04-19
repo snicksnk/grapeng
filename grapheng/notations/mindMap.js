@@ -97,8 +97,9 @@ SoCuteGraph.notations.mindMap = function () {
             parentNode.addChildren(node);
 
 
-            new MoveSlave(this.getDispatcher(), parentNode.getViewController(), node.getViewController());
+            var dep =new MoveSlave(this.getDispatcher(), parentNode.getViewController(), node.getViewController());
 
+            node.setParentNodeDependecie(dep);
 
         } else {
             node.getViewController().setOrientation('multi');
@@ -144,7 +145,7 @@ SoCuteGraph.notations.mindMap = function () {
 
 
     MindMap.createFromDump = function (dump, scene, dispatcher) {
-        console.log(dump);
+
         var mm = new MindMap(scene);
 
         dispatcher.addObject(mm);
@@ -197,12 +198,23 @@ SoCuteGraph.notations.mindMap = function () {
         this._calculatedPosition = new Position();
         this._structureOffset = new Position();
 
+        this._parentDep = false;
+
 
 
 
     }
 
     Node.prototype = new AbstractController();
+
+    Node.prototype.setParentNodeDependecie = function (dependencie){
+        this._parentDep = dependencie;
+    }
+
+    Node.prototype.getParentNodeDependecie = function () {
+
+        return this._parentDep;
+    }
 
     Node.prototype.setParentJoin = function (joinLine) {
 
@@ -444,7 +456,7 @@ SoCuteGraph.notations.mindMap.building = function () {
         newPos.setDiff(widthFactor.getPosition());
         newPos.setDiff(parentNode._childOffsets.getPosition());
         newPos.setDiff(parentNode._childOffsets.getPosition());
-
+        //console.log(newPos.getPosition());
         return newPos;
     }
 
@@ -490,7 +502,7 @@ SoCuteGraph.notations.mindMap.building = function () {
 
 
 
-        parent.getViewController().moveTo(this._calcParentPosition(parent, childrens, childrensOrder));
+        this._reposeParentToCenter(parent, childrens, childrensOrder);
 
     }
     /*
@@ -502,28 +514,31 @@ SoCuteGraph.notations.mindMap.building = function () {
     }
 
     */
-    Default.prototype._calcParentPosition = function(parent, childrens, childrensOrder){
+    Default.prototype._reposeParentToCenter = function(parent, childrens, childrensOrder){
         var firstChildId = childrensOrder[0];
         var lastChildId = childrensOrder[childrensOrder.length-1];
 
         var curPos = new Position(parent.getPosition().getPosition());
 
 
-        if (firstChildId && lastChildId){
+        var containerSize = parent.getNodeContainerSize();
 
-            var firstChild = parent.getChildrenWithId(firstChildId);
-            var lastChild = parent.getChildrenWithId(lastChildId);
-
-
-
-            var yOffset = lastChild.getPosition().getPosition()['y'] - firstChild.getPosition().getPosition()['y'];
-
-            curPos.setDiff({'x': 0,'y':0   });
-        }
+        SoCuteGraph.oLib.each(childrens, function(i,child){
+            var parentNodeDep = child.getParentNodeDependecie();
+            if (parentNodeDep){
+                //parentNodeDep.cansel();
+                //parentNodeDep.apply();
 
 
+            }
+        });
 
-        return curPos;
+
+        curPos.setDiff({'x':0, 'y':Math.ceil(containerSize.getPosition()['y']/2)});
+
+        parent.getViewController().moveTo(curPos,true);
+        parent.getViewController().moveTo(curPos);
+
 
     }
 

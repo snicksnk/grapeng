@@ -47,6 +47,15 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
 
     }
 
+    MoveSlave.prototype.cansel = function(){
+        //TODO Fix hack
+        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+        this._slave.addSubscription(new MoveEvent(this._master),
+            function(Evnt){
+
+            });
+    }
+
 
     return {'MoveSlave': MoveSlave};
 
@@ -221,12 +230,25 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.moveTo=function(position){
         var pos=position.getPosition();
         this.position.setPos(pos);
+
+
+        //this.position = this._roundCords(this.position);
+
         this._moveFrame(this.position);
         this._moveText(this.position)
         this._moveLeftPoint(this.position);
         this._moveRightPoint(this.position);
         this._prepareSubElementsPositionData();
 
+    }
+
+    ViewModel.prototype._roundCords = function(position){
+        var rawCords = position.getPosition();
+        SoCuteGraph.oLib.each(rawCords, function(cord,val){
+           rawCords[cord]=Math.round(val);
+        });
+        position.setPos(rawCords);
+        return position;
     }
 
     ViewModel.prototype._prepareSubElementsPositionData=function(){
@@ -532,11 +554,13 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return moveEventWithController;
     }
 
-    Controller.prototype.moveTo = function(position){
+    Controller.prototype.moveTo = function(position, silent){
         var moveEvent = new MoveEvent(this);
-        this._moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
-        this._dispatcher.notify(this._moveEvent);
-
+        moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
+        if (!silent){
+            this._moveEvent = moveEvent;
+            this._dispatcher.notify(this._moveEvent);
+        }
     }
 
     Controller.prototype.subscribeForEvents=function(){

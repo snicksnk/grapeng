@@ -450,12 +450,12 @@ SoCuteGraph.notations.mindMap.building = function () {
         }
 
 
-        parent.getViewController().moveTo(this._calcParentPosition(parent, childrens, childrensOrder));
+        parent.getViewController().moveTo(this._reposeParentToCenter(parent, childrens, childrensOrder));
 
     }
 
 
-    Default.prototype._calcParentPosition = function(parent, childrens, childrensOrder){
+    Default.prototype._reposeParentToCenter = function(parent, childrens, childrensOrder){
         var firstChildId = childrensOrder[0];
         var lastChildId = childrensOrder[childrensOrder.length-1];
 
