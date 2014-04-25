@@ -24,6 +24,11 @@ SoCuteGraph.notations.mindMap = function () {
 
     MindMap.prototype = new AbstractController();
 
+    MindMap.prototype.getCentet = function (){
+        return this._viewFactory.getCenter();
+    }
+
+
     MindMap.prototype.getLastAddedNodeId = function (){
         return this._lastAddedNodeId;
     }
@@ -80,9 +85,9 @@ SoCuteGraph.notations.mindMap = function () {
     MindMap.prototype.addNode = function (text, parentNode) {
 
 
-        var node = this.nodeFactory(text, new Position({'x': 0, 'y': 0}));
+        var node = this.nodeFactory(text, new Position({'x':600,'y':200}));
 
-
+        console.log();
 
 
         if (parentNode){
@@ -102,7 +107,10 @@ SoCuteGraph.notations.mindMap = function () {
             node.setParentNodeDependecie(dep);
 
         } else {
+            node.setIsParent(true);
             node.getViewController().setOrientation('multi');
+
+           // node.getViewController().moveTo(new Position());
         }
 
         return node;
@@ -153,6 +161,8 @@ SoCuteGraph.notations.mindMap = function () {
         var nodes = dump['nodes'];
 
         mm.parseNodesDump(nodes);
+
+        return mm;
     }
 
     MindMap.prototype.parseNodesDump = function (nodesDump, parentNode){
@@ -199,13 +209,22 @@ SoCuteGraph.notations.mindMap = function () {
         this._structureOffset = new Position();
 
         this._parentDep = false;
-
+        this._isParent = false;
 
 
 
     }
 
     Node.prototype = new AbstractController();
+
+    Node.prototype.setIsParent = function (isParent) {
+        this._isParent = isParent;
+    }
+
+    Node.prototype.getIsParent = function () {
+        return this._isParent;
+    }
+
 
     Node.prototype.setParentNodeDependecie = function (dependencie){
         this._parentDep = dependencie;
@@ -456,7 +475,7 @@ SoCuteGraph.notations.mindMap.building = function () {
         newPos.setDiff(widthFactor.getPosition());
         newPos.setDiff(parentNode._childOffsets.getPosition());
         newPos.setDiff(parentNode._childOffsets.getPosition());
-        //console.log(newPos.getPosition());
+
         return newPos;
     }
 
@@ -501,9 +520,9 @@ SoCuteGraph.notations.mindMap.building = function () {
 
 
 
-
-        this._reposeParentToCenter(parent, childrens, childrensOrder);
-
+        if (parent.getIsParent()){
+           //this._reposeParentToCenter(parent, childrens, childrensOrder);
+        }
     }
     /*
     Default.prototype._calcParentNodePosition = function (parent, childrens, childrensOrder) {
@@ -524,6 +543,7 @@ SoCuteGraph.notations.mindMap.building = function () {
         var containerSize = parent.getNodeContainerSize();
 
         SoCuteGraph.oLib.each(childrens, function(i,child){
+
             var parentNodeDep = child.getParentNodeDependecie();
             if (parentNodeDep){
                 //parentNodeDep.cansel();
@@ -533,10 +553,18 @@ SoCuteGraph.notations.mindMap.building = function () {
             }
         });
 
+        var yOffset = Math.ceil(containerSize.getPosition()['y']/2)-parent.getHeight()/2;
 
-        curPos.setDiff({'x':0, 'y':Math.ceil(containerSize.getPosition()['y']/2)});
+
+        curPos.setDiff({'x':0, 'y':yOffset});
+
 
         parent.getViewController().moveTo(curPos,true);
+
+        parent.getViewController().moveTo(curPos,true);
+
+
+
         parent.getViewController().moveTo(curPos);
 
 
@@ -629,13 +657,16 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
             }
 
 
-            var paper = Raphael(document.getElementById('mm-canvas'), 1200, 1200);
+            var paper = Raphael(document.getElementById('mm-canvas'), 1200, 600);
 
 
            var mm = MindMap.createFromDump(mmDump, new Scene(paper), disp);
 
 
+
         });
+
+
         /*
         test( "Test create mm",
             function() {

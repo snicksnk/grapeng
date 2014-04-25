@@ -3,6 +3,7 @@ SoCuteGraph.nsCrete("elements.viewFactory.raphael");
 SoCuteGraph.elements.viewFactory.raphael = (function () {
     "use strict";
 
+    var Position;
 
     var Scene = function(paper){
         if (paper){
@@ -11,8 +12,25 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     }
 
     Scene.prototype.init=function(paper){
+
+        //TODO Fix (module system)
+        Position = SoCuteGraph.helpers.coordinates.Position;
+
         this._paper=paper;
     }
+
+    Scene.prototype.getSize = function(){
+        var size = new Position({'x': this._paper.canvas.offsetWidth, 'y':this._paper.canvas.offsetHeight});
+
+        return size;
+    }
+
+
+    Scene.prototype.getCenter = function(){
+        var center = Position.getCenterPoint(new Position(), this.getSize());
+        return center;
+    }
+
 
 
     Scene.prototype.NodeText=function(text){
@@ -30,6 +48,8 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     Scene.prototype.Path = function(path){
         return new Path(path, this._paper);
     }
+
+
 
 
 

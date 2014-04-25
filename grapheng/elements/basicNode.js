@@ -36,12 +36,12 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
     }
 
     MoveSlave.prototype.apply=function(){
-        var Position = SoCuteGraph.helpers.coordinates.Position;
+        //var Position = SoCuteGraph.helpers.coordinates.Position;
 
-        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+        //var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
-        this._slave.MoveSlaveData=[];
-        this._slave.MoveSlaveData.oldMasterPosition = new Position(this._master.getPosition().getPosition());
+        //this._slave.MoveSlaveData=[];
+        //this._slave.MoveSlaveData.oldMasterPosition = new Position(this._master.getPosition().getPosition());
 
         this._slave.setDependsOf(this._master);
 
@@ -456,6 +456,7 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
                 var dispatcher = this.getDispatcher();
 
                 var diff = Evnt.getPosition().getPositionDiff();
+
                 var newPosition = new Position(diff);
 
                 this._views.nodeFrame.moveByDiff(newPosition);
@@ -556,6 +557,8 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype.moveTo = function(position, silent){
         var moveEvent = new MoveEvent(this);
+
+
         moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
         if (!silent){
             this._moveEvent = moveEvent;

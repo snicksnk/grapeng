@@ -105,6 +105,7 @@ SoCuteGraph.helpers.coordinates = (function () {
         for (var dimension in diff){
             newCords[dimension]=this._cords[dimension]+diff[dimension];
         }
+
         this.setPos(newCords);
     }
 
