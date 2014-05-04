@@ -16,13 +16,18 @@ SoCuteGraph.notations.mindMap = function () {
         this._dispather = dispatcher;
         this._nodePathes = {};
         this._selectedNode = false;
-
+        this._rootNode = false;
         this.setUpKeyCodes();
 
     }
 
 
     MindMap.prototype = new AbstractController();
+
+    MindMap.prototype.getRootNode = function () {
+        return this._rootNode;
+    }
+
 
     MindMap.prototype.getCentet = function (){
         return this._viewFactory.getCenter();
@@ -70,7 +75,6 @@ SoCuteGraph.notations.mindMap = function () {
 
         if (selectedNde){
             var newNodeText = prompt('Enter name');
-
             this.addNode(newNodeText, selectedNde);
 
         }
@@ -87,7 +91,6 @@ SoCuteGraph.notations.mindMap = function () {
 
         var node = this.nodeFactory(text, new Position({'x':600,'y':200}));
 
-        console.log();
 
 
         if (parentNode){
@@ -109,6 +112,7 @@ SoCuteGraph.notations.mindMap = function () {
         } else {
             node.setIsParent(true);
             node.getViewController().setOrientation('multi');
+            this._rootNode = node;
 
            // node.getViewController().moveTo(new Position());
         }
@@ -169,6 +173,9 @@ SoCuteGraph.notations.mindMap = function () {
         var that = this;
         SoCuteGraph.oLib.each(nodesDump, function(i, val){
             var newNode = that.addNode(val['title'], parentNode);
+
+            newNode.setAttr('position',val['position']);
+
             that.parseNodesDump(val['_childrens'], newNode);
         });
 
@@ -185,6 +192,20 @@ SoCuteGraph.notations.mindMap = function () {
             this._nodePathes[nodeId] = this.getPathOf(parentNode).concat(nodeId);
         } else {
             this._nodePathes[nodeId] = {};
+        }
+    }
+
+
+    MindMap.getDump = function (dumped, notRoot) {
+        var dump = {};
+        if (notRoot){
+
+            dump = dumped.getDump();
+            return dump;
+
+        } else {
+            var rootNode = dumped.getRootNode();
+            return MindMap.getDump(rootNode, true)
         }
     }
 
@@ -211,7 +232,7 @@ SoCuteGraph.notations.mindMap = function () {
         this._parentDep = false;
         this._isParent = false;
 
-
+        this.defineAttrs();
 
     }
 
@@ -246,7 +267,20 @@ SoCuteGraph.notations.mindMap = function () {
     }
 
     Node.prototype.getDump = function () {
-        
+        var dump = {};
+        dump['title'] = this.getText();
+        dump['_childrens'] = [];
+        var childrens = this.getChildrens();
+
+        SoCuteGraph.oLib.each(childrens, function(i,child){
+            dump['_childrens'].push(child.getDump());
+        });
+
+        dump['position'] = this.getAttr('position');
+
+        //console.log(dump)
+        return dump;
+
     }
 
 
@@ -348,17 +382,26 @@ SoCuteGraph.notations.mindMap = function () {
         this._childrens[nodeId] = node;
 
         this._childrensOrder.push(nodeId);
+        node.setParent(this);
+
 
         this.reposeChildrens();
-        node.setParent(this);
+        //Todo Fi
+        //this.reposeChildrens();
+
 
     }
 
     Node.prototype.reposeChildrens = function (){
+
+
         this._buildStrategy.reposeChildrens(this, this._childrens, this._childrensOrder);
+
+
+
         var parentNode = this.getParentNode();
         if (parentNode){
-            parentNode.reposeChildrens();
+           //parentNode.reposeChildrens();
         }
     }
 
@@ -395,6 +438,34 @@ SoCuteGraph.notations.mindMap = function () {
     Node.prototype.setColor = function (color) {
 
     }
+
+
+
+    Node.prototype.defineAttrs = function (){
+
+        var positionGetter = function(){
+            return this.getViewController().getPosition().getPosition();
+        }
+
+        var positionSetter = function(name,val) {
+            if (val){
+                console.log(val);
+                this.getViewController().moveTo(new Position(val));
+            }
+        }
+
+        this._addAttr('position', null, positionSetter, positionGetter);
+        /*
+        var textGetter = function(){
+            return this.getText();
+        }
+        */
+        //this._addAttr('text',null, null, textGetter());
+    }
+
+    SoCuteGraph.oLib.mixin(Node.prototype, SoCuteGraph.oLib.PropertyesMixin);
+
+
 
     return {
         'Map': MindMap,
@@ -497,9 +568,11 @@ SoCuteGraph.notations.mindMap.building = function () {
         var prevNode;
         var nextNode;
         for (var pos in childrensOrder){
+            pos = parseInt(pos);
             var prevNodeId = childrensOrder[pos-1];
             var nextNodeId = childrensOrder[pos+1];
             var curNodeId = childrensOrder[pos];
+
 
 
             prevNode = parent.getChildrenWithId(prevNodeId);
@@ -507,7 +580,6 @@ SoCuteGraph.notations.mindMap.building = function () {
             curNode =  parent.getChildrenWithId(curNodeId);
 
 
-            
 
             var newPos = this.calcChildPosition(parent, curNode, prevNode);
 
@@ -520,8 +592,10 @@ SoCuteGraph.notations.mindMap.building = function () {
 
 
 
+
+
         if (parent.getIsParent()){
-           //this._reposeParentToCenter(parent, childrens, childrensOrder);
+           this._reposeParentToCenter(parent, childrens, childrensOrder);
         }
     }
     /*
@@ -623,6 +697,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                 "nodes":[
                     {
                         "title":"Mother node",
+                        "position":{'x':120,'y':30},
 
                         "_childrens":[
                             {
@@ -645,10 +720,12 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                             },
                             {
                                 "title":"Children 2",
+                                "position":{'x':300,'y':330},
+
                                 "_childrens" : [
 
                                 ]
-                            }
+                            },
 
 
                         ]
@@ -662,7 +739,10 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
            var mm = MindMap.createFromDump(mmDump, new Scene(paper), disp);
 
+           test("create dump", function(){
 
+                console.log('----',MindMap.getDump(mm));
+           });
 
         });
 
