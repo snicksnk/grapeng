@@ -19,6 +19,10 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         this._paper=paper;
     }
 
+    Scene.prototype.clear = function () {
+        this._paper.clear();
+    }
+
     Scene.prototype.getSize = function(){
         var size = new Position({'x': this._paper.canvas.offsetWidth, 'y':this._paper.canvas.offsetHeight});
 
