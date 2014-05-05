@@ -58,6 +58,7 @@ SoCuteGraph.notations.mindMap = function () {
 
         if (selectedNde){
             this.parseNodesDump(nodeDump, selectedNde);
+            selectedNde.reposeChildrens();
         }
 
     }
@@ -156,9 +157,21 @@ SoCuteGraph.notations.mindMap = function () {
         SoCuteGraph.oLib.each(nodesDump, function(i, val){
             var newNode = that.addNode(val['title'], parentNode);
 
-            newNode.setAttr('position',val['position']);
+            var reposeIsNeed = false;
+            if (val['position']){
+                newNode.setAttr('position',val['position']);
+            } else {
+                reposeIsNeed = true;
+            }
+            newNode.setAttr('color',val['color']);
 
             that.parseNodesDump(val['_childrens'], newNode);
+
+            if (reposeIsNeed) {
+                newNode.reposeChildrens();
+            }
+
+
         });
 
     }
@@ -216,6 +229,8 @@ SoCuteGraph.notations.mindMap = function () {
 
         this.defineAttrs();
 
+        this._color = false;
+
     }
 
     Node.prototype = new AbstractController();
@@ -259,6 +274,7 @@ SoCuteGraph.notations.mindMap = function () {
         });
 
         dump['position'] = this.getAttr('position');
+        dump['color'] = this.getAttr('color');
 
         //console.log(dump)
         return dump;
@@ -367,7 +383,7 @@ SoCuteGraph.notations.mindMap = function () {
         node.setParent(this);
 
 
-        this.reposeChildrens();
+        //this.reposeChildrens();
         //Todo Fi
         //this.reposeChildrens();
 
@@ -418,7 +434,12 @@ SoCuteGraph.notations.mindMap = function () {
     }
 
     Node.prototype.setColor = function (color) {
+        this.getViewController().getViewObject().frame.setColor(color);
+        this._color = color;
+    }
 
+    Node.prototype.getColor = function (){
+        return this._color;
     }
 
 
@@ -437,6 +458,17 @@ SoCuteGraph.notations.mindMap = function () {
         }
 
         this._addAttr('position', null, positionSetter, positionGetter);
+
+        this._addAttr('color', null,
+        function(name, val){
+            this.setColor(val);
+        },
+        function() {
+            return this.getColor();
+        }
+        )
+
+
         /*
         var textGetter = function(){
             return this.getText();
@@ -756,7 +788,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                     {
                         "title":"Mother node",
                         "position":{'x':120,'y':30},
-
+                        "color":"red",
                         "_childrens":[
                             {
                                 "title":"Children 1",

@@ -70,6 +70,10 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         this._element.show();
     }
 
+    AbstractView.prototype._render = function (renderCallback) {
+        //setInterval(renderCallback, 0);
+        renderCallback();
+    }
 
 
 
@@ -112,8 +116,12 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         var newXWithoutLineWidth = newX;
         var newYWithoutLineWidth = newY-this._element.attr("stroke-width");
 
-        this._element.attr('x', newXWithoutLineWidth);
-        this._element.attr('y', newYWithoutLineWidth);
+        var that = this;
+        this._render(function(){
+            that._element.attr('x', newXWithoutLineWidth);
+            that._element.attr('y', newYWithoutLineWidth);
+        });
+
         return this;
     }
 
@@ -248,6 +256,14 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     NodeFrame.prototype.click = function(handler){
         this._nodeCover.click(handler);
+    }
+
+    NodeFrame.prototype.setColor = function(color){
+        this._nodeFrame.attr("fill", color);
+    }
+
+    NodeFrame.prototype.getColor = function(){
+        return this._nodeFrame.attr("fill");
     }
 
 
