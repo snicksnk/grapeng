@@ -13,7 +13,7 @@ SoCuteGraph.events.dispatchers = (function () {
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
-        this.frameRate = 33;
+        this.frameRate = 40;
         this.frameTime = false;
         this.fpsProcessor();
 
@@ -23,6 +23,7 @@ SoCuteGraph.events.dispatchers = (function () {
         var FrameEvent = SoCuteGraph.events.std.FrameEvent;
         var that = this;
         var frameFunction = function(){
+
             var startTime = new Date().getTime();
             var expectedEndTime = startTime + that.frameRate;
             var frame = new FrameEvent(startTime, that.frameRate, that.frameTime);
@@ -33,9 +34,11 @@ SoCuteGraph.events.dispatchers = (function () {
             if (expectedEndTime>endTime){
                 setTimeout(frameFunction, that.frameRate);
             } else {
-                //console.log('slow frame with'+(endTime-expectedEndTime));
+                console.log('slow frame with'+(endTime-expectedEndTime));
                 frameFunction();
             }
+
+            //console.log('FRAME!');
 
         };
         frameFunction();
@@ -76,8 +79,8 @@ SoCuteGraph.events.dispatchers = (function () {
 
     Dispathcer.prototype.notify=function(Evnt){
         var evntName, subsList, onEvents, object;
-        evntName=Dispathcer.getEventUniqueId(Evnt);
-        subsList = this._subscriptions[evntName] || [];
+        var evntName=Dispathcer.getEventUniqueId(Evnt);
+        var subsList = this._subscriptions[evntName] || [];
 
         this._lastEvent=Evnt;
 

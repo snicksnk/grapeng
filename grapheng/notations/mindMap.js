@@ -71,7 +71,7 @@ SoCuteGraph.notations.mindMap = function () {
     MindMap.prototype.addNode = function (text, parentNode) {
 
 
-        var node = this.nodeFactory(text, new Position({'x':600,'y':200}));
+        var node = this.nodeFactory(text, new Position({'x':0,'y':0}));
 
 
 
@@ -125,7 +125,15 @@ SoCuteGraph.notations.mindMap = function () {
 
         nodeViewController.jas.after('click').advice('selectNode', function(){
             that.setSelectedNode(node);
+        });
 
+        Jaspecto(nodeViewController).after('stopDrag').advice('savePositionDiff', function(){
+
+            var calcPos = node.getCalculatedPosition();
+
+            if (calcPos){
+                node.setDiffFromCalculatedPosition(calcPos.getDiffWith(node.getPosition()));
+            }
         });
 
 
@@ -140,7 +148,7 @@ SoCuteGraph.notations.mindMap = function () {
 
     MindMap.createFromDump = function (dump, scene, dispatcher) {
 
-        console.log(dump);
+
         var mm = new MindMap(scene);
 
         dispatcher.addObject(mm);
@@ -151,6 +159,9 @@ SoCuteGraph.notations.mindMap = function () {
 
         return mm;
     }
+
+
+
 
     MindMap.prototype.parseNodesDump = function (nodesDump, parentNode){
         var that = this;
@@ -164,13 +175,19 @@ SoCuteGraph.notations.mindMap = function () {
                 reposeIsNeed = true;
             }
             newNode.setAttr('color',val['color']);
-
+            newNode.setAttr('diffFromCalculatedPosition', val['diffFromCalculatedPosition']);
             that.parseNodesDump(val['_childrens'], newNode);
+
+
 
             if (reposeIsNeed) {
                 newNode.reposeChildrens();
             }
 
+            //n+=10;
+
+            //console.log('-=-=-=-=',val['position']);
+            //newNode.getViewController().moveTo(new Position({'x':10,'y':120+n}));
 
         });
 
@@ -221,8 +238,12 @@ SoCuteGraph.notations.mindMap = function () {
         this._parentJoin = false;
         this._parent = false;
 
-        this._calculatedPosition = new Position();
+        this._calculatedPosition = false;
         this._structureOffset = new Position();
+
+
+
+        this._diffFromCalculatedPosition = false;
 
         this._parentDep = false;
         this._isParent = false;
@@ -244,6 +265,21 @@ SoCuteGraph.notations.mindMap = function () {
     }
 
 
+    Node.prototype.setDiffFromCalculatedPosition = function (diff) {
+
+        if (!diff){
+            diff = false;
+        } else {
+            this._diffFromCalculatedPosition = diff;
+        }
+    }
+
+
+    Node.prototype.getDiffFromCalculatedPosition = function () {
+        return this._diffFromCalculatedPosition;
+    }
+
+
     Node.prototype.setParentNodeDependecie = function (dependencie){
         this._parentDep = dependencie;
     }
@@ -260,23 +296,38 @@ SoCuteGraph.notations.mindMap = function () {
     }
 
     Node.prototype.setCalculatedPosition = function (position) {
-        this._calculatedPosition.setPos(position.getPosition());
+
+        this._calculatedPosition = position;
     }
 
-    Node.prototype.getDump = function () {
+    Node.prototype.getCalculatedPosition = function () {
+        if (this._calculatedPosition){
+            return this._calculatedPosition;
+        } else {
+            return false;
+        }
+    }
+
+    Node.prototype.getDump = function (noChilds) {
         var dump = {};
         dump['title'] = this.getText();
         dump['_childrens'] = [];
-        var childrens = this.getChildrens();
 
-        SoCuteGraph.oLib.each(childrens, function(i,child){
-            dump['_childrens'].push(child.getDump());
-        });
+        if (!noChilds){
+            var childrens = this.getChildrens();
 
+            SoCuteGraph.oLib.each(childrens, function(i,child){
+                dump['_childrens'].push(child.getDump());
+            });
+        }
         dump['position'] = this.getAttr('position');
+
+        dump['diffFromCalculatedPosition'] = this.getAttr('diffFromCalculatedPosition');
+
+
+
         dump['color'] = this.getAttr('color');
 
-        //console.log(dump)
         return dump;
 
     }
@@ -396,7 +447,6 @@ SoCuteGraph.notations.mindMap = function () {
         this._buildStrategy.reposeChildrens(this, this._childrens, this._childrensOrder);
 
 
-
         var parentNode = this.getParentNode();
         if (parentNode){
            //parentNode.reposeChildrens();
@@ -452,7 +502,7 @@ SoCuteGraph.notations.mindMap = function () {
 
         var positionSetter = function(name,val) {
             if (val){
-
+                console.log('--  2222  --',val);
                 this.getViewController().moveTo(new Position(val));
             }
         }
@@ -467,6 +517,29 @@ SoCuteGraph.notations.mindMap = function () {
             return this.getColor();
         }
         )
+
+        this._addAttr('calculatedPosition', null,
+            function (name, val){
+                if (val){
+                    this.setCalculatedPosition(new Position(val));
+                }
+            },
+
+            function () {
+                return this.getCalculatedPosition().getPosition();
+            }
+
+        );
+
+        this._addAttr('diffFromCalculatedPosition',false,
+            function(name, val){
+                this.setDiffFromCalculatedPosition(val);
+            },
+            function() {
+                return this.getDiffFromCalculatedPosition();
+            }
+        );
+
 
 
         /*
@@ -509,7 +582,7 @@ SoCuteGraph.notations.mindMap.ui = function () {
         var that = this;
         function zx(e){
             var charCode = (typeof e.which == "number") ? e.which : e.keyCode
-            console.log(charCode)
+            //console.log(charCode)
 
             if (charCode == 105){
                 that.addNode(mindMap)
@@ -518,6 +591,8 @@ SoCuteGraph.notations.mindMap.ui = function () {
                 that.save(mindMap);
             } else if (charCode == 108) {
                 that.load();
+            } else if (charCode == 100) {
+                mindMap.deleteSelectedNode();
             }
 
 
@@ -663,19 +738,38 @@ SoCuteGraph.notations.mindMap.building = function () {
             var nextNodeId = childrensOrder[pos+1];
             var curNodeId = childrensOrder[pos];
 
+            curNode =  parent.getChildrenWithId(curNodeId);
 
 
             prevNode = parent.getChildrenWithId(prevNodeId);
             nextNode = parent.getChildrenWithId(nextNodeId);
-            curNode =  parent.getChildrenWithId(curNodeId);
 
 
+            var calculated;
 
             var newPos = this.calcChildPosition(parent, curNode, prevNode);
 
+            if ( calculated = curNode.getCalculatedPosition()){
+                console.log(curNode.getText(),calculated,curNode.getDiffFromCalculatedPosition());
+
+                console.log(curNode.getDiffFromCalculatedPosition());
+                //curNode.getViewController().moveTo(newPos);
+
+                //curNode.getViewController().moveByDiff(curNode.getDiffFromCalculatedPosition());
 
 
-            curNode.getViewController().moveTo(newPos);
+                continue;
+            } else {
+                curNode.getViewController().moveTo(newPos);
+                curNode.setCalculatedPosition(newPos);
+            }
+
+
+
+
+
+
+
 
 
         }
@@ -821,7 +915,12 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                         ]
                     }
                 ]
-            }
+            };
+
+
+
+            var mmDump = {"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":932,"y":31},"diffFromCalculatedPosition":false},{"title":"Children 2 of 1","_childrens":[],"position":{"x":730,"y":149},"diffFromCalculatedPosition":false}],"position":{"x":579,"y":69},"diffFromCalculatedPosition":false},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]};
+
 
             var paper = Raphael(document.getElementById('mm-canvas'), 1200, 600);
 

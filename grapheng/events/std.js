@@ -25,10 +25,10 @@ SoCuteGraph.events.std=function(){
 
 
     function FrameEvent(time, frameRate, frameTime){
-        this.setTime(time);
-        this.setFrameRate(frameRate);
-        this.setFrameTime(frameTime);
+        this.init(time, frameRate, frameTime);
     };
+
+
     FrameEvent.prototype=new SCEvent();
 
     FrameEvent.prototype.setFrameTime = function(frameTime){
@@ -60,19 +60,29 @@ SoCuteGraph.events.std=function(){
         return 'frame';
     }
 
+
+    FrameEvent.prototype.init = function (time, frameRate, frameTime) {
+        this.setTime(time);
+        this.setFrameRate(frameRate);
+        this.setFrameTime(frameTime);
+    }
+
     function MoveEvent(masterObject, position){
-        this._position=position;
-
-        //TODO Temp hack
-        this.position=new Position();
-
-        this.masterObjectId=masterObject.getUniqueId();
-        this._orientation=false;
-
+        this.init(masterObject, position);
     }
 
 
     MoveEvent.prototype=new SCEvent();
+
+    MoveEvent.prototype.init = function (masterObject, position) {
+
+        this._position=position;
+        //TODO Temp hack
+        this.position=new Position();
+        this.masterObjectId=masterObject.getUniqueId();
+        this._orientation=false;
+
+    }
 
 
     MoveEvent.prototype._resolveStrategy=null;

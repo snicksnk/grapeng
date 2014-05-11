@@ -34,7 +34,6 @@ SoCuteGraph.oLib = (function () {
     }
 
 
-
     var PropertyesMixin = function () {
         throw new Error('Mixin is not instanceable');
     }
