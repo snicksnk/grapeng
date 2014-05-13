@@ -76,9 +76,84 @@ SoCuteGraph.oLib = (function () {
 
     }
 
+    var mixin = function (object, threat){
+        for (var el in threat){
+
+            var element = threat[el];
+
+            object[el] = element;
+        }
+    }
+
+
+    var PropertyesMixin = function () {
+        throw new Error('Mixin is not instanceable');
+    }
+
+
+    PropertyesMixin._propetyesStorePrefix = '_attrs';
+
+
+    PropertyesMixin.setAttr = function(name, value){
+        if (typeof this._attrsCallbacks[name] === 'undefined'){
+            throw new Error('Undefined property "'+name+'"');
+        }
+
+
+
+        this._attrsCallbacks[name].setter.call(this, name, value);
+        return this;
+    }
+
+    PropertyesMixin.getAttr = function(name){
+        if (typeof this._attrsCallbacks[name] === 'undefined'){
+            throw new Error('Undefined property "'+name+'"');
+        }
+
+        return this._attrsCallbacks[name].getter.call(this, name);
+    }
+
+
+    PropertyesMixin._addAttr = function(name, defaultValue, setter, getter) {
+
+        if (typeof this._attrsCallbacks === 'undefined'){
+            this._attrsCallbacks = {};
+            this[this._propetyesStorePrefix] = {};
+        }
+
+
+        if (!setter){
+            setter = this._defaultSetter;
+        }
+
+        if (!getter){
+            getter = this._defaultGetter;
+        }
+
+        this._attrsCallbacks[name] = {};
+        this._attrsCallbacks[name].setter = setter;
+        this._attrsCallbacks[name].getter = getter;
+        this._attrsCallbacks[name].setter.call(this, name, defaultValue);
+    }
+
+    PropertyesMixin._defaultGetter = function(name) {
+        return this[this._propetyesStorePrefix][name];
+    }
+
+
+    PropertyesMixin._defaultSetter = function(name, value) {
+        this[this._propetyesStorePrefix][name] = value;
+        return this;
+    }
+
+
+
+
 
     return {
-        'each': each
+        'each': each,
+        'mixin': mixin,
+        'PropertyesMixin':PropertyesMixin
     };
 
 })();
@@ -106,12 +181,61 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.oLib',
                 deepEqual(obj, resObj, "Object modification processed properly");
 
             });
+
+        test("mixin test", function(){
+            var Obj = function(){
+                this.i = 1;
+            };
+
+
+            var Mixin = function(){
+
+            };
+
+            Mixin.addToI = function(){
+                this.i++;
+            };
+
+
+            SoCuteGraph.oLib.mixin(Obj.prototype, Mixin);
+
+            var instance = new Obj();
+
+            instance.addToI();
+
+            equal(2, instance.i, 'Mixin method works');
+        });
+
+        test("propertyes", function(){
+            var Obj = function(){
+                this.defineAttrs();
+            };
+
+            Obj.prototype.defineAttrs = function(){
+                this._addAttr('height', null);
+                this._addAttr('width',null);
+            }
+
+            SoCuteGraph.oLib.mixin(Obj.prototype, SoCuteGraph.oLib.PropertyesMixin)
+
+
+            var instance = new Obj();
+
+            instance.setAttr('width', 1000);
+            instance.setAttr('height', 25);
+
+            equal(instance.getAttr('width'),1000, 'First attr setted and getted properly');
+            equal(instance.getAttr('height'),25, 'Second attr setted and getted properly');
+
+        });
+
     });/**/;
 SoCuteGraph.nsCrete("elements.viewFactory.raphael");
 
 SoCuteGraph.elements.viewFactory.raphael = (function () {
     "use strict";
 
+    var Position;
 
     var Scene = function(paper){
         if (paper){
@@ -120,8 +244,29 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     }
 
     Scene.prototype.init=function(paper){
+
+        //TODO Fix (module system)
+        Position = SoCuteGraph.helpers.coordinates.Position;
+
         this._paper=paper;
     }
+
+    Scene.prototype.clear = function () {
+        this._paper.clear();
+    }
+
+    Scene.prototype.getSize = function(){
+        var size = new Position({'x': this._paper.canvas.offsetWidth, 'y':this._paper.canvas.offsetHeight});
+
+        return size;
+    }
+
+
+    Scene.prototype.getCenter = function(){
+        var center = Position.getCenterPoint(new Position(), this.getSize());
+        return center;
+    }
+
 
 
     Scene.prototype.NodeText=function(text){
@@ -141,6 +286,10 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     }
 
 
+
+
+
+
     function AbstractView(){
 
     }
@@ -153,6 +302,10 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         this._element.show();
     }
 
+    AbstractView.prototype._render = function (renderCallback) {
+        //setInterval(renderCallback, 0);
+        renderCallback();
+    }
 
 
 
@@ -177,6 +330,7 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
 
 
+
     function JoinPoint(paper){
         this._initElement(paper);
     }
@@ -194,8 +348,12 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         var newXWithoutLineWidth = newX;
         var newYWithoutLineWidth = newY-this._element.attr("stroke-width");
 
-        this._element.attr('x', newXWithoutLineWidth);
-        this._element.attr('y', newYWithoutLineWidth);
+        var that = this;
+        this._render(function(){
+            that._element.attr('x', newXWithoutLineWidth);
+            that._element.attr('y', newYWithoutLineWidth);
+        });
+
         return this;
     }
 
@@ -328,6 +486,19 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     }
 
 
+    NodeFrame.prototype.click = function(handler){
+        this._nodeCover.click(handler);
+    }
+
+    NodeFrame.prototype.setColor = function(color){
+        this._nodeFrame.attr("fill", color);
+    }
+
+    NodeFrame.prototype.getColor = function(){
+        return this._nodeFrame.attr("fill");
+    }
+
+
 
     function NodeText(text, paper){
         var Position = SoCuteGraph.helpers.coordinates.Position;
@@ -377,12 +548,37 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     Path.prototype.init = function(path, paper){
         this._path=paper.path(path);
+        this._paper = paper;
+
     }
 
     Path.prototype.setSVGPath = function(path){
         this._path.attr("path", path);
         this._path.toBack();
     }
+
+    Path.prototype.setPath = function(start, end){
+
+        var centerX=(end['x']-start['x'])/2+start['x'];
+        var centerY=(end['y']-start['y'])/2+start['y'];
+
+        //this._paper.circle(centerX, centerY, 1);
+
+
+        this._path.attr("path",[
+            "M",start['x'],start['y'],
+            'Q',centerX,start['y'],
+            ,centerX,centerY,
+            'Q',centerX,end['y'],
+            end['x'],end['y']
+        ]);
+        this._path.toBack();
+    }
+
+    Path.prototype.hide = function(){
+        this._path.hide();
+    }
+
 
 
     return {
@@ -502,6 +698,7 @@ SoCuteGraph.helpers.coordinates = (function () {
         for (var dimension in diff){
             newCords[dimension]=this._cords[dimension]+diff[dimension];
         }
+
         this.setPos(newCords);
     }
 
@@ -610,7 +807,7 @@ SoCuteGraph.events.dispatchers = (function () {
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
-        this.frameRate = 33;
+        this.frameRate = 40;
         this.frameTime = false;
         this.fpsProcessor();
 
@@ -620,6 +817,7 @@ SoCuteGraph.events.dispatchers = (function () {
         var FrameEvent = SoCuteGraph.events.std.FrameEvent;
         var that = this;
         var frameFunction = function(){
+
             var startTime = new Date().getTime();
             var expectedEndTime = startTime + that.frameRate;
             var frame = new FrameEvent(startTime, that.frameRate, that.frameTime);
@@ -630,9 +828,11 @@ SoCuteGraph.events.dispatchers = (function () {
             if (expectedEndTime>endTime){
                 setTimeout(frameFunction, that.frameRate);
             } else {
-                //console.log('slow frame with'+(endTime-expectedEndTime));
+                console.log('slow frame with'+(endTime-expectedEndTime));
                 frameFunction();
             }
+
+            //console.log('FRAME!');
 
         };
         frameFunction();
@@ -673,8 +873,8 @@ SoCuteGraph.events.dispatchers = (function () {
 
     Dispathcer.prototype.notify=function(Evnt){
         var evntName, subsList, onEvents, object;
-        evntName=Dispathcer.getEventUniqueId(Evnt);
-        subsList = this._subscriptions[evntName] || [];
+        var evntName=Dispathcer.getEventUniqueId(Evnt);
+        var subsList = this._subscriptions[evntName] || [];
 
         this._lastEvent=Evnt;
 
@@ -834,10 +1034,10 @@ SoCuteGraph.events.std=function(){
 
 
     function FrameEvent(time, frameRate, frameTime){
-        this.setTime(time);
-        this.setFrameRate(frameRate);
-        this.setFrameTime(frameTime);
+        this.init(time, frameRate, frameTime);
     };
+
+
     FrameEvent.prototype=new SCEvent();
 
     FrameEvent.prototype.setFrameTime = function(frameTime){
@@ -869,19 +1069,29 @@ SoCuteGraph.events.std=function(){
         return 'frame';
     }
 
+
+    FrameEvent.prototype.init = function (time, frameRate, frameTime) {
+        this.setTime(time);
+        this.setFrameRate(frameRate);
+        this.setFrameTime(frameTime);
+    }
+
     function MoveEvent(masterObject, position){
-        this._position=position;
-
-        //TODO Temp hack
-        this.position=new Position();
-
-        this.masterObjectId=masterObject.getUniqueId();
-        this._orientation=false;
-
+        this.init(masterObject, position);
     }
 
 
     MoveEvent.prototype=new SCEvent();
+
+    MoveEvent.prototype.init = function (masterObject, position) {
+
+        this._position=position;
+        //TODO Temp hack
+        this.position=new Position();
+        this.masterObjectId=masterObject.getUniqueId();
+        this._orientation=false;
+
+    }
 
 
     MoveEvent.prototype._resolveStrategy=null;
@@ -1086,15 +1296,34 @@ SoCuteGraph.elements.basicNode.dependencies = (function(){
     }
 
     MoveSlave.prototype.apply=function(){
-        var Position = SoCuteGraph.helpers.coordinates.Position;
+        //var Position = SoCuteGraph.helpers.coordinates.Position;
 
-        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+        //var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
-        this._slave.MoveSlaveData=[];
-        this._slave.MoveSlaveData.oldMasterPosition = new Position(this._master.getPosition().getPosition());
+        //this._slave.MoveSlaveData=[];
+        //this._slave.MoveSlaveData.oldMasterPosition = new Position(this._master.getPosition().getPosition());
+        var positionOfMaster;
+        /*Jaspecto(this._master).after('drag').advice('MoveDependedGetStartPosition', function(){
+            positionOfMaster = this.getPosition().getPosition();
+            console.log(positionOfMaster);
+        });*/
+
+
+
+
+
 
         this._slave.setDependsOf(this._master);
 
+    }
+
+    MoveSlave.prototype.cansel = function(){
+        //TODO Fix hack
+        var MoveEvent = SoCuteGraph.events.std.MoveEvent;
+        this._slave.addSubscription(new MoveEvent(this._master),
+            function(Evnt){
+
+            });
     }
 
 
@@ -1206,7 +1435,8 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     }
 
     ViewModel.prototype.hide = function(){
-        if (this.visibility){
+
+        if (this._visibility){
             var that = this;
             SoCuteGraph.oLib.each(this._views, function(index, value){
                 that._views[index].hide();
@@ -1252,12 +1482,29 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype.redraw=function(){
 
-        this.resizeFramerToText();
-        this._moveFrame(this.position);
-        this._moveText(this.position)
-        this._moveLeftPoint(this.position);
-        this._moveRightPoint(this.position);
-        this._prepareSubElementsPositionData();
+        var that = this;
+        var redraw = function(){
+            that.resizeFramerToText();
+
+
+
+            that._moveText(that.position);
+            that._moveLeftPoint(that.position);
+
+
+            that._render(that.position);
+
+
+            that._moveRightPoint(that.position);
+            that._prepareSubElementsPositionData();
+
+        };
+
+        //console.log(this.getPosition());
+
+        redraw();
+
+        //setTimeout(redraw, 0);
 
     }
 
@@ -1270,47 +1517,59 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     ViewModel.prototype.moveTo=function(position){
         var pos=position.getPosition();
         this.position.setPos(pos);
-        this._moveFrame(this.position);
-        this._moveText(this.position)
-        this._moveLeftPoint(this.position);
-        this._moveRightPoint(this.position);
-        this._prepareSubElementsPositionData();
 
+        this._newCords = new Position(pos);
+
+        //this.position = this._roundCords(this.position);
+
+        //this.redraw();
+
+    }
+
+    ViewModel.prototype._roundCords = function(position){
+        var rawCords = position.getPosition();
+        SoCuteGraph.oLib.each(rawCords, function(cord,val){
+           rawCords[cord]=Math.round(val);
+        });
+        position.setPos(rawCords);
+        return position;
     }
 
     ViewModel.prototype._prepareSubElementsPositionData=function(){
 
-        var textPosition=this._prepareTextPositionData();
 
-        this._preparePointsPositionData();
+        //this.position.sub.text.setPos(this._views.nodeText.position.getPosition());
 
-        this.position.sub.text.setPos(textPosition);
+
+
+        this.position.sub.leftJoinPoint.setPos(this._views.leftJoinPoint.position.getPosition());
+        this.position.sub.rightJoinPoint.setPos(this._views.rightJoinPoint.position.getPosition());
+
 
         this.position.orientation=this.getOrientation();
 
 
     }
 
-    ViewModel.prototype._prepareTextPositionData=function(){
-        return this._views.nodeText.position.getPosition();
-    }
-
-
-    ViewModel.prototype._preparePointsPositionData=function() {
-        this.position.sub.leftJoinPoint.setPos(this._views.leftJoinPoint.position.getPosition());
-        this.position.sub.rightJoinPoint.setPos(this._views.rightJoinPoint.position.getPosition());
-    }
-
-
-    ViewModel.prototype._moveFrame=function(position){
+    ViewModel.prototype._render = function(position){
         this._views.nodeFrame.moveTo(position);
+        this._views.nodeText.movePosition(this.position.sub.text.getPosition());
+
+
+        this._views.leftJoinPoint.movePosition(this.position.sub.leftJoinPoint.getPosition());
+        //this._views.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
     }
+
+
+
 
     ViewModel.prototype._moveText=function(position){
         var pos=position.getPosition();
         var textX=pos['x']+this._views.nodeFrame.getHorizontalOffset();
         var textY=pos['y']+this._views.nodeFrame.getVerticalOffset()+this._views.nodeText.getHeight()/2;
-        this._views.nodeText.movePosition(new Position({'x':textX,'y':textY}));
+        //this._views.nodeText.movePosition(new Position({'x':textX,'y':textY}));
+        this.position.sub.text.setPos(new Position({'x':textX,'y':textY}));
+
     }
 
 
@@ -1318,7 +1577,10 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
         var pos=position.getPosition();
         var leftX=pos['x']-1;
         var leftY=pos['y']+this._views.nodeFrame.getHeight()/2;
-        this._views.leftJoinPoint.movePosition(new Position({'x':leftX,'y':leftY}));
+
+        this.position.sub.leftJoinPoint.setPos(new Position({'x':leftX,'y':leftY}));
+
+
     }
 
     ViewModel.prototype._moveRightPoint=function(position){
@@ -1331,6 +1593,11 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype._moveLeftPosition
 
+
+
+    ViewModel.prototype.click = function(callback){
+        this._views.nodeFrame.click(callback);
+    }
 
     ViewModel.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
@@ -1390,17 +1657,31 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype.init=function(text, scene, position){
 
-        var position;
         if (position===undefined){
-            position=new Position({'x':10,'y':20});
+            position=new Position({'x':0,'y':0});
         }
         this._visibility = false;
 
         this._dispatcher=null;
         this._views = {};
         this.text = text;
+
+
+        //console.log('at init',this.text ,position.getPosition());
         this._views.nodeFrame = new ViewModel(text, scene, position);
         this._subscribeForEvents=[FrameEvent];
+
+        //this._newCords = position.getPosition();
+        //this.moveTo(position);
+
+
+
+
+        //this._views.nodeFrame.getPosition().setPos(position.getPosition());
+
+        //this.getPosition().setPos(position.getPosition());
+
+
 
         this._newCords = false;
 
@@ -1446,10 +1727,13 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     }
 
     Controller.prototype.hide = function(){
+
         if (this._visibility===true){
             var that = this;
+
             SoCuteGraph.oLib.each(this._views, function(index, value){
-                that._views[index].hide();
+
+                value.hide();
             });
 
             this._visibility = false;
@@ -1464,29 +1748,46 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
     Controller.prototype.setDependsOf=function(dependedOf){
         var Position = SoCuteGraph.helpers.coordinates.Position;
-        var parentNodePosition=dependedOf.getPosition();
-        var lastParentNodePosition=new Position(parentNodePosition.getPosition());
 
 
+
+ //console.log('before move dep',this.text ,this.getPosition().getPosition());
         this.addSubscription(new MoveEvent(dependedOf),
             function(Evnt){
 
-                var element = this._views.nodeFrame;
-                var dispatcher = this.getDispatcher();
+
 
                 var diff = Evnt.getPosition().getPositionDiff();
-                var newPosition = new Position(diff);
 
-                this._views.nodeFrame.moveByDiff(newPosition);
-
-
-                var moveEvent = new MoveEvent(this,element.getPosition());
-
-                moveEvent.setPosition(element.position);
-                moveEvent.setOrientation(element.getOrientation());
+                //console.log(diff);
 
 
-                dispatcher.notify(moveEvent);
+                console.log(this.getPosition().getPosition(), this._newCords);
+
+
+                var currentCords = this._newCords || this.getPosition().getPosition();
+
+
+
+                var newPosition = new Position(currentCords);
+
+                //console.log('move of',this.text ,this.getPosition().getPosition(), newPosition.getPosition(), diff);
+
+                newPosition.setDiff(diff);
+
+
+                //this._views.nodeFrame.moveByDiff(newPosition);
+
+
+                //var moveEvent = new MoveEvent(this,element.getPosition());
+
+                //moveEvent.setPosition(element.position);
+                //moveEvent.setOrientation(element.getOrientation());
+
+
+                this.moveTo(newPosition);
+
+                //dispatcher.notify(moveEvent);
 
             });
     }
@@ -1504,16 +1805,37 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return this._views.nodeFrame.getViewObject();
     }
 
-    Controller.prototype.setUpBehavior=function(){
 
+    Controller.prototype.drag = function(x,y){
+
+        this.moveTo(new Position({"x":x,"y":y}));
+
+    }
+
+
+    Controller.prototype.click = function(){
+
+    }
+
+
+    Controller.prototype.stopDrag = function(){
+
+    }
+
+    Controller.prototype.setUpBehavior=function(){
         var element;
         element = this._views.nodeFrame;
 
 
 
+        this.moveTo(this.getPosition());
+
+
+
+
         this._moveEvent=new MoveEvent(this,element.position);
 
-
+        //console.log(this.text, this.getPosition().getPosition());
 
         this.show();
 
@@ -1521,48 +1843,83 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
         this.addSubscription(FrameEvent, function(){
             if (this._newCords){
-                var moveEvent = this._moveEvent;
-                var dispatcher = this.getDispatcher();
+                //console.log(this.text, this.getPosition().getPosition());
+                this._views.nodeFrame.moveTo(new Position(this._newCords));
 
-                Controller.moveTo(new Position(this._newCords), element, moveEvent);
-                dispatcher.notify(moveEvent);
+                //var moveEvent = this._moveEvent;
+                //var dispatcher = this.getDispatcher();
+                //Controller.moveTo(new Position(this._newCords), element, moveEvent);
+                that.redraw();
+                //dispatcher.notify(moveEvent);
                 this._newCords = false;
             }
         });
 
 
 
+
+
+        that._views.nodeFrame.click(function(){
+            that.click();
+        });
+
+
+        var permResults = [];
         this._views.nodeFrame.drag(
             function(x,y){
+                permResults = [];
+            },
+            function(x,y){
+                var t0 = performance.now();
+                that.drag(x,y);
+                var t1 = performance.now();
+                permResults.push(t1-t0);
+                //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+            },
+            function(x,y){
+                that.stopDrag();
+                var t1 = performance.now();
 
-            },
-            function(x,y){
-                that._newCords = {"x":x,"y":y};
-            },
-            function(x,y){
+                var perfSum = 0;
+                for (var i in permResults){
+                    perfSum += permResults[i];
+                }
+
+                console.log('Moving of '+that.text+' calls:'+permResults.length+' average: '+(perfSum/permResults.length));
 
             }
         );
 
     };
-    /**
-     *
+
+     /*
      * @param position
      * @param moveEventWithController
      * @param viewModel
      */
     Controller.moveTo = function(position, viewModel, moveEventWithController){
-        viewModel.moveTo(position);
+        //viewModel.moveTo(position);
+
         moveEventWithController.setPosition(viewModel.position);
         moveEventWithController.setOrientation(viewModel.getOrientation());
         return moveEventWithController;
     }
 
-    Controller.prototype.moveTo = function(position){
-        var moveEvent = new MoveEvent(this);
-        this._moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
-        this._dispatcher.notify(this._moveEvent);
+    Controller.prototype.moveTo = function(position, silent){
+        //var moveEvent = new MoveEvent(this);
 
+
+        //moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
+
+        this._newCords = position.getPosition();
+
+
+
+        if (!silent){
+            //this._moveEvent = moveEvent;
+
+            //this._dispatcher.notify(this._moveEvent);
+        }
     }
 
     Controller.prototype.subscribeForEvents=function(){
@@ -1745,7 +2102,6 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             var framer = new FrameDebugger();
             framer.setDisplayCallback(function(frameEvnt){
 
-                console.log(frameEvnt.getFrameTime());
             })
 
             disp.addObject(framer);
@@ -1768,23 +2124,30 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             node7.moveTo(new Position({'x':0,'y':0  }));
 
-            deepEqual({'x':20,'y':20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
-
+            setTimeout(function(){
+                deepEqual({'x':20,'y':20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+            },100);
             node7.moveTo(new Position({'x':-30,'y':-40  }));
 
-            deepEqual({'x':-10,'y':-20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
+            setTimeout(function(){
+                deepEqual({'x':-10,'y':-20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+            },100);
 
             node7.moveTo(new Position({'x':230,'y':230  }));
 
-            deepEqual({'x':250,'y':250}, node8.getPosition().getPosition(), 'Dependent node moved properly');
-
+            setTimeout(function(){
+                deepEqual({'x':250,'y':250}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+            },100);
 
             node7.moveTo(new Position({'x':210,'y':240  }));
-            deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
 
+            setTimeout(function(){
+                deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+            },100);
 
+            ok(true,'Building compleate');
 
 
 
@@ -1998,6 +2361,9 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
         this.redrawLine();
     }
 
+    ViewModel.prototype.hide = function () {
+        this.curve.hide();
+    }
 
     ViewModel.prototype.redrawLine=function(start, end){
 
@@ -2009,19 +2375,7 @@ SoCuteGraph.elements.joinLine.viewModels = (function () {
             var end = this.getEndPosition();
         }
 
-        var centerX=(end['x']-start['x'])/2+start['x'];
-        var centerY=(end['y']-start['y'])/2+start['y'];
-
-        //this.paper.circle(centerX, centerY, 10);
-
-
-        this.curve.setSVGPath([
-            "M",start['x'],start['y'],
-            'Q',centerX,start['y'],
-            ,centerX,centerY,
-            'Q',centerX,end['y'],
-            end['x'],end['y']
-        ]);
+        this.curve.setPath(start, end);
 
     }
 
@@ -2101,7 +2455,9 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
 
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
 
-
+    Controller.prototype.hide = function() {
+        this._nodeFrame.hide();
+    }
 
     Controller.prototype._lineStartDepends=function(Evnt){
         this._newStartNodeEvnt = Evnt;

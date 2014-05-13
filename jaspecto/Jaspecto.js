@@ -5,6 +5,15 @@ var Jaspecto = function () {
         return subject;
     };
 
+    var jas = function (subject) {
+
+        if (!subject.hasOwnProperty('jas')){
+            wrap(subject);
+        }
+
+        return subject.jas;
+    }
+
     var Introducer = function (subject) {
         this._subject = subject;
         this._pointcut = {};
@@ -92,16 +101,20 @@ var Jaspecto = function () {
         this._originalMethods[methodName] = this._subject[methodName];
         var that = this;
         this._subject[methodName] = function () {
-            that.callBeforeStack(methodName, arguments);
+            //that.callBeforeStack(methodName, arguments);
+            that.callStack(methodName, 'before', arguments);
             that._originalMethods[methodName].apply(that._subject, arguments);
-            that.callAfterStack(methodName, arguments);
+            //that.callAfterStack(methodName, arguments);
+            that.callStack(methodName, 'after', arguments);
         }
     }
 
 
-    return {
-        'wrap':wrap
-    }
+    jas.wrap = wrap;
+
+    return jas;
+
+
 
 }();
 

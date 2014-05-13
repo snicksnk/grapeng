@@ -81,6 +81,7 @@ SoCuteGraph.events.std=function(){
         this.position=new Position();
         this.masterObjectId=masterObject.getUniqueId();
         this._orientation=false;
+        this._diff = false;
 
     }
 
@@ -108,6 +109,14 @@ SoCuteGraph.events.std=function(){
 
     MoveEvent.prototype.getOrientation=function() {
         return this._orientation;
+    }
+
+    MoveEvent.prototype.getDiff = function (){
+        return this._diff;
+    }
+
+    MoveEvent.prototype.setDiff = function (diff){
+        this._diff = diff;
     }
 
     MoveEvent.prototype.getSubPosition=function(subPosition){

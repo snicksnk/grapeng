@@ -87,9 +87,7 @@ SoCuteGraph.notations.mindMap = function () {
             parentNode.addChildren(node);
 
 
-            var dep =new MoveSlave(this.getDispatcher(), parentNode.getViewController(), node.getViewController());
 
-            node.setParentNodeDependecie(dep);
 
         } else {
             node.setIsParent(true);
@@ -168,6 +166,7 @@ SoCuteGraph.notations.mindMap = function () {
         SoCuteGraph.oLib.each(nodesDump, function(i, val){
             var newNode = that.addNode(val['title'], parentNode);
 
+
             var reposeIsNeed = false;
             if (val['position']){
                 newNode.setAttr('position',val['position']);
@@ -180,9 +179,17 @@ SoCuteGraph.notations.mindMap = function () {
 
 
 
-            if (reposeIsNeed) {
-                newNode.reposeChildrens();
+            if (parentNode){
+                //var dep =new MoveSlave(that.getDispatcher(), parentNode.getViewController(), newNode.getViewController());
+                //newNode.setParentNodeDependecie(dep);
             }
+
+            if (reposeIsNeed) {
+                //newNode.reposeChildrens();
+            }
+
+
+
 
             //n+=10;
 
@@ -501,8 +508,7 @@ SoCuteGraph.notations.mindMap = function () {
         }
 
         var positionSetter = function(name,val) {
-            if (val){
-                console.log('--  2222  --',val);
+            if (val){;
                 this.getViewController().moveTo(new Position(val));
             }
         }
@@ -760,6 +766,7 @@ SoCuteGraph.notations.mindMap.building = function () {
 
                 continue;
             } else {
+                console.log('-=-=-');
                 curNode.getViewController().moveTo(newPos);
                 curNode.setCalculatedPosition(newPos);
             }
@@ -919,7 +926,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
 
 
-            var mmDump = {"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":932,"y":31},"diffFromCalculatedPosition":false},{"title":"Children 2 of 1","_childrens":[],"position":{"x":730,"y":149},"diffFromCalculatedPosition":false}],"position":{"x":579,"y":69},"diffFromCalculatedPosition":false},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]};
+           var mmDump =
+
+           {"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":638,"y":51},"diffFromCalculatedPosition":false},{"title":"Children 2 of 1","_childrens":[],"position":{"x":630,"y":228},"diffFromCalculatedPosition":false}],"position":{"x":348,"y":93},"diffFromCalculatedPosition":false},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]}
+;
+                             ;
 
 
             var paper = Raphael(document.getElementById('mm-canvas'), 1200, 600);

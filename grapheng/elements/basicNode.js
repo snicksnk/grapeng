@@ -388,10 +388,13 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
     Controller.prototype.redraw=function(){
         this._views.nodeFrame.redraw();
         if (this.getDispatcher()){
-            var moveEvent = new MoveEvent(this);
-            moveEvent.setPosition(this._views.nodeFrame.getPosition());
-            moveEvent.setOrientation(this._views.nodeFrame.getOrientation());
-            this.getDispatcher().notify(moveEvent);
+            if (!this._silentMove){
+                var moveEvent = new MoveEvent(this);
+                moveEvent.setPosition(this._views.nodeFrame.getPosition());
+                moveEvent.setOrientation(this._views.nodeFrame.getOrientation());
+                moveEvent.setDiff(this._lastMoveDiff);
+                this.getDispatcher().notify(moveEvent);
+            }
         }
     }
 
@@ -410,6 +413,12 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         //console.log('at init',this.text ,position.getPosition());
         this._views.nodeFrame = new ViewModel(text, scene, position);
         this._subscribeForEvents=[FrameEvent];
+
+        //Depends of propertyes
+        this._isDependeOf = false;
+        this._dependsOfIsInit = false;
+        this._lastMoveDiff = false;
+        this._silentMove = false;
 
         //this._newCords = position.getPosition();
         //this.moveTo(position);
@@ -482,52 +491,67 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
 
 
     Controller.prototype.getPosition=function(){
+
+        if (this._newCords){
+
+            console.log(this._newCords);
+            console.log(new Position(this._newCords));
+
+            //return new Position(this._newCords);
+        }
+
+        console.log(this._views.nodeFrame.getPosition());
+
         return this._views.nodeFrame.getPosition();
+    }
+
+
+    Controller.prototype.setSilentMove = function (isSilent) {
+        this._silentMove = isSilent;
+    }
+
+
+
+    Controller.prototype.setIsDepended = function(isDepended){
+        this._isDependeOf = isDepended;
     }
 
 
     Controller.prototype.setDependsOf=function(dependedOf){
         var Position = SoCuteGraph.helpers.coordinates.Position;
 
-
+        this.setIsDepended(true);
 
  //console.log('before move dep',this.text ,this.getPosition().getPosition());
         this.addSubscription(new MoveEvent(dependedOf),
             function(Evnt){
 
+                if (!this._isDependeOf){
+                    return;
+                }
 
 
-                var diff = Evnt.getPosition().getPositionDiff();
+                if (!this._dependsOfIsInit){
+                    this._dependsOfIsInit = true;
+
+                    //return;
+                }
+
+
+                var diff = Evnt.getDiff();
 
                 //console.log(diff);
 
 
-                console.log(this.getPosition().getPosition(), this._newCords);
+               if (diff){
+                    //TODO M.B. to getPosition
+                    var currentCords = this._newCords || this.getPosition().getPosition();
+                    var newPosition = new Position(currentCords);
 
+                    newPosition.setDiff(diff);
+                    this.moveTo(newPosition);
+               }
 
-                var currentCords = this._newCords || this.getPosition().getPosition();
-
-
-
-                var newPosition = new Position(currentCords);
-
-                //console.log('move of',this.text ,this.getPosition().getPosition(), newPosition.getPosition(), diff);
-
-                newPosition.setDiff(diff);
-
-
-                //this._views.nodeFrame.moveByDiff(newPosition);
-
-
-                //var moveEvent = new MoveEvent(this,element.getPosition());
-
-                //moveEvent.setPosition(element.position);
-                //moveEvent.setOrientation(element.getOrientation());
-
-
-                this.moveTo(newPosition);
-
-                //dispatcher.notify(moveEvent);
 
             });
     }
@@ -645,21 +669,20 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return moveEventWithController;
     }
 
-    Controller.prototype.moveTo = function(position, silent){
+    Controller.prototype.moveTo = function(position){
         //var moveEvent = new MoveEvent(this);
 
 
         //moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
 
-        this._newCords = position.getPosition();
-
-
-
-        if (!silent){
-            //this._moveEvent = moveEvent;
-
-            //this._dispatcher.notify(this._moveEvent);
+        if (!this._silentMove){
+            this._lastMoveDiff = this.getPosition().getDiffWith(position);
         }
+
+        this._newCords = position.getPosition();
+        //this._views.nodeFrame.getPosition().setPos(this._newCords);
+
+
     }
 
     Controller.prototype.subscribeForEvents=function(){
