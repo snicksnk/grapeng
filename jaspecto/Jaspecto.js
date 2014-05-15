@@ -20,6 +20,7 @@ var Jaspecto = function () {
         this._originalMethods = {};
     };
 
+    /*
     Introducer.prototype.callBeforeStack = function(method, args) {
         this.callStack(method, 'before', args);
     };
@@ -27,6 +28,7 @@ var Jaspecto = function () {
     Introducer.prototype.callAfterStack = function(method, args) {
         this.callStack(method, 'after', args);
     }
+    */
 
     Introducer.prototype.addToStack = function(methodName, stack, aspectName, aspectCallback) {
 
@@ -44,10 +46,12 @@ var Jaspecto = function () {
         this._pointcut[methodName][stack].push({'name':aspectName,'callback':aspectCallback});
     }
 
-    Introducer.prototype.callStack = function(methodName, stack, args) {
+    Introducer.prototype.callStack = function(methodName, stackName, args) {
         var aspect;
-        for(aspect in this._pointcut[methodName][stack]) {
-            this._pointcut[methodName][stack][aspect]['callback'].apply(this._subject, args);
+
+        var stack = this._pointcut[methodName][stackName];
+        for(aspect in stack) {
+            stack[aspect]['callback'].apply(this._subject, args);
         }
     }
 

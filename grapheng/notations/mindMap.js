@@ -17,6 +17,7 @@ SoCuteGraph.notations.mindMap = function () {
         this._nodePathes = {};
         this._selectedNode = false;
         this._rootNode = false;
+        this._freeMove = false;
 
     }
 
@@ -108,7 +109,9 @@ SoCuteGraph.notations.mindMap = function () {
         var nodeViewController = new NodeViewController(text, this._viewFactory, position);
         this.getDispatcher().addObject(nodeViewController);
 
-        Jaspecto.wrap(nodeViewController);
+
+
+        //Jaspecto.wrap(nodeViewController);
 
         var that = this;
 
@@ -121,7 +124,7 @@ SoCuteGraph.notations.mindMap = function () {
         this._lastAddedNode = node;
 
 
-        nodeViewController.jas.after('click').advice('selectNode', function(){
+        Jaspecto(nodeViewController).after('click').advice('selectNode', function(){
             that.setSelectedNode(node);
         });
 
@@ -131,6 +134,21 @@ SoCuteGraph.notations.mindMap = function () {
 
             if (calcPos){
                 node.setDiffFromCalculatedPosition(calcPos.getDiffWith(node.getPosition()));
+            }
+
+        });
+
+        var freeMoveEnabled = false;
+        Jaspecto(nodeViewController).after('startDrag').advice('ifFreeMoveStart', function(){
+            if (that._freeMove==true){
+                this.setIsSlaveAffects(false);
+                freeMoveEnabled = true;
+            }
+        });
+
+        Jaspecto(nodeViewController).after('stopDrag').advice('stopFreeMove', function(){
+            if (freeMoveEnabled){
+                this.setIsSlaveAffects(true);
             }
         });
 
@@ -179,15 +197,17 @@ SoCuteGraph.notations.mindMap = function () {
 
 
 
-            if (parentNode){
-                //var dep =new MoveSlave(that.getDispatcher(), parentNode.getViewController(), newNode.getViewController());
-                //newNode.setParentNodeDependecie(dep);
-            }
 
             if (reposeIsNeed) {
                 //newNode.reposeChildrens();
             }
 
+
+
+            if (parentNode){
+                var dep =new MoveSlave(that.getDispatcher(), parentNode.getViewController(), newNode.getViewController());
+                newNode.setParentNodeDependecie(dep);
+            }
 
 
 
@@ -212,6 +232,10 @@ SoCuteGraph.notations.mindMap = function () {
         } else {
             this._nodePathes[nodeId] = {};
         }
+    }
+
+    MindMap.prototype.setFreeMove = function (freeMove) {
+        this._freeMove = freeMove;
     }
 
 
@@ -577,18 +601,28 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
     var Basic = function (scene){
         this._scene = scene;
+        this._shiftPressed = false;
     }
 
     Basic.prototype = new AbstractController();
 
     Basic.prototype.setUpKeys = function (mindMap) {
-        document.onkeypress =  zx;
+        document.onkeydown =  zx;
 
+        document.onkeyup = function(e){
+            var charCode = (typeof e.which == "number") ? e.which : e.keyCode
+            console.log('keyup', e, charCode);
+
+            if (charCode == 70) {
+                that._shiftPressed = false;
+                mindMap.setFreeMove(false);
+            }
+        }
 
         var that = this;
         function zx(e){
             var charCode = (typeof e.which == "number") ? e.which : e.keyCode
-            //console.log(charCode)
+            console.log(e, charCode)
 
             if (charCode == 105){
                 that.addNode(mindMap)
@@ -599,6 +633,9 @@ SoCuteGraph.notations.mindMap.ui = function () {
                 that.load();
             } else if (charCode == 100) {
                 mindMap.deleteSelectedNode();
+            } else if (charCode = 102) {
+                that._shiftPressed = true;
+                mindMap.setFreeMove(true);
             }
 
 
@@ -697,7 +734,6 @@ SoCuteGraph.notations.mindMap.building = function () {
         var newPos = new Position();
         newPos.setPos(prevChildNode.getPosition().getPosition());
 
-
         var heightFactor = new Position(prevChildNode.getNodeContainerSize().getPosition());
         newPos.setDiff(heightFactor.getPosition());
         newPos.setDiff(this._neighborhoodOffset.getPosition());
@@ -716,7 +752,7 @@ SoCuteGraph.notations.mindMap.building = function () {
 
         newPos.setDiff(widthFactor.getPosition());
         newPos.setDiff(parentNode._childOffsets.getPosition());
-        newPos.setDiff(parentNode._childOffsets.getPosition());
+
 
         return newPos;
     }
@@ -756,10 +792,9 @@ SoCuteGraph.notations.mindMap.building = function () {
             var newPos = this.calcChildPosition(parent, curNode, prevNode);
 
             if ( calculated = curNode.getCalculatedPosition()){
-                console.log(curNode.getText(),calculated,curNode.getDiffFromCalculatedPosition());
 
-                console.log(curNode.getDiffFromCalculatedPosition());
-                //curNode.getViewController().moveTo(newPos);
+                //console.log(curNode.getDiffFromCalculatedPosition());
+                curNode.getViewController().moveTo(newPos);
 
                 //curNode.getViewController().moveByDiff(curNode.getDiffFromCalculatedPosition());
 
@@ -953,7 +988,6 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
            test("create dump", function(){
 
-                console.log('----',MindMap.getDump(mm));
            });
 
         });
