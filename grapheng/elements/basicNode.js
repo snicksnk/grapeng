@@ -129,10 +129,18 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
         this.text=text;
 
+
+
         this._views = {};
 
         this._views.nodeFrame = scene.NodeFrame(position);
         this._views.nodeText=scene.NodeText(text, scene);
+
+        var that = this;
+       
+
+
+
         this._views.nodeFrame.afterDrawText();
         this.resizeFramerToText();
         this._views.leftJoinPoint=scene.JoinPoint(scene);
@@ -199,6 +207,15 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
 
     ViewModel.prototype.getOrientation=function(){
         return this._orientation;
+    }
+
+    ViewModel.prototype.setText = function(text){
+        this._views.nodeText.setText(text);
+        this.redraw();
+    }
+
+    ViewModel.prototype.getText = function(){
+        return this._views.nodeText.getText();
     }
 
 
@@ -412,6 +429,8 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         this._silentMove = false;
         this._slaveAffects = false;
 
+        var that = this;
+       
 
         //this._newCords = position.getPosition();
         //this.moveTo(position);
@@ -438,6 +457,14 @@ SoCuteGraph.elements.basicNode.controllers = (function () {
         return this._views.nodeFrame.getWidth();
     }
 
+    Controller.prototype.setText = function(text){
+        this._views.nodeFrame.setText(text);
+        this.redraw();
+    }
+
+    Controller.prototype.getText = function(){
+        return this._views.nodeFrame.getText();
+    }
 
     Controller.prototype.setVisability = function(visability){
         if (visability == true){

@@ -39,7 +39,13 @@ SoCuteGraph.notations.mindMap = function () {
     }
 
 
+    MindMap.prototype.editSelectedNode = function(text){
+        var selectedNode = this._selectedNode;
+        if (selectedNode){
+            selectedNode.setAttr('title', text);
+        }
 
+    }
 
     MindMap.prototype.deleteSelectedNode = function(){
         var selectedNode = this._selectedNode;
@@ -72,7 +78,7 @@ SoCuteGraph.notations.mindMap = function () {
     MindMap.prototype.addNode = function (text, parentNode) {
 
 
-        var node = this.nodeFactory(text, new Position({'x':0,'y':0}));
+        var node = this.nodeFactory(parent);
 
 
 
@@ -84,11 +90,7 @@ SoCuteGraph.notations.mindMap = function () {
 
 
             node.setParentJoin(joinLine);
-
             parentNode.addChildren(node);
-
-
-
 
         } else {
             node.setIsParent(true);
@@ -104,25 +106,16 @@ SoCuteGraph.notations.mindMap = function () {
 
 
 
-    MindMap.prototype.nodeFactory = function (text, position){
+    MindMap.prototype.nodeFactory = function (parent){
 
+        var text = 'new node';
+        var position = new Position({'x':0,'y':0});
         var nodeViewController = new NodeViewController(text, this._viewFactory, position);
         this.getDispatcher().addObject(nodeViewController);
 
-
-
-        //Jaspecto.wrap(nodeViewController);
+        var node = new Node(nodeViewController);
 
         var that = this;
-
-
-        var node = new Node(nodeViewController);
-        this.getDispatcher().addObject(node);
-        var nodeId = node.getUniqueId();
-        this._nodeStorage[nodeId] = node;
-        node.setMindMap(this);
-        this._lastAddedNode = node;
-
 
         Jaspecto(nodeViewController).after('click').advice('selectNode', function(){
             that.setSelectedNode(node);
@@ -191,6 +184,8 @@ SoCuteGraph.notations.mindMap = function () {
             } else {
                 reposeIsNeed = true;
             }
+
+            newNode.setAttr('title', val['title']);
             newNode.setAttr('color',val['color']);
             newNode.setAttr('diffFromCalculatedPosition', val['diffFromCalculatedPosition']);
             that.parseNodesDump(val['_childrens'], newNode);
@@ -341,7 +336,7 @@ SoCuteGraph.notations.mindMap = function () {
 
     Node.prototype.getDump = function (noChilds) {
         var dump = {};
-        dump['title'] = this.getText();
+        dump['title'] = this.getAttr('title');
         dump['_childrens'] = [];
 
         if (!noChilds){
@@ -527,6 +522,15 @@ SoCuteGraph.notations.mindMap = function () {
 
     Node.prototype.defineAttrs = function (){
 
+        this._addAttr('title', 'new node', function(name, val){
+            console.log(val);
+            this.getViewController().setText(val);
+        },
+        function(){
+            return this.getViewController().getText();
+        }
+        )
+
         var positionGetter = function(){
             return this.getViewController().getPosition().getPosition();
         }
@@ -607,39 +611,55 @@ SoCuteGraph.notations.mindMap.ui = function () {
     Basic.prototype = new AbstractController();
 
     Basic.prototype.setUpKeys = function (mindMap) {
-        document.onkeydown =  zx;
-
-        document.onkeyup = function(e){
-            var charCode = (typeof e.which == "number") ? e.which : e.keyCode
-            console.log('keyup', e, charCode);
-
-            if (charCode == 70) {
-                that._shiftPressed = false;
-                mindMap.setFreeMove(false);
-            }
-        }
 
         var that = this;
-        function zx(e){
-            var charCode = (typeof e.which == "number") ? e.which : e.keyCode
-            console.log(e, charCode)
 
-            if (charCode == 105){
-                that.addNode(mindMap)
 
-            } else if (charCode == 115) {
-                that.save(mindMap);
-            } else if (charCode == 108) {
-                that.load();
-            } else if (charCode == 100) {
-                mindMap.deleteSelectedNode();
-            } else if (charCode = 102) {
-                that._shiftPressed = true;
+        var listener = new window.keypress.Listener();
+
+
+
+        listener.simple_combo("ctrl s", function() {
+            that.save(mindMap);
+        });
+
+        listener.simple_combo("ctrl l", function() {
+            that.load();
+        });
+
+        listener.simple_combo("ctrl e", function() {
+            that.editSelectedNode(mindMap);
+        });
+
+
+        listener.simple_combo("shift", function() {
+        });
+
+        listener.register_combo({
+            "keys"              : "shift",
+            "on_keydown"        : function(){
                 mindMap.setFreeMove(true);
+            },
+            "on_keyup"          : function(){
+                mindMap.setFreeMove(false);
             }
+        });
 
 
-        }
+        listener.register_combo({
+            "keys"              : "insert",
+            "on_keydown"        : function(){
+                that.addNode(mindMap);
+            }
+        });
+
+
+        listener.register_combo({
+            "keys"              : "delete",
+            "on_keydown"        : function(){
+                mindMap.deleteSelectedNode();
+            }
+        });
     }
 
 
@@ -648,6 +668,11 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
         alert(JSON.stringify(dump));
 
+    }
+
+    Basic.prototype.editSelectedNode = function(mindMap){
+        var newText = prompt('Entet new node text');
+        mindMap.editSelectedNode(newText);
     }
 
     Basic.prototype.load = function () {

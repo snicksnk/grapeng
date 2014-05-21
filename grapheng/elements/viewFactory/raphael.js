@@ -58,6 +58,8 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
 
 
+
+
     function AbstractView(){
 
     }
@@ -276,6 +278,7 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         this._element.attr('font-size',12);
         this._element.attr('fill','#272323');
         this._element.attr('font-family','verdana');
+
     }
 
     NodeText.prototype = new AbstractView();
@@ -306,6 +309,14 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
     NodeText.prototype.getHeight=function(){
         var height=this._element.node.getBBox().height;
         return height;
+    }
+
+    NodeText.prototype.setText = function(text){
+        this._element.attr('text', text);
+    } 
+
+    NodeText.prototype.getText = function(){
+        return this._element.attr('text');
     }
 
     var Path = function(path, paper){
