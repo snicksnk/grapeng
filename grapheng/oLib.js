@@ -47,8 +47,6 @@ SoCuteGraph.oLib = (function () {
             throw new Error('Undefined property "'+name+'"');
         }
 
-
-
         this._attrsCallbacks[name].setter.call(this, name, value);
         return this;
     }
@@ -59,6 +57,23 @@ SoCuteGraph.oLib = (function () {
         }
 
         return this._attrsCallbacks[name].getter.call(this, name);
+    }
+
+    PropertyesMixin.getAttrs = function (){
+        var callbacks = this._attrsCallbacks;
+        var dump = {};
+        for (var property in callbacks){
+            dump[property] = this.getAttr(property);
+        }
+        return dump;
+    }
+
+    PropertyesMixin.setAttrs = function (dump){
+        var callbacks = this._attrsCallbacks;
+        for (var property in callbacks){
+            this.setAttr(property, dump[property]);
+        }
+        return this;
     }
 
 
@@ -154,27 +169,37 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.oLib',
             equal(2, instance.i, 'Mixin method works');
         });
 
+        var Obj = function(){
+            this.defineAttrs();
+        };
+
+        Obj.prototype.defineAttrs = function(){
+            this._addAttr('height', null);
+            this._addAttr('width',null);
+        }
+
+        SoCuteGraph.oLib.mixin(Obj.prototype, SoCuteGraph.oLib.PropertyesMixin)
+
+
+        var instance = new Obj();
+
+        instance.setAttr('width', 1000);
+        instance.setAttr('height', 25);
+
         test("propertyes", function(){
-            var Obj = function(){
-                this.defineAttrs();
-            };
-
-            Obj.prototype.defineAttrs = function(){
-                this._addAttr('height', null);
-                this._addAttr('width',null);
-            }
-
-            SoCuteGraph.oLib.mixin(Obj.prototype, SoCuteGraph.oLib.PropertyesMixin)
-
-
-            var instance = new Obj();
-
-            instance.setAttr('width', 1000);
-            instance.setAttr('height', 25);
-
             equal(instance.getAttr('width'),1000, 'First attr setted and getted properly');
             equal(instance.getAttr('height'),25, 'Second attr setted and getted properly');
+        });
 
+         test("Check propertyes dump", function(){
+            var dump = instance.getAttrs();
+            deepEqual({'width':1000, height:25}, dump, 'Full dump is correct');
+         });
+
+        test("Set all propertyes", function(){
+            var propsDump = {'width':200, 'height':300};
+            instance.setAttrs(propsDump);
+            deepEqual(instance.getAttrs(), propsDump, 'Getted dump of attrs equals to setted');
         });
 
     });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mind" xmlns:ng="http://angularjs.org" >
 <head>
     <meta charset=utf-8>
     <title>(Это title) Пример страницы на HTML5</title>
@@ -40,13 +40,29 @@
 
     <script src="../test.js"></script>
 
+    <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css">
+
+    <script type="application/javascript" src="../bower_components/angular/angular.js"></script>
+    
+
+
+
     <link rel="stylesheet" href="../resources/qunit-1.12.0.css">
+
+    <script>
+        //for manual angular bootsrap inside UI class
+        window.name = 'NG_DEFER_BOOTSTRAP!';
+    </script>
 
 
     <script type="text/javascript">
 
         (function(){
-            document.ready=SoCuteGraph.testTool.Module.Tests.start();
+           document.ready=SoCuteGraph.testTool.Module.Tests.start();
         }())
 
     </script>
@@ -77,9 +93,72 @@
 <nav>
 
 </nav>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <textarea id="nodeText"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="nodeDataSave" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section>
+
+    <style>
+        .main-panel {
+            float: left;
+            position: static;
+            margin-left: 20px;
+
+        }
+
+        .main-panel button {
+            display: block;
+            width: 30px;
+            height: 30px;
+            margin-bottom: 1px;
+        }
+
+        .panel-section {
+            margin-bottom: 10px;
+        }
+
+        .mindmap {
+            padding-top: 30px;
+        }
+
+    </style>
+
     <article>
-        <div id="mm-canvas"></div>
+
+
+        <div class="mindmap row">
+            <div class="main-panel " ng-controller="mainPannel">
+                <section class="panel-section section-open-save">
+                    <button class="glyphicon glyphicon-floppy-open" ng-click="open()"></button>
+                    <button class="glyphicon glyphicon-floppy-save" ng-click="save()"></button>
+                </section>
+                <section class="panel-section section-map-edit">
+                    <button class="glyphicon glyphicon-plus" ng-click="add()"></button>
+                    <button class="glyphicon glyphicon-pencil" ng-click="edit()"></button>
+                </section>
+            </div>
+
+            <div class="right right col-md-11" id="mm-canvas"></div>
+        </div>
         <div id="canvas"></div>
         <div id="testCanvas"></div>
         <div id="qunit"></div>

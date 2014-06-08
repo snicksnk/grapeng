@@ -19,7 +19,7 @@ SoCuteGraph.events.dispatchers = (function () {
 
     }
 
-    Dispathcer.prototype.fpsProcessor = function(){
+    Dispathcer.prototype.fpsProcessor = function(once){
         var FrameEvent = SoCuteGraph.events.std.FrameEvent;
         var that = this;
         var frameFunction = function(){
@@ -31,13 +31,15 @@ SoCuteGraph.events.dispatchers = (function () {
             var endTime = new Date().getTime();
 
             that.frameTime = endTime - startTime;
-            if (expectedEndTime>endTime){
-                setTimeout(frameFunction, that.frameRate);
-            } else {
-                console.log('slow frame with'+(endTime-expectedEndTime));
-                frameFunction();
-            }
 
+            if (!once){
+                if (expectedEndTime>endTime){
+                    setTimeout(frameFunction, that.frameRate);
+                } else {
+                    console.log('slow frame with'+(endTime-expectedEndTime));
+                    frameFunction();
+                }
+            }
             //console.log('FRAME!');
 
         };
@@ -94,6 +96,14 @@ SoCuteGraph.events.dispatchers = (function () {
             } else if (typeof this._subscriptions[evntName] !=='undefined') {
                 this._subscriptions[evntName].splice(key, 1);
             }
+        }
+    }
+
+    Dispathcer.prototype.resolveEventHanler = function(object, eventUniqueId){
+        if (typeof object !=='undefined' && typeof object['handle'+eventUniqueId] !=='undefined'){
+            return object['handle'+eventUniqueId];
+        } else {
+            return undefined;
         }
     }
 

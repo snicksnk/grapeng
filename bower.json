@@ -1,0 +1,24 @@
+{
+  "name": "socutegraph",
+  "version": "0.0.1",
+  "homepage": "https://github.com/snicksnk/grapeng",
+  "authors": [
+    "snicksnk <snicksnk@gmail.com>"
+  ],
+  "description": "js sheme tool",
+  "main": "builds/SoCuteGraph-0.1.0.js",
+  "keywords": [
+    "graph",
+    "sheme",
+    "mindmap"
+  ],
+  "license": "eula",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

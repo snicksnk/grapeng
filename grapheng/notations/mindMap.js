@@ -38,6 +38,13 @@ SoCuteGraph.notations.mindMap = function () {
         return this._lastAddedNodeId;
     }
 
+    MindMap.prototype.getSelectedNode = function(){
+        var selectedNode = this._selectedNode;
+        if (selectedNode){
+            return selectedNode;
+        }
+        return null;
+    }
 
     MindMap.prototype.editSelectedNode = function(text){
         var selectedNode = this._selectedNode;
@@ -145,6 +152,7 @@ SoCuteGraph.notations.mindMap = function () {
             }
         });
 
+        this.getDispatcher().addObject(node);
 
 
         return node;
@@ -236,16 +244,26 @@ SoCuteGraph.notations.mindMap = function () {
 
     MindMap.getDump = function (dumped, notRoot) {
         var dump = {};
-        if (notRoot){
 
+        if (notRoot){
             dump = dumped.getDump();
             return dump;
-
         } else {
             var rootNode = dumped.getRootNode();
+            console.trace();
             return {'nodes':[MindMap.getDump(rootNode, true)]};
         }
     }
+
+    var Backgroud = function(viewModel){
+        this._viewModel = viewModel;
+    }
+
+    Backgroud.prototype = new AbstractController;
+
+    Backgroud.prototype
+
+
 
 
     var Node = function (viewController) {
@@ -341,7 +359,6 @@ SoCuteGraph.notations.mindMap = function () {
 
         if (!noChilds){
             var childrens = this.getChildrens();
-
             SoCuteGraph.oLib.each(childrens, function(i,child){
                 dump['_childrens'].push(child.getDump());
             });
@@ -465,6 +482,7 @@ SoCuteGraph.notations.mindMap = function () {
         //this.reposeChildrens();
 
 
+
     }
 
     Node.prototype.reposeChildrens = function (){
@@ -523,7 +541,6 @@ SoCuteGraph.notations.mindMap = function () {
     Node.prototype.defineAttrs = function (){
 
         this._addAttr('title', 'new node', function(name, val){
-            console.log(val);
             this.getViewController().setText(val);
         },
         function(){
@@ -560,7 +577,13 @@ SoCuteGraph.notations.mindMap = function () {
             },
 
             function () {
-                return this.getCalculatedPosition().getPosition();
+
+                var calcPosition = this.getCalculatedPosition();
+
+                if (calcPosition){
+                   return this.getCalculatedPosition();
+                }
+                return false;
             }
 
         );
@@ -603,18 +626,59 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
     var AbstractController = SoCuteGraph.elements.abstractController.Controller;
 
-    var Basic = function (scene){
+    var Basic = function (scene, app){
         this._scene = scene;
+        this._app = app;
         this._shiftPressed = false;
+
     }
 
     Basic.prototype = new AbstractController();
+
+    Basic.prototype.setUpApp = function (mindMap){
+
+        var uiModel = this;
+
+        var app = angular.module('mind', []);
+
+        var pannel = app.controller('mainPannel', ['$scope', function($scope){
+            $scope.add = function(){
+                uiModel.addNode(mindMap);
+            };
+
+            $scope.open = function(){
+                uiModel.load();
+            };
+
+            $scope.save = function(){
+                uiModel.save(mindMap);
+            };
+
+            $scope.edit = function(){
+                uiModel.editSelectedNode(mindMap);
+            };
+
+            this.showPopover = function(){
+
+            }
+        }]);
+
+
+
+
+
+        angular.resumeBootstrap();
+
+
+
+    }
 
     Basic.prototype.setUpKeys = function (mindMap) {
 
         var that = this;
 
 
+        this.setUpApp(mindMap);
         var listener = new window.keypress.Listener();
 
 
@@ -671,9 +735,55 @@ SoCuteGraph.notations.mindMap.ui = function () {
     }
 
     Basic.prototype.editSelectedNode = function(mindMap){
-        var newText = prompt('Entet new node text');
-        mindMap.editSelectedNode(newText);
+        var selectedNode = mindMap.getSelectedNode();
+
+        if (selectedNode){
+
+            var selectedNodeDump = selectedNode.getAttrs();
+
+            $('#nodeText').val(JSON.stringify(selectedNodeDump));
+
+            $('#myModal').modal('show');
+            $('#nodeDataSave').click(function(e){
+                var nodeDump = JSON.parse($('#nodeText').val());
+
+                selectedNode.setAttrs(nodeDump);
+
+                $('#nodeDataSave').unbind('click');
+                $('#myModal').modal('hide');
+            });
+        }
     }
+/*
+    $(function ()
+    {
+
+    $('.main-panel button').popover(
+        {
+            trigger: 'manual',
+            title: "save",
+            html: true,
+            placement: 'right',
+            content: 'hello world'
+        });
+    }).click(function(e){
+        $('.popover').hide();
+        console.log(e.target);
+        $(e.target).popover('toggle');
+    }).hover(function(e){
+        $(this).popover('hide');
+    });
+
+    $('.popover').blur(function(){
+        alert('sasa');
+    })
+
+
+    $('.main-panel button').blur(function(){
+       $(this).popover('hide');
+    });
+
+*/
 
     Basic.prototype.load = function () {
 
@@ -689,18 +799,36 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
     Basic.prototype.addNode = function (mindMap) {
 
-
-        var newNodeText = prompt('Enter name');
-
-
-        var nodeDump =  [{
-            "title":newNodeText,
+        var sourceNodeDump =  [{
+            "title": '',
+            "color": "yello",
             "_childrens":[
 
             ]
         }];
 
-        mindMap.addChildToSelectedNode(nodeDump);
+        $('#myModal').modal('show');
+
+        $('#nodeText').val(JSON.stringify(sourceNodeDump));
+
+        $('#nodeDataSave').click(function(e){
+
+            $('#nodeText').focus();
+            var nodeDump = JSON.parse($('#nodeText').val());
+
+            mindMap.addChildToSelectedNode(nodeDump);
+
+            $('#nodeText').val('');
+
+            $('#nodeDataSave').unbind('click');
+            $('#myModal').modal('hide');
+        });
+
+
+
+
+
+
     }
 
     return {
@@ -1006,14 +1134,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
             var mm = MindMap.createFromDump(mmDump, scene, disp);
 
-           ui.setUpKeys(mm);
+            ui.setUpKeys(mm);
+
+            deepEqual(mmDump, MindMap.getDump(mm), 'Dump of created map equls to source');
 
 
-
-
-           test("create dump", function(){
-
-           });
 
         });
 
