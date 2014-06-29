@@ -903,6 +903,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp = new Dispatcher();
             var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
             var scene = new Scene(paper);
+            var FrameEvent = SoCuteGraph.events.std.FrameEvent;
 
             node7 = new Node('Нода 7', scene, new Position({'x':10, 'y':20}));
             disp.addObject(node7);
@@ -914,28 +915,35 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             node7.moveTo(new Position({'x':0,'y':0  }));
 
-            setTimeout(function(){
-                deepEqual({'x':20,'y':20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
-            },100);
+
+            disp.notify(new FrameEvent());
+
+            deepEqual({'x':20,'y':20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
+
+
+
+
             node7.moveTo(new Position({'x':-30,'y':-40  }));
 
 
-            setTimeout(function(){
-                deepEqual({'x':-10,'y':-20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
-            },100);
+            disp.notify(new FrameEvent());
+
+            deepEqual({'x':-10,'y':-20}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
             node7.moveTo(new Position({'x':230,'y':230  }));
 
-            setTimeout(function(){
-                deepEqual({'x':250,'y':250}, node8.getPosition().getPosition(), 'Dependent node moved properly');
-            },100);
+
+            disp.notify(new FrameEvent());
+
+            deepEqual({'x':250,'y':250}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
             node7.moveTo(new Position({'x':210,'y':240  }));
 
 
-            setTimeout(function(){
-                deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
-            },100);
+
+            disp.notify(new FrameEvent());
+
+            deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
             ok(true,'Building compleate');
 

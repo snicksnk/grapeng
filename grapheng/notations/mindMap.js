@@ -560,12 +560,12 @@ SoCuteGraph.notations.mindMap = function () {
 
         this._addAttr('position', null, positionSetter, positionGetter);
 
-        this._addAttr('color', null,
+        this._addAttr('color', 'blue',
         function(name, val){
             this.setColor(val);
         },
         function() {
-            return this.getColor();
+            return this.getColor() || 'blue';
         }
         )
 
@@ -598,6 +598,15 @@ SoCuteGraph.notations.mindMap = function () {
         );
 
 
+        this._addAttr('orientation', 
+                'right',
+                function(name, val){
+                    this.getViewController().setOrientation(val);
+                },
+                function(){
+                    return this.getViewController().getOrientation();
+                }
+            )
 
         /*
         var textGetter = function(){
@@ -662,6 +671,18 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
             }
         }]);
+
+        var NodeFormController = app.controller('NodeFormController',
+            ['$scope',function($scope) {
+                $scope.save = function(){
+                    var good = {}
+                    good.name = $scope.name;
+                    good.desc = $scope.desc;
+                    good.price = $scope.price;
+                    goods.push(good);
+                }
+            }]
+        );
 
 
 
@@ -802,6 +823,7 @@ SoCuteGraph.notations.mindMap.ui = function () {
         var sourceNodeDump =  [{
             "title": '',
             "color": "yello",
+            "orientation":'right',
             "_childrens":[
 
             ]
@@ -812,14 +834,10 @@ SoCuteGraph.notations.mindMap.ui = function () {
         $('#nodeText').val(JSON.stringify(sourceNodeDump));
 
         $('#nodeDataSave').click(function(e){
-
             $('#nodeText').focus();
             var nodeDump = JSON.parse($('#nodeText').val());
-
             mindMap.addChildToSelectedNode(nodeDump);
-
             $('#nodeText').val('');
-
             $('#nodeDataSave').unbind('click');
             $('#myModal').modal('hide');
         });
@@ -1114,12 +1132,13 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
 
 
-           var mmDump =
 
-           {"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":638,"y":51},"diffFromCalculatedPosition":false},{"title":"Children 2 of 1","_childrens":[],"position":{"x":630,"y":228},"diffFromCalculatedPosition":false}],"position":{"x":348,"y":93},"diffFromCalculatedPosition":false},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]}
-;
-                             ;
 
+            var mmDump =
+                {"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":644,"y":22},"diffFromCalculatedPosition":false},{"title":"Children 2 of 1","_childrens":[],"position":{"x":636,"y":199},"diffFromCalculatedPosition":false}],"position":{"x":354,"y":64},"diffFromCalculatedPosition":false},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]}
+                ;
+
+            var mmDump ={"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":644,"y":22},"diffFromCalculatedPosition":false,"color":"blue"},{"title":"Children 2 of 1","_childrens":[],"position":{"x":636,"y":199},"diffFromCalculatedPosition":false,"color":"blue"}],"position":{"x":354,"y":64},"diffFromCalculatedPosition":false,"color":"blue"},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false,"color":"blue"}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]} ;
 
             var paper = Raphael(document.getElementById('mm-canvas'), 1200, 600);
 
