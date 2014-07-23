@@ -675,11 +675,11 @@ SoCuteGraph.notations.mindMap.ui = function () {
         var NodeFormController = app.controller('NodeFormController',
             ['$scope',function($scope) {
                 $scope.save = function(){
-                    var good = {}
-                    good.name = $scope.name;
-                    good.desc = $scope.desc;
-                    good.price = $scope.price;
-                    goods.push(good);
+                    var nodeData = {}
+                    nodeData.name = $scope.name;
+                    nodeData.color = $scope.color;
+                    nodeData.orientation = $scope.orientation;
+                    console.log(nodeData);
                 }
             }]
         );

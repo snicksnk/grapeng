@@ -49,8 +49,10 @@
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css">
 
     <script type="application/javascript" src="../bower_components/angular/angular.js"></script>
-    
 
+
+
+    <script data-main="../grapheng/require" src="../bower_components/requirejs/require.js"></script>
 
 
     <link rel="stylesheet" href="../resources/qunit-1.12.0.css">
@@ -105,7 +107,7 @@
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
     <div class="modal-dialog">
-        <div class="modal-content" ng-model="NodeFormController">
+        <div class="modal-content" ng-controller="NodeFormController">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>

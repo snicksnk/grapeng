@@ -78,6 +78,9 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
 
     }
 
+
+
+
     ResolveAssocLinePoints.prototype._calcCenter = function(leftPoint, rightPoint){
         var center = Position.getCenterPoint(leftPoint, rightPoint);
         return center;
@@ -88,6 +91,8 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
         inPointPostion = this._calcCenter(position.sub.leftJoinPoint, position.sub.rightJoinPoint);
         return inPointPostion;
     }
+
+
 
 
 
