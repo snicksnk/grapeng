@@ -733,6 +733,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
         var Position=SoCuteGraph.helpers.coordinates.Position;
         var Node = SoCuteGraph.elements.basicNode.controllers.Controller;
         var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
+        var LinesBench = SoCuteGraph.elements.joinLine.dependencies.BeamLines;
+
         var Dispatcher = SoCuteGraph.events.dispatchers.Dispatcher;
 
         var Element = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
@@ -810,13 +812,11 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
 
-
-
-            line=new Line(scene, node, nodeDepends);
+            //line=new Line(scene, node, nodeDepends);
 
             //new ParentChildJoin(disp, line, node, nodeDepends);
 
-            disp.addObject(line);
+            //disp.addObject(line);
 
             node3=new Node('Третья нода', scene, new Position({'x':610,'y':340}));
             new MoveSlave(disp, node, node3);
@@ -824,13 +824,13 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
             disp.addObject(node3);
 
-            line2=new Line(scene, node, node3);
+            //line2=new Line(scene, node, node3);
 
 
 
 
 
-            disp.addObject(line2);
+            //disp.addObject(line2);
 
             node4=new Node('Четвертая нода', scene, new Position({'x':230,'y':250}));
             node4.setOrientation(Element.ORIENTED_LEFT);
@@ -873,10 +873,25 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
             disp.addObject(line5);
 
 
-            lineAssoc=new Line(scene, node5, node6, ResolveAssocLinePoints);
+            var lineAssoc=new Line(scene, node5, node6, ResolveAssocLinePoints);
 
 
             disp.addObject(lineAssoc);
+
+            var bench = LinesBench.setUp({dispatcher:disp, 'paper': scene,'parent':node,'childs':[nodeDepends, node3]});
+
+
+
+
+           // line=new Line(scene, node, nodeDepends);
+
+            //disp.addObject(line);
+
+            console.log(bench._lines);
+
+            disp.addObject(bench._lines[0]);
+
+
 
             var animation = new Animation(500, 340, 3000, function(newY){
                newY = Math.round(newY);
@@ -898,6 +913,8 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.elements.basicNode.',
 
 
         });
+
+
 
         test ("Move dependent object", function(){
             disp = new Dispatcher();

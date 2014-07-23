@@ -8,6 +8,8 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
 
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
     var Position = SoCuteGraph.helpers.coordinates.Position;
+    var AbstractController = SoCuteGraph.elements.abstractController.Controller;
+
     var ResolveHierarchyLinePoints = function(startNode, endNode){
         if (startNode && endNode){
             this.init(startNode, endNode);
@@ -94,11 +96,80 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
 
 
 
+    var BeamLines = {
+        setUp: function (propertyes){
+
+            var Beam = function (){
+
+            };
+
+            Beam.prototype = new AbstractController;
+
+
+
+            SoCuteGraph.oLib.mixin(Beam.prototype, BeamLines);
+
+            var beam = new Beam();
+
+            beam.setPaper(propertyes['paper']);
+            beam.setParent(propertyes['parent']);
+            beam.setChildrens(propertyes['childs']);
+
+            propertyes['dispatcher'].addObject(beam);
+            beam.rebuild();
+
+            return beam;
+        },
+        BeamLines: function(){
+
+        },
+        setPaper: function(paper){
+            this._paper = paper;
+        },
+        setParent: function(parentNode){
+            this._parentNode = parentNode;
+        },
+        setChildrens: function(childrens){
+            this._childrens = childrens;
+        },
+        rebuild: function(){
+
+
+            var Line = SoCuteGraph.elements.joinLine.controllers.Controller;
+            var childrens = this._childrens;
+            var PointResolver = ResolveHierarchyLinePoints;
+
+
+            this._lines = [];
+
+            for(var i in childrens){
+                var child = childrens[i];
+
+                var line =
+                    new Line(
+                    this._paper, this._parentNode, child);
+
+
+
+                this.getDispatcher().addObject(line);
+
+                this._lines.push(line);
+
+                console.log(' == 2 2 == ');
+
+            }
+        }
+    }
+
+
+
+
 
 
     return {
         'ResolveHierarchyLinePoints':ResolveHierarchyLinePoints,
-        'ResolveAssocLinePoints': ResolveAssocLinePoints
+        'ResolveAssocLinePoints': ResolveAssocLinePoints,
+        'BeamLines': BeamLines
     }
 })();
 
