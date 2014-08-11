@@ -99,6 +99,21 @@ SoCuteGraph.helpers.coordinates = (function () {
         return centerPosition;
     }
 
+    Position.getCenterOfPointsArray = function (points) {
+        var centerPoint = false;
+        for(var p in points){
+            var point = points[p];
+            if (centerPoint) {
+                console.log(centerPoint.getPosition(), point.getPosition(),'====');
+                centerPoint = Position.getCenterPoint(centerPoint, point);
+                console.log(centerPoint.getPosition(), '-----');
+            } else {
+                centerPoint = point;
+            }
+        }
+        return centerPoint;
+    }
+
 
     Position.prototype.setDiff=function(diff){
         var newCords={};
@@ -194,7 +209,20 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.helpers.coordinates',
             var centerPositon = Position.getCenterPoint(position1, position2);
 
             deepEqual(centerPositon.getPosition(), {'x':2.5, 'y':15}, 'Center position is good');
+        });
 
+        test("get center point of points array", function(){
+            var Position=SoCuteGraph.helpers.coordinates.Position;
+
+            var pos1 = new Position({'x':2, 'y':2});
+            var pos2 = new Position({'x':2, 'y':6});
+            var pos3 = new Position({'x':6, 'y':4});
+
+            var center = Position.getCenterOfPointsArray([pos1,pos2,pos3]);
+
+
+
+            deepEqual({'x':4,'y':4}, center.getPosition(), 'Center position is ok');
 
         });
     }

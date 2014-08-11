@@ -69,7 +69,6 @@ SoCuteGraph.notations.mindMap = function () {
     
     MindMap.prototype.addChildToSelectedNode = function(nodeDump){
         var selectedNde = this._selectedNode;
-
         if (selectedNde){
             this.parseNodesDump(nodeDump, selectedNde);
             selectedNde.reposeChildrens();
@@ -196,6 +195,10 @@ SoCuteGraph.notations.mindMap = function () {
             newNode.setAttr('title', val['title']);
             newNode.setAttr('color',val['color']);
             newNode.setAttr('diffFromCalculatedPosition', val['diffFromCalculatedPosition']);
+
+            newNode.setAttr('orientation', val['orientation']);
+
+
             that.parseNodesDump(val['_childrens'], newNode);
 
 
@@ -601,6 +604,7 @@ SoCuteGraph.notations.mindMap = function () {
         this._addAttr('orientation', 
                 'right',
                 function(name, val){
+                    var val = val || 'right'    ;
                     this.getViewController().setOrientation(val);
                 },
                 function(){
@@ -639,7 +643,7 @@ SoCuteGraph.notations.mindMap.ui = function () {
         this._scene = scene;
         this._app = app;
         this._shiftPressed = false;
-
+        this._nodeDialogMode = false;
     }
 
     Basic.prototype = new AbstractController();
@@ -648,11 +652,11 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
         var uiModel = this;
 
-        var app = angular.module('mind', []);
+        var app = angular.module('mind', [/*'ui.bootstrap'*/]);
 
         var pannel = app.controller('mainPannel', ['$scope', function($scope){
             $scope.add = function(){
-                uiModel.addNode(mindMap);
+                   uiModel.addNode(mindMap);
             };
 
             $scope.open = function(){
@@ -672,37 +676,17 @@ SoCuteGraph.notations.mindMap.ui = function () {
             }
         }]);
 
-        var NodeFormController = app.controller('NodeFormController',
-            ['$scope',function($scope) {
-                $scope.save = function(){
-                    var nodeData = {}
-                    nodeData.name = $scope.name;
-                    nodeData.color = $scope.color;
-                    nodeData.orientation = $scope.orientation;
-                    console.log(nodeData);
-                }
-            }]
-        );
+        function setDefaultValues($scope){
+            $scope.name = "";
+            $scope.color = "cyan";
+            $scope.orientation = 'right';
+        }
 
-
-
-
-
-        angular.resumeBootstrap();
-
-
-
-    }
-
-    Basic.prototype.setUpKeys = function (mindMap) {
 
         var that = this;
 
 
-        this.setUpApp(mindMap);
         var listener = new window.keypress.Listener();
-
-
 
         listener.simple_combo("ctrl s", function() {
             that.save(mindMap);
@@ -731,12 +715,6 @@ SoCuteGraph.notations.mindMap.ui = function () {
         });
 
 
-        listener.register_combo({
-            "keys"              : "insert",
-            "on_keydown"        : function(){
-                that.addNode(mindMap);
-            }
-        });
 
 
         listener.register_combo({
@@ -745,6 +723,87 @@ SoCuteGraph.notations.mindMap.ui = function () {
                 mindMap.deleteSelectedNode();
             }
         });
+
+
+        var NodeFormEditController = app.controller('NodeFormEditController',
+            ['$scope',function($scope) {
+
+                $scope.modalMode = that._nodeDialogMode;
+
+
+            }]);
+
+
+
+        var NodeFormCreateController = app.controller('NodeFormCreateController',
+            ['$scope',function($scope) {
+                setDefaultValues($scope);
+
+                $scope.isCreate = '--';
+
+
+                var mode = 'editing';
+
+                listener.register_combo({
+                    "keys"              : "insert",
+                    "on_keydown"        : function(){
+                        console.log('sasa');
+                        $scope.isCreate = true;
+                        that.addNode(mindMap);
+                    }
+                });
+
+
+                $scope.save = function(){
+                    var nodeData = [{"title":"hello","color":"yssello","orientation":"right","_childrens":[]}];
+                    nodeData[0].title = $scope.name;
+                    nodeData[0].color = $scope.color;
+                    nodeData[0].orientation = $scope.orientation;
+
+
+                    console.log($scope.isEdit);
+
+                    if ($scope.isEdit==1){
+                        alert('editing');
+                    } else {
+                        alert('creating');
+                    }
+
+
+                    //TODO Fix hack
+                    mindMap.addChildToSelectedNode(nodeData);
+
+
+                    $('#myModal').modal('hide');
+
+
+
+                   setDefaultValues($scope);
+
+                }
+
+            }]
+        );
+
+
+
+
+
+        angular.resumeBootstrap();
+
+
+
+
+
+    }
+
+    Basic.prototype.setUpKeys = function (mindMap) {
+
+        var that = this;
+
+
+        this.setUpApp(mindMap);
+
     }
 
 
@@ -764,16 +823,22 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
             $('#nodeText').val(JSON.stringify(selectedNodeDump));
 
+
+            this._nodeDialogMode = 'edit';
             $('#myModal').modal('show');
+
+            /*
             $('#nodeDataSave').click(function(e){
                 var nodeDump = JSON.parse($('#nodeText').val());
-
                 selectedNode.setAttrs(nodeDump);
-
                 $('#nodeDataSave').unbind('click');
                 $('#myModal').modal('hide');
             });
+            */
+
         }
+
+
     }
 /*
     $(function ()
@@ -829,17 +894,20 @@ SoCuteGraph.notations.mindMap.ui = function () {
             ]
         }];
 
+        this._nodeDialogMode = 'create';
         $('#myModal').modal('show');
 
         $('#nodeText').val(JSON.stringify(sourceNodeDump));
-
+        $('#isEdit').val(0);
         $('#nodeDataSave').click(function(e){
+            /*
             $('#nodeText').focus();
             var nodeDump = JSON.parse($('#nodeText').val());
             mindMap.addChildToSelectedNode(nodeDump);
             $('#nodeText').val('');
             $('#nodeDataSave').unbind('click');
             $('#myModal').modal('hide');
+            */
         });
 
 
@@ -1095,7 +1163,7 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
                     {
                         "title":"Mother node",
                         "position":{'x':120,'y':30},
-                        "color":"red",
+                        "color":"#FFEC73",
                         "_childrens":[
                             {
                                 "title":"Children 1",
@@ -1133,12 +1201,50 @@ SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.nsCrete.notations.mindMap',
 
 
 
-
-            var mmDump =
-                {"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":644,"y":22},"diffFromCalculatedPosition":false},{"title":"Children 2 of 1","_childrens":[],"position":{"x":636,"y":199},"diffFromCalculatedPosition":false}],"position":{"x":354,"y":64},"diffFromCalculatedPosition":false},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]}
-                ;
-
-            var mmDump ={"nodes":[{"title":"Mother node","_childrens":[{"title":"Children 1","_childrens":[{"title":"Children 1 of 1","_childrens":[],"position":{"x":644,"y":22},"diffFromCalculatedPosition":false,"color":"blue"},{"title":"Children 2 of 1","_childrens":[],"position":{"x":636,"y":199},"diffFromCalculatedPosition":false,"color":"blue"}],"position":{"x":354,"y":64},"diffFromCalculatedPosition":false,"color":"blue"},{"title":"Children 2","_childrens":[],"position":{"x":300,"y":330},"diffFromCalculatedPosition":false,"color":"blue"}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]} ;
+            var mmDump ={
+                "nodes":[
+                    {
+                        "title":"Mother node",
+                        "_childrens":[
+                            {
+                                "title":"Children 1",
+                                "_childrens":[
+                                    {
+                                        "title":"Children 1 of 1",
+                                        "_childrens":[],
+                                        "position":
+                                        {
+                                            "x":644,
+                                            "y":22
+                                        },
+                                        "diffFromCalculatedPosition":false,
+                                        "color":"#FFEC73"
+                                    },
+                                    {
+                                        "title":"Children 2 of 1",
+                                        "_childrens":[],
+                                        "position":
+                                        {
+                                            "x":636,
+                                            "y":199
+                                        },
+                                        "diffFromCalculatedPosition":false,
+                                        "color":"#FFEC73"
+                                    }
+                                ],
+                                "position":
+                                {
+                                    "x":354,
+                                    "y":64
+                                },
+                                "diffFromCalculatedPosition":false,
+                                "color":"#FFEC73"
+                            },
+                            {
+                                "title":"Children 2",
+                                "_childrens":[],
+                                "position":{
+                                    "x":300,"y":330},"diffFromCalculatedPosition":false,"color":"#FFEC73"}],"position":{"x":120,"y":30},"diffFromCalculatedPosition":false,"color":"red"}]} ;
 
             var paper = Raphael(document.getElementById('mm-canvas'), 1200, 600);
 

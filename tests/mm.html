@@ -90,6 +90,11 @@
         #nodeForm input {
             display: block;
         }
+
+        body {
+            background: transparent url(../..//demo-data/images/highlight-bg.jpg) 50% 0 repeat;
+            min-height: 595px;
+        }
     </style>
 
 
@@ -107,22 +112,53 @@
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
     <div class="modal-dialog">
-        <div class="modal-content" ng-controller="NodeFormController">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
-                <form id="nodeForm" >
-
+                <form id="nodeFormCreate"  ng-controller="NodeFormCreateController">
+                    1 {{ isCreate }} 1
                     <label>Name</label>
-                    <input type="text" name="name" ng-model="name"/>
+                    <input type="text" value="assaasasa" name="nameaaa"  ng-model="name" />
 
                     <label>Color</label>
-                    <input type="text" name="color" ng-model="color">
+                    <input type="text" value="#FFEC73" name="color" ng-model="color">
 
-                    <textarea id="nodeText"></textarea>
+                    <label>Orientation</label>
+                    <select ng-model="orientation">
+                        <option value="left" selected="1">
+                            Left
+                        </option>
+                        <option value="right">
+                             Right
+                        </option>
+                    </select>
 
+                    <input type="hidden" id="isEdit" value="0" ng-model="isEdit">
+
+                </form>
+
+                <form id="nodeForm"  ng-show="false" ng-controller="NodeFormEditController">
+
+                    <label>Name</label>
+                    <input type="text" value="assaasasa" name="nameaaa"  ng-model="name" />
+
+                    <label>Color</label>
+                    <input type="text" value="#FFEC73" name="color" ng-model="color">
+
+                    <label>Orientation</label>
+                    <select ng-model="orientation">
+                        <option value="left" selected="1">
+                            Left
+                        </option>
+                        <option value="right">
+                            Right
+                        </option>
+                    </select>
+
+                    <input type="hidden" id="isEdit" value="0" ng-model="isEdit">
 
                 </form>
             </div>

@@ -9,6 +9,7 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
     var NodeViewModel = SoCuteGraph.elements.basicNode.viewModel.ViewModel;
     var Position = SoCuteGraph.helpers.coordinates.Position;
     var AbstractController = SoCuteGraph.elements.abstractController.Controller;
+    var MoveEvent = SoCuteGraph.events.std.MoveEvent;
 
     var ResolveHierarchyLinePoints = function(startNode, endNode){
         if (startNode && endNode){
@@ -104,9 +105,6 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
             };
 
             Beam.prototype = new AbstractController;
-
-
-
             SoCuteGraph.oLib.mixin(Beam.prototype, BeamLines);
 
             var beam = new Beam();
@@ -117,6 +115,8 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
 
             propertyes['dispatcher'].addObject(beam);
             beam.rebuild();
+
+
 
             return beam;
         },
@@ -144,19 +144,12 @@ SoCuteGraph.elements.joinLine.dependencies = (function () {
 
             for(var i in childrens){
                 var child = childrens[i];
-
-                var line =
-                    new Line(
-                    this._paper, this._parentNode, child);
-
-
-
+                var line = new Line(this._paper, this._parentNode, child);
                 this.getDispatcher().addObject(line);
-
                 this._lines.push(line);
+                this.addSubscription(new MoveEvent(line), function(){
 
-                console.log(' == 2 2 == ');
-
+                });
             }
         }
     }
@@ -280,7 +273,7 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
     var FrameEvent = SoCuteGraph.events.std.FrameEvent;
     var MoveEvent = SoCuteGraph.events.std.MoveEvent;
     var ResolveHierarchyLinePoints = SoCuteGraph.elements.joinLine.dependencies.ResolveHierarchyLinePoints;
-
+    var Position = SoCuteGraph.helpers.coordinates.Position;
 
     function Controller(paper, startNode, endNode, PointsResolver){
         if (paper, startNode, endNode){
@@ -315,16 +308,26 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
         this._newEndNodeEvnt = false;
 
         this.addSubscription(FrameEvent, function(){
+            var isMoved = false;
             if (this._newEndNodeEvnt){
+                isMoved = true;
                 this._nodeFrame.moveEndPoint(this._newEndNodeEvnt.getPosition(), this._newEndNodeEvnt.getOrientation());
                 this._newEndNodeEvnt = false;
             }
 
             if (this._newStartNodeEvnt){
+                isMoved = true;
                 this._nodeFrame.moveStartPoint(this._newStartNodeEvnt.getPosition(), this._newStartNodeEvnt.getOrientation());
                 this._newStartNodeEvnt = false;
             }
+
+            if (isMoved){
+                var moveEvent = new MoveEvent(this, new Position());
+                this.getDispatcher().notify(moveEvent);
+            }
+
         });
+
 
     }
 
@@ -342,6 +345,11 @@ SoCuteGraph.elements.joinLine.controllers = (function () {
     Controller.prototype._lineEndDepends=function(Evnt){
         this._newEndNodeEvnt = Evnt;
         //this._nodeFrame.moveEndPoint(Evnt.getPosition(), Evnt.getOrientation());
+    }
+
+
+    Controller.prototype.setCenterPoing = function () {
+
     }
 
 
