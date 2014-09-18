@@ -17,6 +17,8 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         Position = SoCuteGraph.helpers.coordinates.Position;
 
         this._paper=paper;
+
+        var background = new Background(this.getSize(), paper);
     }
 
     Scene.prototype.clear = function () {
@@ -64,6 +66,7 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
 
     }
 
+
     AbstractView.prototype.hide = function(){
         this._element.hide();
     }
@@ -77,8 +80,20 @@ SoCuteGraph.elements.viewFactory.raphael = (function () {
         renderCallback();
     }
 
+    var Background = function(size, paper) {
+        var size = size.getPosition();
+        this._element = paper.rect(0, 0, size['x'], size['y'], 10);//circle(0, 0, 10);
+        //this._element.attr("fill", "#fff");
+        this._element.toBack();
+        this._element.drag (this.drag());
+    }
 
+    Background.prototype = new AbstractView();
 
+    Background.prototype.drag = function(){
+
+    }
+    
     function AbstractJoinPoint(paper){
     }
 

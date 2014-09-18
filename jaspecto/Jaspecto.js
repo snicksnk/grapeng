@@ -6,7 +6,6 @@ var Jaspecto = function () {
     };
 
     var jas = function (subject) {
-
         if (!subject.hasOwnProperty('jas')){
             wrap(subject);
         }

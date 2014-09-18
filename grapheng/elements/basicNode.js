@@ -210,12 +210,15 @@ SoCuteGraph.elements.basicNode.viewModel = (function () {
     }
 
     ViewModel.prototype.setText = function(text){
+        this._text = text;
         this._views.nodeText.setText(text);
         this.redraw();
     }
 
     ViewModel.prototype.getText = function(){
-        return this._views.nodeText.getText();
+
+        console.log('=========  =',this._text);
+        return this._text;
     }
 
 

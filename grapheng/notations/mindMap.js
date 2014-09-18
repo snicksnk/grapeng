@@ -46,10 +46,13 @@ SoCuteGraph.notations.mindMap = function () {
         return null;
     }
 
-    MindMap.prototype.editSelectedNode = function(text){
+    MindMap.prototype.editSelectedNode = function(dump){
         var selectedNode = this._selectedNode;
+       
         if (selectedNode){
-            selectedNode.setAttr('title', text);
+            console.log(dump);
+            selectedNode.setAttr('title', dump['title']);
+            selectedNode.setAttr('color', dump['color']);
         }
 
     }
@@ -70,8 +73,9 @@ SoCuteGraph.notations.mindMap = function () {
     MindMap.prototype.addChildToSelectedNode = function(nodeDump){
         var selectedNde = this._selectedNode;
         if (selectedNde){
-            this.parseNodesDump(nodeDump, selectedNde);
+            var newNode = this.parseNodesDump(nodeDump, selectedNde);
             selectedNde.reposeChildrens();
+            return newNode;
         }
 
     }
@@ -181,8 +185,9 @@ SoCuteGraph.notations.mindMap = function () {
 
     MindMap.prototype.parseNodesDump = function (nodesDump, parentNode){
         var that = this;
+        var newNode;
         SoCuteGraph.oLib.each(nodesDump, function(i, val){
-            var newNode = that.addNode(val['title'], parentNode);
+            newNode = that.addNode(val['title'], parentNode);
 
 
             var reposeIsNeed = false;
@@ -223,6 +228,8 @@ SoCuteGraph.notations.mindMap = function () {
             //newNode.getViewController().moveTo(new Position({'x':10,'y':120+n}));
 
         });
+
+        return newNode;
 
     }
 
@@ -479,13 +486,9 @@ SoCuteGraph.notations.mindMap = function () {
         this._childrensOrder.push(nodeId);
         node.setParent(this);
 
-
         //this.reposeChildrens();
         //Todo Fi
         //this.reposeChildrens();
-
-
-
     }
 
     Node.prototype.reposeChildrens = function (){
@@ -547,6 +550,7 @@ SoCuteGraph.notations.mindMap = function () {
             this.getViewController().setText(val);
         },
         function(){
+            console.log(this.getViewController().getText())
             return this.getViewController().getText();
         }
         )
@@ -649,11 +653,13 @@ SoCuteGraph.notations.mindMap.ui = function () {
     Basic.prototype = new AbstractController();
 
     Basic.prototype.setUpApp = function (mindMap){
-
+        /*
         var uiModel = this;
 
-        var app = angular.module('mind', [/*'ui.bootstrap'*/]);
+        var app = angular.module('mind', ['ui.bootstrap']);
 
+
+        /*
         var pannel = app.controller('mainPannel', ['$scope', function($scope){
             $scope.add = function(){
                    uiModel.addNode(mindMap);
@@ -687,7 +693,7 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
 
         var listener = new window.keypress.Listener();
-
+        
         listener.simple_combo("ctrl s", function() {
             that.save(mindMap);
         });
@@ -791,7 +797,7 @@ SoCuteGraph.notations.mindMap.ui = function () {
 
         angular.resumeBootstrap();
 
-
+        */
 
 
 
