@@ -110,19 +110,89 @@ SoCuteGraph.oLib = (function () {
     }
 
 
+    var baseRequirePath = '/grapeng/grapheng';
+    var requireJsFile = function(path){
+
+        path = path.replace(/^SoCuteGraph/,baseRequirePath);
+
+        console.log(path);
+        var js = document.createElement("script");
+        js.type = "text/javascript";
+        js.src = path;
+        js.async = false;
+        document.body.appendChild(js);
+    }
+
+
+
+    var isLoadedScriptChecket = function(){
+
+    }
+
+
+
+
+    var require = function (name, requireFunction){
+        if (!requireFunction){
+            requireFunction = requireJsFile;
+        }
+        var path = name.replace(/\.\w+$/,'');
+        var path = path.replace(/\./g,'/') + '.js';
+        requireFunction(path);
+
+        var pathParts = name.split('.');
+
+        var currentPart = window;
+        for (var i in pathParts) {
+            var part = pathParts[i];
+            try{
+                currentPart = currentPart[part];
+            } catch (error){
+                console.log(error);
+            }
+        };
+
+        return currentPart;
+    }
+
+    var setRequireBasePath = function(path){
+        baseRequirePath = path;
+    }
+
 
 
 
     return {
         'each': each,
         'mixin': mixin,
-        'PropertyesMixin':PropertyesMixin
+        'PropertyesMixin':PropertyesMixin,
+        'require':require
     };
 
 })();
 
 SoCuteGraph.testTool.Module.Tests.add('SoCuteGraph.oLib',
     function(){
+
+        test("Test requre file", function(){
+
+
+
+            var requireLastFileName;
+
+            var requireJsMock = function(fileName){
+                requireLastFileName = fileName;
+            }
+
+            SoCuteGraph.oLib.require('SoCuteGraph.some.module.Object', requireJsMock);
+            equal(requireLastFileName, 'SoCuteGraph/some/module.js', 'Properly file is requred');
+
+            var position = SoCuteGraph.oLib.require('SoCuteGraph.helpers.coordinates.Position');
+            console.log(123, position);
+
+        });
+
+
         test( "Test each with array", 
         	function() {
                 var ar = [10,20,30,40];

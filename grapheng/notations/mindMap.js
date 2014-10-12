@@ -46,38 +46,83 @@ SoCuteGraph.notations.mindMap = function () {
         return null;
     }
 
-    MindMap.prototype.editSelectedNode = function(dump){
-        var selectedNode = this._selectedNode;
-       
-        if (selectedNode){
-            console.log(dump);
-            selectedNode.setAttr('title', dump['title']);
-            selectedNode.setAttr('color', dump['color']);
+    MindMap.prototype.findNode = function(selector, strict){
+        if (selector instanceof Node) {
+            return selector;
+        }
+
+        if (typeof selector['id'] !== 'undefined') {
+            return this._nodeStorage[selector['id']];
+        }
+
+        if (strict){
+            throw new Error('Undefined node');
         }
 
     }
 
+    MindMap.prototype.launchCommand = function(commandDump){
+        var command = commandDump[0];
+        var params = commandDump[1];
+        this[command].apply(this, params);
+    }
+
+
+    MindMap.prototype.editSelectedNode = function(dump){
+        var selectedNode = this._selectedNode;
+        if (selectedNode){
+            this.editNode(selectedNode, dump);
+        }
+    }
+
+    MindMap.prototype.editNode = function(node, dump){
+        var node = this.findNode(node, true);
+        node.setAttr('title', dump['title']);
+        node.setAttr('color', dump['color']);
+    }
+
+
     MindMap.prototype.deleteSelectedNode = function(){
         var selectedNode = this._selectedNode;
-
-        if (selectedNode){
-            if (confirm('Are you sure you want to delete this thing?')){
-                //this.addNode(newNodeText, selectedNde);
-                selectedNode.remove();
-            }
+        if (selectedNode) {
+            this.deleteNode(selectedNode);
         }
+    }
 
+    MindMap.prototype.deleteNode = function (node){
+        var node = this.findNode(node);
+        if (confirm('Are you sure you want to delete this thing?')){
+            node.remove();
+            //TODO Надо чистить рекурсивно
+            //delete this._nodeStorage[node.getUniqueId()];
+        }
     }
 
     
     MindMap.prototype.addChildToSelectedNode = function(nodeDump){
         var selectedNde = this._selectedNode;
         if (selectedNde){
-            var newNode = this.parseNodesDump(nodeDump, selectedNde);
-            selectedNde.reposeChildrens();
-            return newNode;
+            return this.addChild(selectedNde, nodeDump);   
         }
+    }
 
+    MindMap.prototype.clearPositions = function(nodeDump){
+        //delete nodeDump['position'];
+        //delete nodeDump['diffFromCalculatedPosition'];
+        
+        for(i in nodeDump['_childrens']) {
+           var child = nodeDump['_childrens'][i];
+           nodeDump['_childrens'][i] = this.clearPositions(child); 
+        }  
+
+        return nodeDump;
+    }
+
+    MindMap.prototype.addChild = function(parentNode, nodeDump){
+        var parentNode = this.findNode(parentNode);
+        var newNode = this.parseNodesDump(nodeDump, parentNode);
+        parentNode.reposeChildrens();
+        return newNode;
     }
 
 
@@ -87,10 +132,7 @@ SoCuteGraph.notations.mindMap = function () {
 
     MindMap.prototype.addNode = function (text, parentNode) {
 
-
         var node = this.nodeFactory(parent);
-
-
 
         if (parentNode){
             var parentVC = parentNode.getViewController();
@@ -102,6 +144,8 @@ SoCuteGraph.notations.mindMap = function () {
             node.setParentJoin(joinLine);
             parentNode.addChildren(node);
 
+
+
         } else {
             node.setIsParent(true);
             node.getViewController().setOrientation('multi');
@@ -109,6 +153,8 @@ SoCuteGraph.notations.mindMap = function () {
 
            // node.getViewController().moveTo(new Position());
         }
+
+        this._nodeStorage[node.getUniqueId()] = node;
 
         return node;
 
@@ -445,7 +491,6 @@ SoCuteGraph.notations.mindMap = function () {
         return heightDiff;
 
     }
-
 
     Node.prototype.getChildren = function (node) {
         return this._childrens[node.getUniqueId()];
