@@ -179,8 +179,31 @@ define([
 	        disp.addObject(animation);
 	        animation.start();
 
-	        /*
 
+			/*
+			* Content node
+	        */
+	        
+	       	var nodeContent = new NodeController('Нода-контент', scene, 
+	       		new Position({'x':20, 'y':20}));
+	       	disp.addObject(nodeContent);
+
+	       	nodeContent.setIsDragable(false);
+			
+
+	       	var node7=new NodeController(nodeContent, scene, new Position({'x':70,'y':370}));
+	        disp.addObject(node7);
+	        new MoveSlave(disp, node4, node7);
+
+	        node7.setOrientation(Element.ORIENTED_LEFT);
+	        
+	        var line6 = new LineController(scene, node4, node7);
+	        disp.addObject(line6);
+
+
+	       	
+	        /*
+	
 	        var FrameDebugger = SoCuteGraph.elements.animation.tools.FrameDebugger;
 
 	        var framer = new FrameDebugger();
@@ -203,6 +226,8 @@ define([
 	      
 	        var node7 = new NodeController('Нода 7', scene, new Position({'x':10, 'y':20}));
 	        disp.addObject(node7);
+
+
 
 	        var node8 = new NodeController('Нода 8', scene, new Position({'x':30, 'y':40}));
 
@@ -241,7 +266,12 @@ define([
 
 	        deepEqual({'x':230,'y':260}, node8.getPosition().getPosition(), 'Dependent node moved properly');
 
+
+
+
 	        ok(true,'Building compleate');
+
+
 
 
 

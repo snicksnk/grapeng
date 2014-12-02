@@ -1,4 +1,20 @@
 "use strict";
+/**
+* Node frame intarface
+* __construct(text, scene, position)
+* getWidth()
+* setText()
+* getText()
+* getPosition()
+* setOrientation()
+* getOrientation()
+* getViewObject()
+* moveTo()
+* click()
+* drag()
+* redraw()
+*/
+
 define(['socute/coordinates/position','socute/oLib'], function(Position, oLib){
 
     var DragableElement = function(){
@@ -8,9 +24,9 @@ define(['socute/coordinates/position','socute/oLib'], function(Position, oLib){
     DragableElement.prototype.drag=function(onStartMove, onMoving, onStopMove){
     };
 
-    var ViewModel=function(text, scene, position){
-        if (text && scene && position){
-            this.init(text, scene, position);
+    var ViewModel=function(nodeContent, scene, position){
+        if (nodeContent && scene && position){
+            this.init(nodeContent, scene, position);
         }
     }
 
@@ -29,25 +45,31 @@ define(['socute/coordinates/position','socute/oLib'], function(Position, oLib){
         return this.position;
     }
 
-    ViewModel.prototype.init=function(text, scene, position) {
+    ViewModel.prototype.init=function(nodeContent, scene, position) {
         this.position = new Position();
 
         this.position.setPos(position.getPosition());
 
         this._visibility = false;
 
-        this.position.sub['leftJoinPoint']=new Position();
-        this.position.sub['rightJoinPoint']=new Position();
+        this.position.sub['leftJoinPoint'] = new Position();
+        this.position.sub['rightJoinPoint']= new Position();
         this.position.sub['text']=new Position;
 
-        this.text=text;
+        this.text = nodeContent;
 
-
+        this._isDragable = true;
 
         this._views = {};
 
         this._views.nodeFrame = scene.NodeFrame(position);
-        this._views.nodeText=scene.NodeText(text, scene);
+
+
+        if (typeof nodeContent == "string"){
+            this._views.nodeText = scene.NodeText(nodeContent, scene);
+        } else {
+            this._views.nodeText = nodeContent;
+        }
 
         var that = this;
        
@@ -61,6 +83,8 @@ define(['socute/coordinates/position','socute/oLib'], function(Position, oLib){
 
         this._visibility = false;
         this.hide();
+
+        this._isDragable = true;
 
         this.moveTo(this.position);
     }
@@ -152,6 +176,10 @@ define(['socute/coordinates/position','socute/oLib'], function(Position, oLib){
 
     ViewModel.prototype.getWidth=function(){
         return this._views.nodeFrame.getWidth();
+    }
+
+    ViewModel.prototype.getHeight=function(){
+        return this._views.nodeFrame.getHeight();
     }
 
     ViewModel.prototype.redraw=function(){
@@ -273,19 +301,32 @@ define(['socute/coordinates/position','socute/oLib'], function(Position, oLib){
         this._views.nodeFrame.click(callback);
     }
 
+    ViewModel.prototype.setIsDragable = function(isDragable){
+        this._isDragable = isDragable; 
+    }
+
+    ViewModel.prototype.getIsDragable = function(){
+        return this._isDragable;
+    }
+
+
     ViewModel.prototype.drag=function(onStartMove, onMoving, onStopMove){
 
-
+        var that = this;
         this._views.nodeFrame.setDrag(function(x,y){
-                var newX=this.startpos.x+x
-                var newY=this.startpos.y+y
-                onMoving(newX, newY);
+                if (that.getIsDragable()){
+                    var newX=this.startpos.x+x
+                    var newY=this.startpos.y+y
+                    onMoving(newX, newY);
+                }
             },
             function(x,y){
-                this.startpos={}
-                this.startpos.x=this.attrs.x;
-                this.startpos.y=this.attrs.y;
-                onStartMove();
+                if (that.getIsDragable()){
+                    this.startpos={}
+                    this.startpos.x=this.attrs.x;
+                    this.startpos.y=this.attrs.y;
+                    onStartMove();
+                }
             },
             function(x,y){
                 onStopMove();

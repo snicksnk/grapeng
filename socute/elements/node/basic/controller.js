@@ -7,14 +7,23 @@ define([
     "socute/events/std/move",
     "socute/oLib"], function(AbstractController, ViewModel, 
         Position, FrameEvent, MoveEvent, oLib){
+
+/*
+NodeContent interface
+* getWidth
+* getHeight
+* movePosition
+* setText
+* 
+*/        
 	  
-    function Controller(text, scene, position){
-        this.init(text, scene, position);
+    function Controller(nodeContent, scene, position){
+        this.init(nodeContent, scene, position);
     }
 
     Controller.prototype = new AbstractController();
 
-    Controller.prototype.init=function(text, scene, position){
+    Controller.prototype.init=function(nodeContent, scene, position){
 
         if (position===undefined){
             position=new Position({'x':0,'y':0});
@@ -23,11 +32,14 @@ define([
 
         this._dispatcher=null;
         this._views = {};
-        this.text = text;
+        
 
+        if (typeof nodeContent == "string"){
+            this.text = nodeContent;
+        }
 
-        //console.log('at init',this.text ,position.getPosition());
-        this._views.nodeFrame = new ViewModel(text, scene, position);
+        this._views.nodeFrame = new ViewModel(nodeContent, scene, position);
+        
         this._subscribeForEvents=[FrameEvent];
 
         //Depends of propertyes
@@ -36,6 +48,7 @@ define([
         this._lastMoveDiff = false;
         this._silentMove = false;
         this._slaveAffects = false;
+        this._isDragable = true;
 
         var that = this;
        
@@ -65,6 +78,10 @@ define([
         return this._views.nodeFrame.getWidth();
     }
 
+    Controller.prototype.getHeight = function(){
+        return this._views.nodeFrame.getHeight();
+    }
+
     Controller.prototype.setText = function(text){
         this._views.nodeFrame.setText(text);
         this.redraw();
@@ -72,6 +89,10 @@ define([
 
     Controller.prototype.getText = function(){
         return this._views.nodeFrame.getText();
+    }
+
+    Controller.prototype.movePosition = function(position){
+        this.moveTo(position);
     }
 
     Controller.prototype.setVisability = function(visability){
@@ -208,6 +229,18 @@ define([
     Controller.prototype.startDrag = function(){
     }
 
+    Controller.prototype.setIsDragable = function(isDragable){
+        this._views.nodeFrame.setIsDragable(isDragable);
+    }
+
+    Controller.prototype.setContentNode = function(contentNode){
+
+    }
+
+    Controller.prototype.getIsDragable = function(){
+        return this._views.nodeFrame.getIsDragable();
+    }
+
     Controller.prototype.setUpBehavior=function(){
         var element;
         element = this._views.nodeFrame;
@@ -299,6 +332,7 @@ define([
             }
         }
     }
+
 
 
     Controller.prototype.moveTo = function(position){
