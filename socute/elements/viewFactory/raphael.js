@@ -116,6 +116,8 @@ define(["socute/coordinates/position"], function (Position) {
 
     JoinPoint.prototype=new AbstractJoinPoint();
 
+
+
     JoinPoint.prototype.movePosition=function(position){
 
         var pos=position.getPosition();
@@ -181,7 +183,7 @@ define(["socute/coordinates/position"], function (Position) {
         this._nodeCover.attr("fill-opacity",0);
         this._nodeCover.attr("stroke-width",0);
 
-        this.moveTo(this._position);
+        this.movePosition(this._position);
         // Sets the fill attribute of the circle to red (#f00)
         this._nodeFrame.attr("fill", "90-#34CFBE-#34CFBE");
         this._nodeFrame.attr("stroke-width",0.7);
@@ -199,7 +201,7 @@ define(["socute/coordinates/position"], function (Position) {
 
 
 
-    NodeFrame.prototype.moveTo=function(position){
+    NodeFrame.prototype.movePosition=function(position){
         var pos = position.getPosition();
         this._position.setPos(pos);
 
@@ -208,7 +210,6 @@ define(["socute/coordinates/position"], function (Position) {
 
         this._nodeCover.attr('x',pos['x']);
         this._nodeCover.attr('y',pos['y']);
-
     }
 
 
@@ -294,7 +295,6 @@ define(["socute/coordinates/position"], function (Position) {
 
     NodeText.prototype.position=null;
     NodeText.prototype._element=null;
-
 
     NodeText.prototype.movePosition=function(position){
         var pos=position.getPosition();

@@ -24,11 +24,13 @@ define(function () {
 
     var mixin = function (object, threat){
         for (var el in threat){
-
             var element = threat[el];
-
             object[el] = element;
         }
+    }
+
+    var extend = function(object, threat){
+        mixin(object, threat);
     }
 
 
@@ -162,7 +164,8 @@ define(function () {
         'each': each,
         'mixin': mixin,
         'PropertyesMixin':PropertyesMixin,
-        'require':require
+        'require':require,
+        'extend':extend
     };
 
 });

@@ -12,7 +12,7 @@ define(["socute/events/std/frame"]
         this._uniqueIdCounter=1;
         this._lastEvent=null;
         this._onEventEvents={};
-        this.frameRate = 40;
+        this.frameRate = 50;
         this.frameTime = false;
         this.fpsProcessor();
 
@@ -29,6 +29,8 @@ define(["socute/events/std/frame"]
             var endTime = new Date().getTime();
 
             that.frameTime = endTime - startTime;
+
+            console.log('frameee');
 
             if (!once){
                 if (expectedEndTime>endTime){

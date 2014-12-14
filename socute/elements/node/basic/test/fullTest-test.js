@@ -185,19 +185,22 @@ define([
 	        */
 	        
 	       	var nodeContent = new NodeController('Нода-контент', scene, 
-	       		new Position({'x':20, 'y':20}));
+	       		new Position({'x':80, 'y':380}));
 	       	disp.addObject(nodeContent);
 
 	       	nodeContent.setIsDragable(false);
 			
 
-	       	var node7=new NodeController(nodeContent, scene, new Position({'x':70,'y':370}));
-	        disp.addObject(node7);
-	        new MoveSlave(disp, node4, node7);
+	       	var nodeContaynir=new NodeController(nodeContent, scene, 
+	       		new Position({'x':70,'y':370}));
+	        disp.addObject(nodeContaynir);
+	        new MoveSlave(disp, node4, nodeContaynir);
+	        new MoveSlave(disp, nodeContaynir, nodeContent);
 
-	        node7.setOrientation(Element.ORIENTED_LEFT);
-	        
-	        var line6 = new LineController(scene, node4, node7);
+
+	        nodeContaynir.setOrientation(Element.ORIENTED_LEFT);
+
+	        var line6 = new LineController(scene, node4, nodeContaynir);
 	        disp.addObject(line6);
 
 

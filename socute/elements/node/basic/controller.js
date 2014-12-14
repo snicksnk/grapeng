@@ -35,11 +35,17 @@ NodeContent interface
         
 
         if (typeof nodeContent == "string"){
+            this.text = nodeContent.text;
+        } else {
             this.text = nodeContent;
         }
 
+
+        //nodeContent = 'asassa';
+
         this._views.nodeFrame = new ViewModel(nodeContent, scene, position);
         
+
         this._subscribeForEvents=[FrameEvent];
 
         //Depends of propertyes
@@ -58,12 +64,8 @@ NodeContent interface
 
         this._moveEvent = new MoveEvent(this);
 
-
         //this._views.nodeFrame.getPosition().setPos(position.getPosition());
-
         //this.getPosition().setPos(position.getPosition());
-
-
 
         this._newCords = false;
 
@@ -91,9 +93,6 @@ NodeContent interface
         return this._views.nodeFrame.getText();
     }
 
-    Controller.prototype.movePosition = function(position){
-        this.moveTo(position);
-    }
 
     Controller.prototype.setVisability = function(visability){
         if (visability == true){
@@ -213,7 +212,7 @@ NodeContent interface
     Controller.prototype.drag = function(x,y){
 
         this.moveTo(new Position({"x":x,"y":y}));
-
+        //this.redraw();
     }
 
 
@@ -304,22 +303,24 @@ NodeContent interface
                     perfSum += permResults[i];
                 }
 
-                console.log('Moving of '+that.text+' calls:'+permResults.length+' average: '+(perfSum/permResults.length));
-
+               
             }
         );
 
     };
 
+    Controller.prototype.movePosition = function (position){
+        this.moveTo(position);
+        //this._views.nodeFrame.redraw();
+    }
 
-     Controller.prototype.redraw=function(){
+    Controller.prototype.redraw=function(){
         this._views.nodeFrame.redraw();
         if (this.getDispatcher()){
             if (!this._silentMove){
                 var moveEvent = this._moveEvent;
                 moveEvent.setPosition(this._views.nodeFrame.getPosition());
                 moveEvent.setOrientation(this._views.nodeFrame.getOrientation());
-
 
 
                     //console.log('work!!!');
@@ -337,17 +338,20 @@ NodeContent interface
 
     Controller.prototype.moveTo = function(position){
         //var moveEvent = new MoveEvent(this);
+        if (this.text == 'Нода-контент'){
+            //console.log('Подвинулась',this.text, position);
+        }
 
-
-        //moveEvent = Controller.moveTo(position, this._views.nodeFrame, moveEvent);
         if (this._slaveAffects){
+              if (this.text == 'Нода-контент'){
+            console.log('slava');
+        }
             this._lastMoveDiff = this.getPosition(true).getDiffWith(position);
         } else {
             this._lastMoveDiff = false;
         }
 
         this._newCords = position.getPosition();
-        //this._views.nodeFrame.getPosition().setPos(this._newCords);
     }
 
     Controller.prototype.subscribeForEvents=function(){
