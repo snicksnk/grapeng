@@ -25,8 +25,10 @@
 	
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
+    <script src="../../bower_components/three.js/three.js"></script>
     <script type="text/javascript" src="../../bower_components/raphael/raphael.js"></script>
-	<script data-main="tests" src="../../bower_components/requirejs/require.js"></script>
-	<script src="../../bower_components/qunit/qunit/qunit.js"></script>
+  	<script data-main="tests" src="../../bower_components/requirejs/require.js"></script>
+  	<script src="../../bower_components/qunit/qunit/qunit.js"></script>
+    <script type="text/javascript" src="../resources/raphael-min.js"></script>
 </body>
 </html>

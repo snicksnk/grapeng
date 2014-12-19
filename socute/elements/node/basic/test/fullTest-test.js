@@ -7,7 +7,8 @@ define([
 	"socute/elements/line/dependencies/beam",
 	"socute/elements/node/basic/viewModel",
 	"socute/elements/node/dependencies/moveSlave",
-	"socute/elements/viewFactory/raphael",
+	//"socute/elements/viewFactory/raphael",
+	"socute/elements/viewFactory/tree",
 	"socute/elements/animation/controller",
 	"socute/elements/line/dependencies/assoc",
 	"socute/events/std/frame"
@@ -34,9 +35,12 @@ define([
 
 
 
-	        var paper = Raphael(document.getElementById('canvas'), 800, 600);
+	        //var paper = Raphael(document.getElementById('canvas'), 800, 600);
 
-	        var scene = new ViewFactory.Scene(paper);
+
+
+
+	        var scene = new ViewFactory.Scene(/*paper*/);
 	        console.log(NodeController);
 	        var node = 
 	        new NodeController('Первая нода', 
@@ -51,7 +55,7 @@ define([
 	        var centerView=node.getViewObject().frame.getRaphaelElement();
 	        var centerText=node.getViewObject().text.getRaphaelElement();
 
-
+/*
 	        centerText.attr("font-family",'Arial');
 	        centerText.attr("font-weight",'bold');
 
@@ -62,6 +66,7 @@ define([
 	        centerView.attr("fill-opacity",0.5);
 	        centerView.attr("stroke", "#A68F00");
 	        centerView.attr("r", 25);
+*/
 	        node.getViewObject().frame.setVerticalOffset(20);
 	        node.getViewObject().frame.setHorizontalOffset(15);
 
@@ -115,11 +120,11 @@ define([
 
 	        new MoveSlave(disp, node, node4);
 
-
+/*
 	        node4.getViewObject().frame.getRaphaelElement()
 	            .attr('fill','#34CFBE')
 	            .attr('opacity',0.5);
-
+*/
 	        disp.addObject(node4);
 
 
@@ -221,7 +226,7 @@ define([
 	    });
 
 
-
+/*
 	    test ("Move dependent object", function(){
 	        var disp = new Dispatcher();
 	        var paper = Raphael(document.getElementById('testCanvas'), 600, 600);
@@ -320,4 +325,5 @@ define([
 	        //testNode.show();
 
 	    });
+*/
 });
