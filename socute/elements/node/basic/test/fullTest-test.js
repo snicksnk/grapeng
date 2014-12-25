@@ -10,9 +10,11 @@ define([
 	"socute/elements/viewFactory/raphael",
 	"socute/elements/animation/controller",
 	"socute/elements/line/dependencies/assoc",
-	"socute/events/std/frame"
+	"socute/events/std/frame",
+	"socute/elements/node/orders/hierarhy"
+
 	], function(Position, NodeController, Dispatcher, LineController, LinesBeam, 
-		Element, MoveSlave, ViewFactory, Animation, AssocLines, FrameEvent)
+		Element, MoveSlave, ViewFactory, Animation, AssocLines, FrameEvent, Hierarhy)
 	{
  
 	    test( "Jump event get name", function() {
@@ -83,6 +85,17 @@ define([
 
 
 	        disp.notify(node._moveEvent);
+
+
+
+	        var nodeDependsChilderen1 = new NodeController('Ребенок1', scene, new Position({'x':210,'y':21}));
+			disp.addObject(nodeDependsChilderen1);
+
+			var nodeDependsChilderen2 = new NodeController('Ребенок1', scene, new Position({'x':110,'y':21}));
+			disp.addObject(nodeDependsChilderen2);
+
+
+	        Hierarhy.build(nodeDepends, [nodeDependsChilderen1, nodeDependsChilderen2]);
 
 
 

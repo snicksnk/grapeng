@@ -1,5 +1,5 @@
 "use strict";
-define(function () {
+define(["socute/oLib"], function (oLib) {
     
     var Position = function (cords) {
         if (!cords) {
@@ -116,6 +116,14 @@ define(function () {
 
     Position.prototype.setDiff=function(diff){
         var newCords={};
+
+        var that = this;
+        if (arguments.length > 1){ 
+            oLib.each(arguments, function(index, child){
+                that.setDiff(diff);
+            })
+        };
+
         for (var dimension in diff){
             newCords[dimension]=this._cords[dimension]+diff[dimension];
         }
