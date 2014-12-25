@@ -131,6 +131,23 @@ define(["socute/oLib"], function (oLib) {
         this.setPos(newCords);
     }
 
+    Position.prototype.setReverseDiff=function(diff){
+        var newCords={};
+
+        var that = this;
+        if (arguments.length > 1){ 
+            oLib.each(arguments, function(index, child){
+                that.setReverseDiff(diff);
+            })
+        };
+
+        for (var dimension in diff){
+            newCords[dimension]=this._cords[dimension] - diff[dimension];
+        }
+
+        this.setPos(newCords);
+    }
+
     Position.prototype.getPosition=function(){
         return this._cords;
     }

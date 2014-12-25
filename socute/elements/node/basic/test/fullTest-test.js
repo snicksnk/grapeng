@@ -143,7 +143,7 @@ define([
 
 
 
-	        var node5= new NodeController('Пятая нода', scene, new Position({'x':30,'y':90}));
+	        var node5= new NodeController('Пятая нода', scene, new Position({'x':130,'y':20}));
 	        node5.setOrientation(Element.ORIENTED_RIGHT);
 	        node5.setOrientation(Element.ORIENTED_LEFT);
 	        new MoveSlave(disp, node4, node5);
@@ -154,7 +154,7 @@ define([
 	        var line4 = new LineController(scene, node4, node5);
 	        disp.addObject(line4);
 
-	        var node6=new NodeController('Шестая нода', scene, new Position({'x':70,'y':330}));
+	        var node6=new NodeController('Шестая нода', scene, new Position({'x':20,'y':130}));
 	        new MoveSlave(disp, node4, node6);
 
 	        node6.setOrientation(Element.ORIENTED_LEFT);
@@ -171,6 +171,7 @@ define([
 
 	        var bench = LinesBeam.setUp({dispatcher:disp, 'paper': scene,'parent':node,'childs':[nodeDepends, node3]});
 
+	        Hierarhy.build(node4, [node5, node6]);
 
 
 
