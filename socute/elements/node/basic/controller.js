@@ -71,7 +71,6 @@ NodeContent interface
 
     }
 
-
     Controller.prototype.getTitle = function () {
         return this._views.nodeFrame.text;
     }

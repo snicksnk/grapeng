@@ -1,7 +1,7 @@
 "use strict";
 define (["socute/oLib", "socute/coordinates/position",], function(oLib, Position){
     
-    var build = function  (parent, childrens, postMoveCallback) {
+    var build = function  (parent, childrens) {
         var parentPosition = parent.getPosition();
 
         var parentWidth = parent.getWidth();
@@ -9,11 +9,12 @@ define (["socute/oLib", "socute/coordinates/position",], function(oLib, Position
         var childensOffset = new Position(parentPosition.getPosition());
 
         var parentOrientation = parent.getOrientation();
+        
         if (parentOrientation === 'right'){
             childensOffset.setDiff(childrensBlockOffset);
         } else if (parentOrientation === 'left') {
             childensOffset.setReverseDiff(childrensBlockOffset);
-        } else if parentOrientation === 'multi') {
+        } else if (parentOrientation === 'multi') {
             //TODO Implement
             //childensOffset.setReverseDiff(childrensBlockOffset);
         }

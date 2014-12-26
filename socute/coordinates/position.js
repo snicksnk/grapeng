@@ -148,6 +148,17 @@ define(["socute/oLib"], function (oLib) {
         this.setPos(newCords);
     }
 
+    Position.prototype.getCoords = function(){
+        return this._cords;
+    }
+
+    Position.prototype.setCoords = function(){
+        this._lastCords=this._cords;
+        this._cords=cords;
+    }
+
+
+    //TODO Replace it
     Position.prototype.getPosition=function(){
         return this._cords;
     }
