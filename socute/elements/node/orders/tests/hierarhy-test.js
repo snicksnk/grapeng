@@ -6,7 +6,7 @@ define ([
 	"socute/elements/factory",
 	"socute/elements/viewFactory/raphael",
 	"socute/events/dispatchers/dispatcher"
-	], function(oLib, Position, hierarhy, NodeController, ElementsFactory, ViewFactory, Dispatcher){
+	], function(oLib, Position, Hierarhy, NodeController, ElementsFactory, ViewFactory, Dispatcher){
 		
 		//TODO replace with scene mock
 		var paper = Raphael(document.getElementById('testCanvas'), 800, 600);
@@ -27,9 +27,30 @@ define ([
 
 			var nodeHeight = childrenNode1.getHeight();
 
+			var hierarhy = new Hierarhy({
+				'childrensOffset': {x: 0, y: 222},
+				'childrensBlockOffset': {x: 44, y: 0}
+			});
+
 			hierarhy.build(parentNode, [childrenNode1, childrenNode2, childrenNode3]);
 
-			deepEqual(parentNode.getPosition().getCoords()['y'], childrenNode1.getPosition().getCoords()['y']);
+			var parentCoords = parentNode.getPosition().getCoords();
+			var parentPosition = new Position(parentCoords);
+			var parentWidth = parentNode.getWidth();
+
+			var lastNodePosition = childrenNode3.getPosition().getCoords();
+
+			
+			parentPosition.setDiff({'x':parentWidth, 'y':11114},  {x: 44, y: 0});
+			var firstNodeCoords = parentPosition.getCoords()
+
+			deepEqual(parentCoords['y'], childrenNode1.getPosition().getCoords()['y']);
+			// TODO Current task
+			//deepEqual(firstNodeCoords, childrenNode1.getPosition().getCoords());
+
+			//deepEqual()
+
+			
 	    });
 	}
 );

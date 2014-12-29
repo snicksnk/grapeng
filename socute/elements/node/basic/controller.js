@@ -21,6 +21,10 @@ NodeContent interface
         this.init(nodeContent, scene, position);
     }
 
+    Controller.ORIENTED_LEFT = ViewModel.ORIENTED_LEFT,
+    Controller.ORIENTED_RIGHT = ViewModel.ORIENTED_RIGHT,
+    Controller.ORIENTED_MULTI = ViewModel.ORIENTED_MULTI,
+
     Controller.prototype = new AbstractController();
 
     Controller.prototype.init=function(nodeContent, scene, position){

@@ -94,8 +94,8 @@ define([
 			var nodeDependsChilderen2 = new NodeController('Ребенок1', scene, new Position({'x':110,'y':21}));
 			disp.addObject(nodeDependsChilderen2);
 
-
-	        Hierarhy.build(nodeDepends, [nodeDependsChilderen1, nodeDependsChilderen2]);
+			var hierarhy = new Hierarhy();
+	        hierarhy.build(nodeDepends, [nodeDependsChilderen1, nodeDependsChilderen2]);
 
 
 
@@ -171,7 +171,8 @@ define([
 
 	        var bench = LinesBeam.setUp({dispatcher:disp, 'paper': scene,'parent':node,'childs':[nodeDepends, node3]});
 
-	        Hierarhy.build(node4, [node5, node6]);
+	        var hierarhy = new Hierarhy();
+	        hierarhy.build(node4, [node5, node6]);
 
 
 
