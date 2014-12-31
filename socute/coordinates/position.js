@@ -114,18 +114,19 @@ define(["socute/oLib"], function (oLib) {
     }
 
 
-    Position.prototype.setDiff=function(diff){
+    Position.prototype.setDiff = function(diff){
         var newCords={};
 
         var that = this;
         if (arguments.length > 1){ 
-            oLib.each(arguments, function(index, child){
-                that.setDiff(diff);
+            var diffs = Array.prototype.slice.call(arguments, 1);
+            oLib.each(diffs, function(index, arg){
+                that.setDiff(arg);
             })
         };
 
         for (var dimension in diff){
-            newCords[dimension]=this._cords[dimension]+diff[dimension];
+            newCords[dimension] = this._cords[dimension]+diff[dimension];
         }
 
         this.setPos(newCords);
@@ -136,9 +137,10 @@ define(["socute/oLib"], function (oLib) {
 
         var that = this;
         if (arguments.length > 1){ 
-            oLib.each(arguments, function(index, child){
-                that.setReverseDiff(diff);
-            })
+            var diffs = Array.prototype.slice.call(arguments, 1);
+                oLib.each(diffs, function(index, arg){
+                    that.setReverseDiff(arg);
+            });
         };
 
         for (var dimension in diff){

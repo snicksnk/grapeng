@@ -94,7 +94,10 @@ define([
 			var nodeDependsChilderen2 = new NodeController('Ребенок1', scene, new Position({'x':110,'y':21}));
 			disp.addObject(nodeDependsChilderen2);
 
-			var hierarhy = new Hierarhy();
+			var hierarhy = new Hierarhy({
+            	childrensOffset: {'x':0, 'y': 50},
+            	childrensBlockOffset: {'x':44, 'y':0}
+        	});
 	        hierarhy.build(nodeDepends, [nodeDependsChilderen1, nodeDependsChilderen2]);
 
 

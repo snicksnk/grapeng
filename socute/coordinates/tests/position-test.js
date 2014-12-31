@@ -78,4 +78,21 @@ define(['socute/coordinates/position'], function(Position){
         deepEqual({'x':4,'y':4}, center.getPosition(), 'Center position is ok');
 
     });
+
+    test("set diff test", function(){
+        var pos = new Position({'x':10, 'y':20});
+        pos.setDiff({x:12, y:15});
+        deepEqual({x:22, y:35}, pos.getCoords(), 'Diff works');
+        pos.setDiff({x:10, y:12}, {x:1, y:2}, {x:0, y:0});
+        deepEqual(pos.getCoords(), {x:33, y:49}, 'Multiargs Diff works');
+    });
+
+    test("set reverse diff", function(){
+        var pos = new Position({'x':10, 'y':20});
+        pos.setReverseDiff({x:5, y:4});
+        deepEqual({x:5, y:16}, pos.getCoords(), 'Reverse diff works');
+
+        pos.setReverseDiff({x:2, y:12}, {x:-10, y:2}, {x:0, y:0});
+        deepEqual(pos.getCoords(), {x:13, y:2}, 'Multiargs Reverse diff works');
+    });
 });

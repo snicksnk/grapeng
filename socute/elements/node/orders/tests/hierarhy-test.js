@@ -16,6 +16,11 @@ define ([
 
 		var factory = new ElementsFactory(scene, disp)
 
+		var settings = {
+				'childrensOffset': {x: 0, y: 222},
+				'childrensBlockOffset': {x: 44, y: 0}
+		};
+
 	    test("Hierarhy move children without childrens", function() {
 			var parentNode = factory.node('Test node');
 			parentNode.moveTo(new Position({'x':20, 'y':30}));
@@ -27,10 +32,7 @@ define ([
 
 			var nodeHeight = childrenNode1.getHeight();
 
-			var hierarhy = new Hierarhy({
-				'childrensOffset': {x: 0, y: 222},
-				'childrensBlockOffset': {x: 44, y: 0}
-			});
+			var hierarhy = new Hierarhy(settings);
 
 			hierarhy.build(parentNode, [childrenNode1, childrenNode2, childrenNode3]);
 
@@ -40,13 +42,18 @@ define ([
 
 			var lastNodePosition = childrenNode3.getPosition().getCoords();
 
-			
-			parentPosition.setDiff({'x':parentWidth, 'y':11114},  {x: 44, y: 0});
+			console.log(parentWidth);
+			parentPosition.setDiff({'x':parentWidth, 'y':0});
+			parentPosition.setDiff(settings.childrensBlockOffset);
+
+
+
+
 			var firstNodeCoords = parentPosition.getCoords()
 
 			deepEqual(parentCoords['y'], childrenNode1.getPosition().getCoords()['y']);
-			// TODO Current task
-			//deepEqual(firstNodeCoords, childrenNode1.getPosition().getCoords());
+			//TODO Current task
+			deepEqual(firstNodeCoords, childrenNode1.getPosition().getCoords());
 
 			//deepEqual()
 
