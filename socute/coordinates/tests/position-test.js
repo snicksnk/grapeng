@@ -95,4 +95,18 @@ define(['socute/coordinates/position'], function(Position){
         pos.setReverseDiff({x:2, y:12}, {x:-10, y:2}, {x:0, y:0});
         deepEqual(pos.getCoords(), {x:13, y:2}, 'Multiargs Reverse diff works');
     });
+/*
+    test ('Extract position', function(){
+        var coords = {'x':12, 'y':20};
+        var posSource = new Position(coords);
+        var posFromCoords = Position.extractPosition(coords);
+        var posFromPos = Position.extractPosition(posSource);
+
+        //console.log(posFromCoords.getCoords());
+
+        deepEqual(posFromCoords.getCoords(), posSource.getCoords(), 'Pos from cords equal to source');        
+        deepEqual(posFromCoords.getCoords(), posFromPos.getCoords(), 'Pos from cords equal to pos from pos');        
+        deepEqual(posFromPos.getCoords(), posSource.getCoords(), 'Pos from pos equal to source');
+    });
+    */
 });

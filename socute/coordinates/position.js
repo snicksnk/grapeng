@@ -10,6 +10,15 @@ define(["socute/oLib"], function (oLib) {
         this.sub = {};
     };
 
+
+    Position.extractPosition = function (argPosition){
+        if (typeof argPosition['getCoords'] === 'function') {
+            return Position;
+        } else {
+            return new Position(argPosition);
+        }
+    }
+
     Position.prototype._lastGettedCords = {};
 
     Position.prototype._cords = {};
@@ -57,7 +66,7 @@ define(["socute/oLib"], function (oLib) {
     }
 
     Position.prototype.clone = function(){
-        var pos = new Position(this.getPosition());
+        var pos = new Position(this.getCoords());
         if (this.sub.length>0){
 
         }
