@@ -95,6 +95,16 @@ define(['socute/coordinates/position'], function(Position){
         pos.setReverseDiff({x:2, y:12}, {x:-10, y:2}, {x:0, y:0});
         deepEqual(pos.getCoords(), {x:13, y:2}, 'Multiargs Reverse diff works');
     });
+
+    test("nearest point", function(){
+        var position = new Position({'x':5, 'y':6});
+        var position1 = new Position({'x':3, 'y':4});
+        var position2 = new Position({'x':2, 'y':2});
+
+        equal(position.findNearest([position2, position1]).getCoords(), position1.getCoords(), "Frist position and 1 2");
+        equal(position2.findNearest([position, position1]).getCoords(), position1.getCoords(), "2 position and first 1");
+
+    });
 /*
     test ('Extract position', function(){
         var coords = {'x':12, 'y':20};

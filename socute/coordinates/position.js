@@ -11,9 +11,9 @@ define(["socute/oLib"], function (oLib) {
     };
 
 
-    Position.extractPosition = function (argPosition){
+    Position.extract = function (argPosition){
         if (typeof argPosition['getCoords'] === 'function') {
-            return Position;
+            return argPosition.clone();
         } else {
             return new Position(argPosition);
         }
@@ -88,8 +88,9 @@ define(["socute/oLib"], function (oLib) {
             diffAmount+=diffCoords[dimension];
         }
 
-        return diffAmount;
+        return Math.abs(diffAmount);
     }
+
 
     Position.getCenterPoint = function(position1, position2){
         var diffCords = position1.getDiffWith(position2);
@@ -112,9 +113,8 @@ define(["socute/oLib"], function (oLib) {
         for(var p in points){
             var point = points[p];
             if (centerPoint) {
-                console.log(centerPoint.getPosition(), point.getPosition(),'====');
                 centerPoint = Position.getCenterPoint(centerPoint, point);
-                console.log(centerPoint.getPosition(), '-----');
+      
             } else {
                 centerPoint = point;
             }
@@ -122,6 +122,22 @@ define(["socute/oLib"], function (oLib) {
         return centerPoint;
     }
 
+    Position.prototype.findNearest = function (positions) {
+        var that = this;
+        var nearestIndex = false;
+        var nearestAmount = false;
+        oLib.each(positions, function(index, position) {
+            var thisPos = that.clone();
+            thisPos.setReverseDiff(position.getCoords());
+            var amount = Position.getDiffAmount(thisPos.getCoords());   
+            if (nearestAmount === false || amount < nearestAmount) {
+                nearestAmount = amount;
+                nearestIndex = index;
+            }
+        });
+
+        return positions[nearestIndex];
+    }
 
     Position.prototype.setDiff = function(diff){
         var newCords={};

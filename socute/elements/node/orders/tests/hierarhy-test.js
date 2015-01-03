@@ -1,12 +1,13 @@
 define ([
 	"socute/oLib", 
 	"socute/coordinates/position",
+	"socute/coordinates/area",
 	"socute/elements/node/orders/hierarhy",
 	"socute/elements/node/basic/controller",
 	"socute/elements/factory",
 	"socute/elements/viewFactory/raphael",
 	"socute/events/dispatchers/dispatcher"
-	], function(oLib, Position, Hierarhy, NodeController, ElementsFactory, ViewFactory, Dispatcher){
+	], function(oLib, Position, Area,  Hierarhy, NodeController, ElementsFactory, ViewFactory, Dispatcher){
 		
 		//TODO replace with scene mock
 		var paper = Raphael(document.getElementById('testCanvas'), 800, 600);
@@ -34,7 +35,7 @@ define ([
 
 			var hierarhy = new Hierarhy(settings);
 
-			hierarhy.build(parentNode, [childrenNode1, childrenNode2, childrenNode3]);
+			var resultArea = hierarhy.build(parentNode, [childrenNode1, childrenNode2, childrenNode3]);
 
 			var parentCoords = parentNode.getPosition().getCoords();
 			var parentPosition = new Position(parentCoords);
@@ -42,7 +43,7 @@ define ([
 
 			var lastNodePosition = childrenNode3.getPosition().getCoords();
 
-			console.log(parentWidth);
+		
 			parentPosition.setDiff({'x':parentWidth, 'y':0});
 			parentPosition.setDiff(settings.childrensBlockOffset);
 
@@ -54,7 +55,10 @@ define ([
 			deepEqual(firstNodeCoords, childrenNode1.getPosition().getCoords());
 
 			//deepEqual()
-			
+
+			//var mustBeResultArea = new Area(parentPosition.clone(), )
+
+			//deepEqual(resultArea, )
 	    });
 		
 		test("Test add method", function(){
@@ -65,6 +69,8 @@ define ([
 			var childrenNode1 = factory.node('child node1');
 			var childrenNode2 = factory.node('child node2');
 			var childrenNode3 = factory.node('child node3');
+
+
 
 
 

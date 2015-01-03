@@ -2,21 +2,48 @@
 define(["socute/oLib", 'socute/coordinates/position'], function (oLib, Position) {
     
     var Area = function (leftTop, width, height) {
-        this._leftTop = new Position(leftTop.getCoords());
-        this._width = width;
-        this._height = height;
+
+        if (leftTop){
+            this._leftTop = new Position(leftTop.getCoords());
+        } else {
+            this._leftTop = new Position();
+        }
+
+        this._width = width || 0;
+        this._height = height || 0;
+        
 
         this.calcSides();
           
     };
 
     var AreaMethods = {
+        fromTwoPositions: function (position1, position2) {
+            var position1 = Position.extract(position1);
+            var position2 = Position.extract(position2);
+            
+            var startCoords = new Position();
+            var leftTop = startCoords.findNearest([position1, position2]);
+            this.setPosition(leftTop.clone());
+
+            position1.setReverseDiff(position2.getCoords());
+
+            var posDiff = position1.getCoords();
+            var width = Math.abs(posDiff['x']);
+            var height = Math.abs(posDiff['y']);
+
+            this.setWidth(width);
+            this.setHeight(height);
+
+        },
+        mergeWith: function (area) {
+
+        },
         isIntersectsionWith: function (anotherArea) {
             return !(anotherArea.getLeft() > this.getRight() || 
                 anotherArea.getRight() < this.getLeft() || 
                 anotherArea.getTop() > this.getBottom() ||
-                anotherArea.getBottom() < this.getTop());
-            
+                anotherArea.getBottom() < this.getTop());    
         },
         calcSides: function () {
             var leftTop = this._leftTop;
@@ -28,16 +55,20 @@ define(["socute/oLib", 'socute/coordinates/position'], function (oLib, Position)
             this._right = leftTop.getCoords()['x'] + width;
             this._bottom = leftTop.getCoords()['y'] + height;
         },
-
         setWidth: function (width) {
             this._width = width;  
             this.calcSides();
         },
-        setHeight: function () {
-            this._width = height;
+        setHeight: function (height) {
+            this._height = height;
             this.calcSides();
         },
-
+        getWidth: function () {
+            return this._width;
+        },
+        getHeight: function () {
+            return this._height;
+        },
         getTop: function () {
             return this._top;
         },
@@ -52,7 +83,13 @@ define(["socute/oLib", 'socute/coordinates/position'], function (oLib, Position)
 
         getBottom: function () {
             return this._bottom;
-        }
+        },
+        setPosition: function (position) {
+            this._leftTop = position;
+        },
+        getPosition: function () {
+            return this._leftTop;
+        } 
 
     };
 

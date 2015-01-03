@@ -1,3 +1,4 @@
+"use strict"
 define(['socute/coordinates/area', 'socute/coordinates/position'], function(Area, Position){
 
     test("Area intersection", function(){
@@ -10,5 +11,19 @@ define(['socute/coordinates/area', 'socute/coordinates/position'], function(Area
         equal(area1.isIntersectsionWith(area2), true, 'Area1 is intersects with area2');
         equal(area1.isIntersectsionWith(area3), false, 'Area1 is not intersects with area3');
 
+    });
+
+    test("Area from two positions", function () {
+    	var position1 = new Position({'x':10, 'y': 15});
+    	var position2 = new Position({'x':3, 'y': 5});
+
+    	var area = new Area();
+    	area.fromTwoPositions(position2, position1);
+
+    	deepEqual(area.getPosition().getCoords(), position2.getCoords(), "Area position is ok");
+		deepEqual(area.getWidth(), 7, "Area width is ok");
+		deepEqual(area.getHeight(),10, "Area height is ok");
+
+		
     });
 });

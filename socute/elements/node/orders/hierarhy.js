@@ -1,5 +1,5 @@
 "use strict";
-define (["socute/oLib", "socute/coordinates/position",], function(oLib, Position){
+define (["socute/oLib", "socute/coordinates/position", "socute/coordinates/area"], function(oLib, Position, Area){
     
     var Hierarhy = function (settings) {
         this.settings = {
@@ -44,6 +44,8 @@ define (["socute/oLib", "socute/coordinates/position",], function(oLib, Position
                 var currentHeightOffset = {'x': 0, 'y':currentNodeHeight};
                 currentChildrenOffset.setDiff(that.settings.childrensOffset, currentHeightOffset);
             });
+
+            return new Area(parentPosition.clone());
         }
     };
 
