@@ -37,6 +37,7 @@ define(["socute/oLib", 'socute/coordinates/position'], function (oLib, Position)
 
         },
         mergeWith: function (area) {
+            
 
         },
         isIntersectsionWith: function (anotherArea) {

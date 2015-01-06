@@ -1,5 +1,5 @@
 "use strict";
-define(["socute/coordinates/position"], function (Position) {
+define(["socute/coordinates/position", "socute/oLib"], function (Position, oLib) {
 
     var Position;
 
@@ -51,6 +51,9 @@ define(["socute/coordinates/position"], function (Position) {
     }
 
 
+    Scene.prototype.Image = function(src){
+        return new Image(src, this._paper);
+    }
 
 
 
@@ -68,6 +71,10 @@ define(["socute/coordinates/position"], function (Position) {
 
     AbstractView.prototype.show = function(){
         this._element.show();
+    }
+
+    AbstractView.prototype.afterInit = function(){
+        this._element.toFront();   
     }
 
     AbstractView.prototype._render = function (renderCallback) {
@@ -327,6 +334,48 @@ define(["socute/coordinates/position"], function (Position) {
     NodeText.prototype.getText = function(){
         return this._element.attr('text');
     }
+
+
+
+
+    var Image = function Image(src, paper){
+        this.src = src;
+        this.position = new Position();
+        
+        //TODO set properly size
+        this._element = paper.image(src, 0, 0, 100, 100);
+
+        this._element.toFront();
+    }
+
+    Image.prototype = new AbstractView();
+
+    var ImageMethods = {
+        movePosition: function(position){
+            var pos = position.getPosition();
+            var textX=pos['x']//+this._element.node.getBBox().width/2;
+            var textY=pos['y'];
+            //this._element = 
+            this._element.attr('x',textX);
+            this._element.attr('y',textY);
+
+            this.position.setPos({'x':textX,'y':textY})
+            return this;
+        },
+        getWidth: function(){
+            var width = this._element.node.getBBox().width;
+            return width;
+        },
+        getHeight: function(){
+            var height = this._element.node.getBBox().height;
+            return height;
+        }
+    };
+
+    oLib.extend(Image.prototype, ImageMethods);
+
+   
+
 
     var Path = function(path, paper){
         if (path && paper){

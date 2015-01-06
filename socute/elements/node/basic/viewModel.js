@@ -102,7 +102,10 @@ define([
             } else {
                 this._views.nodeText = nodeContent;
                 this._advanceViewMode = true;
-            }   
+            }
+            if (typeof this._views.nodeText['afterInit'] === 'function'){   
+                this._views.nodeText.afterInit();
+            }
         },
 
         setOrientation: function(orientation){

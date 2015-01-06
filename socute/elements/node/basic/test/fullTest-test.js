@@ -112,7 +112,9 @@ define([
 
 	        //disp.addObject(line);
 
-	        var node3 = new NodeController('Третья нода', scene, new Position({'x':610,'y':340}));
+	        var img = scene.Image("http://habrastorage.org/files/6e5/493/e1c/6e5493e1ccfd4186959da6e197b46f95.jpg");
+
+	        var node3 = new NodeController(img, scene, new Position({'x':610,'y':340}));
 	        new MoveSlave(disp, node, node3);
 
 
