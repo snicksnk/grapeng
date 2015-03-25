@@ -25,20 +25,36 @@ define(['socute/coordinates/area', 'socute/coordinates/position'], function(Area
 		deepEqual(area.getHeight(),10, "Area height is ok");
     });
 
-    test("Merge areas", function () {
-    	var area1 = new Area(new Position({x:3, y:1}), 10, 20);
-        var area2 = new Area(new Position({x:5, y:6}), 20, 30);
+    test("Merge 2 areas", function () {
+    	var area1 = new Area(new Position({x:3, y:1}), 5, 6);
+        var area2 = new Area(new Position({x:9, y:8}), 2, 2);
 
         var area3 = Area.merge(area1, area2);
 
-        console.log(area3);
 
 
-        var resultArea = new Area(new Position({x: 3, y: 1}), 20, 30);
+        var testResultArea = new Area(new Position({x: 3, y: 1}), 8, 9);
 
-    	deepEqual(resultArea.getPosition().getCoords(), area3.getPosition().getCoords(), "Area position is ok");
-		deepEqual(area3.getWidth(), resultArea.getWidth(), "Area width is ok");
-		deepEqual(area3.getHeight(), resultArea.getHeight(), "Area height is ok");
+    	deepEqual(testResultArea.getPosition().getCoords(), area3.getPosition().getCoords(), "Area position is ok");
+		deepEqual(area3.getWidth(), testResultArea.getWidth(), "Area width is ok");
+		deepEqual(area3.getHeight(), testResultArea.getHeight(), "Area height is ok");
+    });
+
+
+    test("Merge 4 areas", function () {
+        var area1 = new Area(new Position({x:8, y:3}), 6, 4);
+        var area2 = new Area(new Position({x:2, y:1}), 8, 3);
+        var area3 = new Area(new Position({x:5, y:2}), 3, 2); 
+        var area3 = new Area(new Position({x:5, y:2}), 3, 2); 
+        var resultArea = Area.merge(area1, area2, area3);
+
+
+
+        var testResultArea = new Area(new Position({x: 2, y: 1}), 12, 6);
+
+        deepEqual(testResultArea.getPosition().getCoords(), resultArea.getPosition().getCoords(), "Area position is ok");
+        deepEqual(resultArea.getWidth(), testResultArea.getWidth(), "Area width is ok");
+        deepEqual(resultArea.getHeight(), testResultArea.getHeight(), "Area height is ok");
     });
 
 });

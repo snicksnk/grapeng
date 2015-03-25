@@ -18,20 +18,41 @@ define(["socute/oLib", 'socute/coordinates/position'], function (oLib, Position)
     };
 
     Area.merge = function (area1, area2) {
+        if (arguments.length > 2){ 
+            var currentArea, 
+            resultArea = Array.prototype.shift.call(arguments);
+            while(currentArea = Array.prototype.shift.call(arguments)){
+                resultArea = Area.merge(resultArea, currentArea);
+            }
+            return resultArea;
+        };
 
         var startCords = new Position();
         var position1 = area1.getPosition();
         var position2 = area2.getPosition() ;
         var areaCords = startCords.findNearest([position1, position2]);
+        var width, height;
 
-        var width = (area1.getRight() > area2.getRight())?area1.getWidth():area2.getWidth();
-        var height = (area2.getBottom() > area2.getBottom())?area1.getHeight():area2.getHeight();
+        if (area1.getRight() > area2.getRight()){
+            console.log(area1.getRight() , area2.getRight(), areaCords.getCoords()['x'])
+            width = area1.getRight() - areaCords.getCoords()['x']
+        } else {
+            width = area2.getRight() - areaCords.getCoords()['x']
+        }    
 
+        if (area1.getBottom() > area2.getBottom()){
+            height = area1.getBottom() - areaCords.getCoords()['y']
+        } else {
+            height = area2.getBottom() - areaCords.getCoords()['y']
+        }    
+        
         var resultArea = new Area(areaCords, width, height);
 
         return resultArea;
         
     }
+
+
 
     var AreaMethods = {
         fromTwoPositions: function (position1, position2) {
