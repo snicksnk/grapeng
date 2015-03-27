@@ -54,12 +54,23 @@ define ([
 			//TODO Current task
 			deepEqual(firstNodeCoords, childrenNode1.getPosition().getCoords());
 
+			//Testing node 3 position 
+			console.log(firstNodeCoords);	
+			var thirdNodeCords = new Position(firstNodeCoords);
+			var yOffset = settings['childrensOffset']['y'];
+			thirdNodeCords.setDiff({x:0, 'y': yOffset + childrenNode1.getHeight() + childrenNode2.getHeight() + yOffset});
+
+			console.log(thirdNodeCords.getCoords());
+			deepEqual(childrenNode3.getPosition().getCoords(), thirdNodeCords.getCoords()	, "Third node position is ok");
+
 			//deepEqual()
 
 			//var mustBeResultArea = new Area(parentPosition.clone(), )
 
 			//deepEqual(resultArea, )
 	    });
+
+
 		
 		test("Test add method", function(){
 			var parentNode = factory.node('Test node');
@@ -69,6 +80,8 @@ define ([
 			var childrenNode1 = factory.node('child node1');
 			var childrenNode2 = factory.node('child node2');
 			var childrenNode3 = factory.node('child node3');
+
+
 
 
 

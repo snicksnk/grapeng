@@ -34,7 +34,6 @@ define(["socute/oLib", 'socute/coordinates/position'], function (oLib, Position)
         var width, height;
 
         if (area1.getRight() > area2.getRight()){
-            console.log(area1.getRight() , area2.getRight(), areaCords.getCoords()['x'])
             width = area1.getRight() - areaCords.getCoords()['x']
         } else {
             width = area2.getRight() - areaCords.getCoords()['x']

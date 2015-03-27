@@ -5,7 +5,7 @@ define([
     'socute/coordinates/position',
     "socute/events/std/frame",
     "socute/events/std/move",
-    "socute/oLib"], function(AbstractController, ViewModel, 
+    "socute/oLib"], function(AbstractController, ViewModel,
         Position, FrameEvent, MoveEvent, oLib){
 
 /*
@@ -14,9 +14,9 @@ NodeContent interface
 * getHeight
 * movePosition
 * setText
-* 
-*/        
-	  
+*
+*/
+
     function Controller(nodeContent, scene, position){
         this.init(nodeContent, scene, position);
     }
@@ -24,6 +24,7 @@ NodeContent interface
     Controller.ORIENTED_LEFT = ViewModel.ORIENTED_LEFT,
     Controller.ORIENTED_RIGHT = ViewModel.ORIENTED_RIGHT,
     Controller.ORIENTED_MULTI = ViewModel.ORIENTED_MULTI,
+
 
     Controller.prototype = new AbstractController();
 
@@ -36,7 +37,7 @@ NodeContent interface
 
         this._dispatcher=null;
         this._views = {};
-        
+
 
         if (typeof nodeContent == "string"){
             this.text = nodeContent.text;
@@ -48,7 +49,7 @@ NodeContent interface
         //nodeContent = 'asassa';
 
         this._views.nodeFrame = new ViewModel(nodeContent, scene, position);
-        
+
 
         this._subscribeForEvents=[FrameEvent];
 
@@ -61,7 +62,7 @@ NodeContent interface
         this._isDragable = true;
 
         var that = this;
-       
+
 
         //this._newCords = position.getPosition();
         //this.moveTo(position);
@@ -306,7 +307,7 @@ NodeContent interface
                     perfSum += permResults[i];
                 }
 
-               
+
             }
         );
 

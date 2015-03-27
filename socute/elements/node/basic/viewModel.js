@@ -66,8 +66,6 @@ define([
 
             this._viewBehavior = new ViewBehavior();
 
-            console.log(this._viewBehavior);
-
             var that = this;
         
             this._views.nodeFrame.afterDrawText();

@@ -38,11 +38,20 @@ define (["socute/oLib", "socute/coordinates/position", "socute/coordinates/area"
            
             var currentChildrenOffset = new Position(childensOffset.getPosition());
             var that = this;
+
+            var blockArea = new Area(parentPosition.clone(), parent.getWidth(), parent.getHeight())
+
             oLib.each(childrens, function(index, child){
                 child.moveTo(currentChildrenOffset);
                 var currentNodeHeight = child.getHeight();
                 var currentHeightOffset = {'x': 0, 'y':currentNodeHeight};
                 currentChildrenOffset.setDiff(that.settings.childrensOffset, currentHeightOffset);
+            	/**
+            	* Calculating block area
+            	*/
+            	var currentNodeArea = new Area();
+            	//blockArea = 
+
             });
 
             return new Area(parentPosition.clone());

@@ -39,13 +39,12 @@ define([
 	        var paper = Raphael(document.getElementById('canvas'), 800, 600);
 
 	        var scene = new ViewFactory.Scene(paper);
-	        console.log(NodeController);
+	       
 	        var node = 
 	        new NodeController('Первая нода', 
 	        	scene, 
 	        	new Position({'x':380,'y':180}));
 
-	        console.log(node);
 
 	        node.setOrientation(Element.ORIENTED_MULTI);
 
@@ -184,8 +183,6 @@ define([
 	       // line=new Line(scene, node, nodeDepends);
 
 	        //disp.addObject(line);
-
-	        console.log(bench._lines);
 
 	        disp.addObject(bench._lines[0]);
 
