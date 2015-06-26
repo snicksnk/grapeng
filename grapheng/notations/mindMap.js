@@ -28,6 +28,12 @@ SoCuteGraph.notations.mindMap = function () {
         return this._rootNode;
     }
 
+    MindMap.prototype.scrollToCenter = function() {
+        var rootNode = this.getRootNode();
+        var center = this._viewFactory.getCenter();
+        rootNode.getViewController().moveTo(center,true);
+
+    }
 
     MindMap.prototype.getCentet = function (){
         return this._viewFactory.getCenter();
