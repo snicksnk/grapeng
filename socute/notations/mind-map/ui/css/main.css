@@ -1,0 +1,76 @@
+#mm-canvas {
+    width: 1200px;
+    height: 600px;
+    border: 1px solid #aaa;
+    text-shadow: 0 0px 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+}
+#canvas {
+    width: 800px;
+    height: 500px;
+    border: 1px solid #aaa;
+}
+#testCanvas {
+    width: 10px;
+    height: 10px;
+}
+
+	/**
+	Pannel
+	*/
+
+.main-panel {
+	float: left;
+	top: 10%;
+	position: absolute;
+	z-index: 99999;	
+}
+
+.main-panel section {
+	display: block;
+	padding-bottom: 10px;
+}
+
+.main-panel section button {
+	display: block;
+}
+
+.edit-node-form {
+	display: inline-block;
+}
+
+.clear {
+	clear: both;
+}
+
+/*
+Canvas
+*/
+
+.map-canvas {
+	float:right;	
+	width: 100%;
+	height: 500px;
+}
+
+/*
+Form
+*/
+#nodeForm input {
+    display: block;
+}
+
+.delete-button {
+	cursor: pointer;
+	float: right;
+	padding-right: 40%;
+}
+
+body {
+    background: transparent url(/highlight-bg.jpg) 50% 0 repeat;
+    min-height: 595px;
+}
+
+.color-select {
+	width: 50px !important;
+}

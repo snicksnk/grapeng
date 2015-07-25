@@ -1,0 +1,19 @@
+<div class="modal-header">
+            <h3 class="modal-title">Select map</h3>
+</div>
+<div class="modal-body">
+	<input type="text" ng-model="newName" placeholder = "new name">  <button class="btn btn-primary" ng-click="create()">New</button>
+	<ul>
+	  <li ng-repeat="item in items">
+	      <a ng-click="select(item.id)">{{ item.name }}</a> <i  class="glyphicon glyphicon-remove delete-button" ng-click="delete(item.id)"></i>
+	  </li>
+	</ul>
+</div>
+
+<div class="modal-footer">
+	<!--
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  -->
+</div>
+
